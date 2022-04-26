@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  mysql:
+    image: mariadb:10.4.11
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_DATABASE=my_game
+      - MYSQL_USER=my_game
+      - MYSQL_PASSWORD=password
+    volumes:
+      - mysql-data:/var/lib/mysql:rw
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql-data:

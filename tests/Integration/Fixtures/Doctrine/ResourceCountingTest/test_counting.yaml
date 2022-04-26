@@ -1,0 +1,11 @@
+App\Entity\Resource:
+  mineral:
+    code: "mineral"
+
+App\Entity\ResourceStore:
+  mineralStore:
+    amount: 100
+    increaseSpeed: 100
+    maxAmount: 2000
+    updatedAt: <(new \DateTime('-30 minutes'))>
+    resource: "@mineral"
