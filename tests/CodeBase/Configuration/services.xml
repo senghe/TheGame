@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="tests.repository.resource" class="Tests\CodeBase\Repository\ResourceRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="tests.repository.operation" class="Tests\CodeBase\Repository\OperationRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+
+        <service id="tests.repository.snapshot" class="Tests\CodeBase\Repository\SnapshotRepository" public="true">
+            <argument type="service" id="doctrine.orm.entity_manager" />
+        </service>
+    </services>
+</container>

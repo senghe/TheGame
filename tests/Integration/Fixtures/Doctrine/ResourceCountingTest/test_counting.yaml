@@ -1,11 +1,15 @@
-App\Entity\Resource:
+App\Resource\Domain\Entity\Resource:
   mineral:
     code: "mineral"
 
-App\Entity\ResourceStore:
-  mineralStore:
-    amount: 100
-    increaseSpeed: 100
-    maxAmount: 2000
+App\Resource\Domain\Entity\Storage:
+  mineralStorage:
+    __construct: ['@mineral', 100, 100, 2000]
+    snapshot: '@firstSnapshot'
+    createdAt: <(new \DateTime('-30 minutes'))>
     updatedAt: <(new \DateTime('-30 minutes'))>
-    resource: "@mineral"
+
+App\Resource\Domain\Entity\Snapshot:
+  firstSnapshot:
+    storages:
+      - '@mineralStorage'

@@ -1,0 +1,5 @@
+App\Resource\Domain\Entity\Resource:
+  mineral:
+    code: 'mineral'
+  gas:
+    code: 'gas'

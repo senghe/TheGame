@@ -4,4 +4,4 @@ kernel:
 
 app:
     prefix: /
-    resource: "../src/Resources/routes.xml"
+    resource: "../src/Resource/Configuration/routes.xml"

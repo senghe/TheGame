@@ -1,0 +1,54 @@
+App\Resource\Domain\Entity\Resource:
+  mineral:
+    code: 'mineral'
+  gas:
+    code: 'gas'
+
+App\Resource\Domain\Entity\Storage:
+  mineralStorage:
+    __construct: ['@mineral', 100, 100, 2000]
+    snapshot: '@firstSnapshot'
+    createdAt: <(new \DateTime('-30 minutes'))>
+    updatedAt: <(new \DateTime('-30 minutes'))>
+  gasStorage:
+    __construct: ['@gas', 200, 200, 3000]
+    snapshot: '@firstSnapshot'
+    createdAt: <(new \DateTime('-30 minutes'))>
+    updatedAt: <(new \DateTime('-30 minutes'))>
+
+App\Resource\Domain\Entity\Snapshot:
+  firstSnapshot:
+    storages:
+      - '@mineralStorage'
+      - '@gasStorage'
+    operations:
+      - '@buildMine'
+
+App\Resource\Domain\Entity\Operation:
+  buildMine:
+    snapshot: '@firstSnapshot'
+    code: 'build-mine level 1'
+    operationValues:
+      - '@buildMineMineralsValue'
+      - '@buildMineGasValue'
+    performedAt: <(new \DateTime('-20 minutes'))>
+  buildShip:
+    code: 'build-ship'
+    operationValues:
+      - '@buildShipMineralsValue'
+      - '@buildShipGasValue'
+    performedAt: <(new \DateTime())>
+
+App\Resource\Domain\Entity\OperationValue:
+  buildMineMineralsValue:
+    value: 500
+    resource: '@mineral'
+  buildMineGasValue:
+    value: 250
+    resource: '@gas'
+  buildShipMineralsValue:
+    value: 150
+    resource: '@mineral'
+  buildShipGasValue:
+    value: 50
+    resource: '@gas'

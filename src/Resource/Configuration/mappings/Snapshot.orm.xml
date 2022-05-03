@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="https://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                                      https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Resource\Domain\Entity\Snapshot" table="resource_snapshot">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <one-to-many field="storages" target-entity="App\Resource\Domain\Entity\Storage" mapped-by="snapshot">
+            <cascade><cascade-persist /></cascade>
+        </one-to-many>
+
+        <one-to-many field="operations" target-entity="App\Resource\Domain\Entity\Operation" mapped-by="snapshot">
+            <cascade><cascade-persist /></cascade>
+        </one-to-many>
+
+        <one-to-one field="previous" target-entity="App\Resource\Domain\Entity\Snapshot" nullable="true">
+            <join-column name="previous_id" referenced-column-name="id" on-delete="SET NULL"/>
+        </one-to-one>
+    </entity>
+</doctrine-mapping>

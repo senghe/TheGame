@@ -1,0 +1,27 @@
+App\Resource\Domain\Entity\Resource:
+  mineral:
+    code: 'mineral'
+  gas:
+    code: 'gas'
+
+App\Resource\Domain\Entity\Operation:
+  buildShip:
+    code: 'build-ship'
+    operationValues:
+      - '@buildShipMineralsValue'
+      - '@buildShipGasValue'
+    performedAt: <(new \DateTime())>
+
+App\Resource\Domain\Entity\OperationValue:
+  buildMineMineralsValue:
+    value: 500
+    resource: '@mineral'
+  buildMineGasValue:
+    value: 250
+    resource: '@gas'
+  buildShipMineralsValue:
+    value: 150
+    resource: '@mineral'
+  buildShipGasValue:
+    value: 50
+    resource: '@gas'
