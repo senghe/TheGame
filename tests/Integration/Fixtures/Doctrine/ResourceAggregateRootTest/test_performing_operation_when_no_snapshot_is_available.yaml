@@ -14,8 +14,10 @@ App\Resource\Domain\Entity\Operation:
 
 App\Resource\Domain\Entity\OperationValue:
   buildShipMineralsValue:
-    value: 150
+    value: -150
     resource: '@mineral'
+    operation: '@buildShip'
   buildShipGasValue:
-    value: 50
+    value: -50
     resource: '@gas'
+    operation: '@buildShip'

@@ -8,7 +8,6 @@ use App\Resource\Domain\Entity\Snapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\OrderBy;
 
 final class SnapshotRepository
 {

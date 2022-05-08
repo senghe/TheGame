@@ -6,12 +6,12 @@ App\Resource\Domain\Entity\Resource:
 
 App\Resource\Domain\Entity\Storage:
   mineralStorage:
-    __construct: ['@mineral', 1500, 100, 2000]
+    __construct: ['@mineral', 100, 100, 2000]
     snapshot: '@firstSnapshot'
     createdAt: <(new \DateTime('-30 minutes'))>
     updatedAt: <(new \DateTime('-30 minutes'))>
   gasStorage:
-    __construct: ['@gas', 2500, 200, 3000]
+    __construct: ['@gas', 200, 200, 3000]
     snapshot: '@firstSnapshot'
     createdAt: <(new \DateTime('-30 minutes'))>
     updatedAt: <(new \DateTime('-30 minutes'))>
@@ -21,18 +21,10 @@ App\Resource\Domain\Entity\Snapshot:
     storages:
       - '@mineralStorage'
       - '@gasStorage'
-    operations:
-      - '@buildMine'
 
 App\Resource\Domain\Entity\Operation:
-  buildMine:
-    snapshot: '@firstSnapshot'
-    code: 'build-mine level 1'
-    operationValues:
-      - '@buildMineMineralsValue'
-      - '@buildMineGasValue'
-    performedAt: <(new \DateTime('-20 minutes'))>
   buildShip:
+    snapshot: '@firstSnapshot'
     code: 'build-ship'
     operationValues:
       - '@buildShipMineralsValue'
@@ -40,19 +32,11 @@ App\Resource\Domain\Entity\Operation:
     performedAt: <(new \DateTime())>
 
 App\Resource\Domain\Entity\OperationValue:
-  buildMineMineralsValue:
-    value: -500
-    resource: '@mineral'
-    operation: '@buildMine'
-  buildMineGasValue:
-    value: -250
-    resource: '@gas'
-    operation: '@buildMine'
   buildShipMineralsValue:
-    value: -150
+    value: -500
     resource: '@mineral'
     operation: '@buildShip'
   buildShipGasValue:
-    value: -50
+    value: -500
     resource: '@gas'
     operation: '@buildShip'

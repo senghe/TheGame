@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Resource\Domain\Entity;
 
+use App\Resource\Domain\Exception\CannotPerformOperationException;
 use App\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\SharedKernel\DoctrineEntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -46,8 +47,11 @@ class Snapshot implements SnapshotInterface
             throw new OperatingOnClosedSnapshotException($this, $operation);
         }
 
-        $operation->linkToSnapshot($this);
+        foreach ($this->storages as $storage) {
+            $storage->accept($operation);
+        }
 
+        $operation->linkToSnapshot($this);
         $this->operations->add($operation);
     }
 
@@ -71,12 +75,7 @@ class Snapshot implements SnapshotInterface
         $viewModels = new ArrayCollection();
 
         foreach ($this->storages as $storage) {
-            $storageClone = clone $storage;
-            foreach ($this->operations as $operation) {
-                $storageClone->performOperation($operation);
-            }
-
-            $viewModels->add($storageClone->toViewModel());
+            $viewModels->add($storage->toViewModel());
         }
 
         return $viewModels;

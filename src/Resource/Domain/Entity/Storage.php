@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Resource\Domain\Entity;
 
+use App\Resource\Domain\Exception\CannotPerformOperationException;
 use App\Resource\Domain\ResourceStorageViewModel;
 use App\Resource\Domain\ResourceStorageViewModelInterface;
 use App\SharedKernel\DoctrineEntityTrait;
@@ -45,7 +46,7 @@ class Storage implements StorageInterface
         $this->updatedAt = new DateTime();
     }
 
-    public function getCurrentAmount(): int
+    public function getAmount(): int
     {
         $timeInterval = (new DateTime())->getTimestamp() - $this->createdAt->getTimestamp();
         $step = $this->increaseSpeed / self::ONE_HOUR_IN_SECONDS;
@@ -59,14 +60,24 @@ class Storage implements StorageInterface
         return $amount >= (int) $this->maxAmount;
     }
 
-    public function performOperation(OperationInterface $operation): void
+    public function accept(OperationInterface $operation): void
     {
-        $this->amount += $operation->getValue($this->resource);
+        $operationValue = $operation->getValue($this->resource);
+        if (-$operationValue > $this->amount) {
+            throw new CannotPerformOperationException($operation);
+        }
+
+        $this->amount += $operationValue;
+        if ($this->amount > $this->maxAmount) {
+            $this->amount = $this->maxAmount;
+        }
+
+        $this->updatedAt = new DateTime();
     }
 
     public function toViewModel(): ResourceStorageViewModelInterface
     {
-        $currentAmount = $this->getCurrentAmount();
+        $currentAmount = $this->getAmount();
 
         return new ResourceStorageViewModel(
             $this->resource->getCode(),
@@ -80,7 +91,7 @@ class Storage implements StorageInterface
         $newStorage = clone $this;
         $newStorage->id = null;
         $newStorage->snapshot = $snapshot;
-        $newStorage->amount = $this->getCurrentAmount();
+        $newStorage->amount = $this->getAmount();
         $newStorage->updatedAt = new DateTime();
         $newStorage->createdAt = new DateTime();
 

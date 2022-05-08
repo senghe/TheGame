@@ -1,0 +1,39 @@
+App\Resource\Domain\Entity\Resource:
+  mineral:
+    code: 'mineral'
+  gas:
+    code: 'gas'
+
+App\Resource\Domain\Entity\Storage:
+  mineralStorage:
+    __construct: ['@mineral', 100, 100, 2000]
+    snapshot: '@firstSnapshot'
+    createdAt: <(new \DateTime())>
+    updatedAt: <(new \DateTime())>
+  gasStorage:
+    __construct: ['@gas', 200, 200, 3000]
+    snapshot: '@firstSnapshot'
+    createdAt: <(new \DateTime())>
+    updatedAt: <(new \DateTime())>
+
+App\Resource\Domain\Entity\Snapshot:
+  firstSnapshot:
+    storages:
+      - '@mineralStorage'
+      - '@gasStorage'
+
+App\Resource\Domain\Entity\Operation:
+  fleetCame:
+    snapshot: '@firstSnapshot'
+    code: 'fleet-came'
+    performedAt: <(new \DateTime('-20 minutes'))>
+
+App\Resource\Domain\Entity\OperationValue:
+  fleetCameMineralsValue:
+    value: 5000
+    resource: '@mineral'
+    operation: '@fleetCame'
+  fleetCameGasValue:
+    value: 5000
+    resource: '@gas'
+    operation: '@fleetCame'

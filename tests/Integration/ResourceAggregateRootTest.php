@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace Tests\Integration;
 
 use App\Resource\Domain\AggregateRootInterface;
+use App\Resource\Domain\Entity\OperationInterface;
 use App\Resource\Domain\Entity\SnapshotInterface;
+use App\Resource\Domain\Exception\CannotPerformOperationException;
 use App\Resource\Domain\ResourceStorageViewModelInterface;
 use App\SharedKernel\Exception\AggregateRootNotBuiltException;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
+use InvalidArgumentException;
 use Tests\CodeBase\Repository\OperationRepository;
 use Tests\CodeBase\Repository\ResourceRepository;
 use Tests\CodeBase\Repository\SnapshotRepository;
@@ -38,23 +42,48 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
         $this->snapshotRepository = $this->getContainer()->get('tests.repository.snapshot');
     }
 
+    public function test_building_aggregate_with_incorrect_resources_collection(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $notResourceMock = $this->createMock(OperationInterface::class);
+
+        $this->act(function() use ($notResourceMock) {
+            $this->resourcesAggregateRoot->build(new ArrayCollection([
+                $notResourceMock
+            ]));
+        });
+    }
+
+    public function test_returning_resources_on_non_built_aggregate(): void
+    {
+        $this->expectException(AggregateRootNotBuiltException::class);
+
+        $this->act(function() {
+            $this->resourcesAggregateRoot->getResources();
+        });
+    }
+
     public function test_returning_resources_view_models(): void
     {
         $this->loadFixturesFromFile('ResourceAggregateRootTest/test_returning_resources_view_models.yaml');
 
-        $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+        $models = new ArrayCollection();
+        $this->act(function() use (&$models) {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
 
-        /** @var Collection<ResourceStorageViewModelInterface> */
-        $models = $this->resourcesAggregateRoot->getResources();
+            /** @var Collection<ResourceStorageViewModelInterface> */
+            $models = $this->resourcesAggregateRoot->getResources();
+        });
 
         $this->assertCount(2, $models);
 
         $this->assertEquals('mineral', $models[0]->getCode());
-        $this->assertEquals(400, $models[0]->getAmount());
+        $this->assertEquals(1550, $models[0]->getAmount());
         $this->assertEquals(false, $models[0]->isFull());
 
         $this->assertEquals('gas', $models[1]->getCode());
-        $this->assertEquals(1800, $models[1]->getAmount());
+        $this->assertEquals(2600, $models[1]->getAmount());
         $this->assertEquals(false, $models[1]->isFull());
     }
 
@@ -62,9 +91,11 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
     {
         $this->loadFixturesFromFile('ResourceAggregateRootTest/test_returning_resources_view_models_when_no_snapshot_is_available.yaml');
 
-        $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+        $this->act(function() use (&$models) {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
 
-        $models = $this->resourcesAggregateRoot->getResources();
+            $models = $this->resourcesAggregateRoot->getResources();
+        });
 
         $this->assertCount(2, $models);
 
@@ -77,29 +108,31 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
         $this->assertEquals(false, $models[1]->isFull());
     }
 
-    public function test_returning_resources_on_non_built_aggregate(): void
+    public function test_performing_operation_on_non_built_aggregate(): void
     {
-        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_returning_resources_on_non_built_aggregate.yaml');
-
-        $this->entityManager->clear();
-
         $this->expectException(AggregateRootNotBuiltException::class);
 
-        $this->resourcesAggregateRoot->getResources();
+        $operationMock = $this->createMock(OperationInterface::class);
+
+        $this->act(function() use ($operationMock) {
+            $this->resourcesAggregateRoot->performOperation(
+                $operationMock
+            );
+        });
     }
 
     public function test_performing_operation(): void
     {
         $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation.yaml');
 
-        $this->entityManager->clear();
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('build-ship')
+            );
 
-        $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
-        $this->resourcesAggregateRoot->performOperation(
-            $this->operationRepository->findByCode('build-ship')
-        );
-
-        $this->entityManager->flush();
+            $this->entityManager->flush();
+        });
 
         $snapshots = $this->snapshotRepository->findAll();
         $this->assertCount(1, $snapshots);
@@ -115,14 +148,14 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
     {
         $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_on_closed_snapshot.yaml');
 
-        $this->entityManager->clear();
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('build-ship')
+            );
 
-        $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
-        $this->resourcesAggregateRoot->performOperation(
-            $this->operationRepository->findByCode('build-ship')
-        );
-
-        $this->entityManager->flush();
+            $this->entityManager->flush();
+        });
 
         $snapshots = $this->snapshotRepository->findAll();
         $this->assertCount(2, $snapshots);
@@ -142,14 +175,14 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
     {
         $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_when_no_snapshot_is_available.yaml');
 
-        $this->entityManager->clear();
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('build-ship')
+            );
 
-        $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
-        $this->resourcesAggregateRoot->performOperation(
-            $this->operationRepository->findByCode('build-ship')
-        );
-
-        $this->entityManager->flush();
+            $this->entityManager->flush();
+        });
 
         $snapshots = $this->snapshotRepository->findAll();
         $this->assertCount(1, $snapshots);
@@ -161,16 +194,78 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
         $this->assertCount(1, $operationsInSnapshot);
     }
 
-    public function test_performing_operation_on_non_built_aggregate(): void
+    public function test_performing_operation_with_too_less_resources_amount(): void
     {
-        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_on_non_built_aggregate.yaml');
+        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_with_too_less_resources_amount.yaml');
 
-        $this->entityManager->clear();
+        $this->expectException(CannotPerformOperationException::class);
 
-        $this->expectException(AggregateRootNotBuiltException::class);
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
 
-        $this->resourcesAggregateRoot->performOperation(
-            $this->operationRepository->findByCode('build-ship')
-        );
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('build-ship')
+            );
+        });
+    }
+
+    public function test_performing_operation_with_much_resources_amount(): void
+    {
+        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_with_much_resources_amount.yaml');
+
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('fleet-came')
+            );
+
+            $this->entityManager->flush();
+        });
+
+        $snapshots = $this->snapshotRepository->findAll();
+
+        /** @var ResourceStorageViewModelInterface $viewModel1 */
+        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
+        $this->assertTrue($viewModel1->isFull());
+        $this->assertEquals(2000, $viewModel1->getAmount());
+
+        /** @var ResourceStorageViewModelInterface $viewModel2 */
+        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
+        $this->assertTrue($viewModel2->isFull());
+        $this->assertEquals(3000, $viewModel2->getAmount());
+    }
+
+    public function test_performing_operation_after_one_which_overflows_storage(): void
+    {
+        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_performing_operation_after_one_which_overflows_storage.yaml');
+
+        $this->act(function() {
+            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
+
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('fleet-came')
+            );
+
+            $this->resourcesAggregateRoot->performOperation(
+                $this->operationRepository->findByCode('build-ship')
+            );
+
+            $this->entityManager->flush();
+        });
+
+        $snapshots = $this->snapshotRepository->findAll();
+
+        /** @var ResourceStorageViewModelInterface $viewModel1 */
+        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
+
+        $this->assertFalse($viewModel1->isFull());
+        $this->assertEquals(1850, $viewModel1->getAmount());
+
+        /** @var ResourceStorageViewModelInterface $viewModel1 */
+        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
+
+        $this->assertFalse($viewModel2->isFull());
+        $this->assertEquals(2950, $viewModel2->getAmount());
     }
 }

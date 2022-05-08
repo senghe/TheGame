@@ -15,6 +15,11 @@ final class ResourceCountingTest extends IntegrationTestCase
         /** @var StorageInterface $resourceStorage */
         $resourceStorage = $fixtures['mineralStorage'];
 
-        $this->assertEquals(150, $resourceStorage->getCurrentAmount());
+        $amount = 0;
+        $this->act(function() use ($resourceStorage, &$amount) {
+            $amount = $resourceStorage->getAmount();
+        });
+
+        $this->assertEquals(150, $amount);
     }
 }

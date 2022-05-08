@@ -12,6 +12,7 @@ use App\Resource\Domain\Factory\SnapshotFactoryInterface;
 use App\Resource\Domain\Port\SnapshotRepositoryInterface;
 use App\SharedKernel\Exception\AggregateRootNotBuiltException;
 use Doctrine\Common\Collections\Collection;
+use Webmozart\Assert\Assert;
 
 final class AggregateRoot implements AggregateRootInterface
 {
@@ -36,6 +37,8 @@ final class AggregateRoot implements AggregateRootInterface
      */
     public function build(Collection $resources): void
     {
+        Assert::allIsInstanceOf($resources, ResourceInterface::class);
+
         $this->currentSnapshot = $this->snapshotRepository->findLatest();
         if ($this->currentSnapshot === null) {
             $this->currentSnapshot = $this->snapshotFactory->createFirstInLine($resources);
@@ -55,9 +58,9 @@ final class AggregateRoot implements AggregateRootInterface
             $this->currentSnapshot->performOperation($operation);
         } catch (OperatingOnClosedSnapshotException $e) {
             $this->currentSnapshot = $this->snapshotFactory->create($this->currentSnapshot);
-            $this->currentSnapshot->performOperation($operation);
-
             $this->snapshotRepository->add($this->currentSnapshot);
+
+            $this->currentSnapshot->performOperation($operation);
         }
     }
 

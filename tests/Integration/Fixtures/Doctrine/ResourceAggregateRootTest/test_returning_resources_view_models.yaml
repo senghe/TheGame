@@ -6,12 +6,12 @@ App\Resource\Domain\Entity\Resource:
 
 App\Resource\Domain\Entity\Storage:
   mineralStorage:
-    __construct: ['@mineral', 1000, 100, 2000]
+    __construct: ['@mineral', 1500, 100, 2000]
     snapshot: '@firstSnapshot'
     createdAt: <(new \DateTime('-30 minutes'))>
     updatedAt: <(new \DateTime('-30 minutes'))>
   gasStorage:
-    __construct: ['@gas', 2000, 200, 3000]
+    __construct: ['@gas', 2500, 200, 3000]
     snapshot: '@firstSnapshot'
     createdAt: <(new \DateTime('-30 minutes'))>
     updatedAt: <(new \DateTime('-30 minutes'))>

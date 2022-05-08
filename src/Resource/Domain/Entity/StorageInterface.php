@@ -10,9 +10,9 @@ interface StorageInterface
 {
     public function getId(): int;
 
-    public function getCurrentAmount(): int;
+    public function getAmount(): int;
 
-    public function performOperation(OperationInterface $operation): void;
+    public function accept(OperationInterface $operation): void;
 
     public function toViewModel(): ResourceStorageViewModelInterface;
 
