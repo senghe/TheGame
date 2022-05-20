@@ -44,7 +44,7 @@ trait DoctrineEntityTrait
 
     private function isLocked(string $lockCode): bool
     {
-        return !isset($_ENV[$lockCode]) || $_ENV[$lockCode] === true;
+        return isset($_ENV[$lockCode]) === false || $_ENV[$lockCode] === true;
     }
 
     public function getId(): int

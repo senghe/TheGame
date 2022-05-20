@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests\Integration;
 
-use App\Resource\Domain\AggregateRootInterface;
-use App\Resource\Domain\Entity\OperationInterface;
-use App\Resource\Domain\Entity\SnapshotInterface;
-use App\Resource\Domain\Exception\CannotPerformOperationException;
-use App\Resource\Domain\ResourceStorageViewModelInterface;
-use App\SharedKernel\Exception\AggregateRootNotBuiltException;
+use App\Domain\Resource\AggregateRootInterface;
+use App\Domain\Resource\Entity\OperationInterface;
+use App\Domain\Resource\Entity\SnapshotInterface;
+use App\Domain\Resource\Exception\CannotPerformOperationException;
+use App\Domain\Resource\ViewModel\ResourceStorageViewModelInterface;
+use App\Domain\SharedKernel\Exception\AggregateRootNotBuiltException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

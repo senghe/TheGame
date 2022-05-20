@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Repository;
 
-use App\Resource\Domain\Entity\Snapshot;
-use App\Resource\Domain\Entity\SnapshotInterface;
-use App\Resource\Domain\Port\SnapshotRepositoryInterface;
+use App\Domain\Resource\Entity\Snapshot;
+use App\Domain\Resource\Entity\SnapshotInterface;
+use App\Domain\Resource\Port\SnapshotRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class SnapshotRepository implements SnapshotRepositoryInterface

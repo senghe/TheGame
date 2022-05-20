@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration;
 
-use App\Resource\Domain\Entity\StorageInterface;
+use App\Domain\Resource\Entity\StorageInterface;
 
 final class ResourceCountingTest extends IntegrationTestCase
 {
