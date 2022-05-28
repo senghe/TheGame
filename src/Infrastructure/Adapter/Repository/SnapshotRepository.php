@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Adapter\Repository;
 
-use App\Domain\Resource\Entity\Snapshot;
-use App\Domain\Resource\Entity\SnapshotInterface;
-use App\Domain\Resource\Port\SnapshotRepositoryInterface;
+use App\Component\Resource\Domain\Entity\Snapshot;
+use App\Component\Resource\Domain\Entity\SnapshotInterface;
+use App\Component\Resource\Domain\Port\SnapshotRepositoryInterface;
+use App\Component\SharedKernel\Domain\PlanetInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class SnapshotRepository implements SnapshotRepositoryInterface
@@ -18,7 +19,7 @@ final class SnapshotRepository implements SnapshotRepositoryInterface
         $this->entityManager = $entityManager;
     }
 
-    public function findLatest(): ?SnapshotInterface
+    public function findLatest(PlanetInterface $planet): ?SnapshotInterface
     {
         $qb = $this->entityManager->createQueryBuilder();
 

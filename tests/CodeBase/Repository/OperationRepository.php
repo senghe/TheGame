@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\CodeBase\Repository;
 
-use App\Domain\Resource\Entity\Operation;
-use App\Domain\Resource\Entity\OperationInterface;
-use App\Domain\Resource\Entity\SnapshotInterface;
+use App\Component\Resource\Domain\Entity\Operation;
+use App\Component\Resource\Domain\Entity\OperationInterface;
+use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CodeBase\Repository;
 
-use App\Domain\Resource\Entity\Resource;
+use App\Component\Resource\Domain\Entity\Resource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;

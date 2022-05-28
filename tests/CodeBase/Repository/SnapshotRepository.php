@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\CodeBase\Repository;
 
-use App\Domain\Resource\Entity\Snapshot;
+use App\Component\Resource\Domain\Entity\Snapshot;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
