@@ -2,15 +2,39 @@
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="resource.domain.aggregate_root" class="App\Domain\Resource\AggregateRoot" public="true">
-            <argument type="service" id="resource.infrastructure.adapter.repository.snapshot" />
-            <argument type="service" id="resource.domain.factory.snapshot" />
-        </service>
+        <defaults autowire="true" autoconfigure="true" />
 
-        <service id="resource.domain.factory.storage" class="App\Domain\Resource\Factory\StorageFactory" />
+        <service id="App\Component\Resource\Domain\AggregateRoot" />
+        <service id="App\Component\Resource\Domain\AggregateRootInterface"
+                 alias="App\Component\Resource\Domain\AggregateRoot" />
 
-        <service id="resource.domain.factory.snapshot" class="App\Domain\Resource\Factory\SnapshotFactory">
-            <argument type="service" id="resource.domain.factory.storage" />
-        </service>
+        <instanceof id="App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface">
+            <tag name="resource.metadata"/>
+        </instanceof>
+
+        <service id="App\Component\Resource\Domain\Factory\SnapshotFactory" />
+        <service id="App\Component\Resource\Domain\Factory\SnapshotFactoryInterface"
+                 alias="App\Component\Resource\Domain\Factory\SnapshotFactory"/>
+
+        <service id="App\Component\Resource\Domain\Factory\StorageFactory" />
+        <service id="App\Component\Resource\Domain\Factory\StorageFactoryInterface"
+                 alias="App\Component\Resource\Domain\Factory\StorageFactory"/>
+
+        <service id="App\Component\Resource\Domain\Factory\OperationFactory" />
+        <service id="App\Component\Resource\Domain\Factory\OperationFactoryInterface"
+                 alias="App\Component\Resource\Domain\Factory\OperationFactory"/>
+
+        <service id="App\Component\Resource\Domain\Factory\OperationValueFactory" />
+        <service id="App\Component\Resource\Domain\Factory\OperationValueFactoryInterface"
+                 alias="App\Component\Resource\Domain\Factory\OperationValueFactory"/>
+
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\EnergyMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\GasMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\GoldMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\GravitonMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\MetalMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\MineralMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\PlaceMetadata" />
+        <service id="App\Component\Resource\Domain\Service\ResourceMetadata\UraniumMetadata" />
     </services>
 </container>

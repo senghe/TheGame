@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults autowire="true" autoconfigure="true" />
+
+        <service id="App\Component\Building\Domain\AggregateRoot" />
+        <service id="App\Component\Building\Domain\AggregateRootInterface"
+                 alias="App\Component\Building\Domain\AggregateRoot" />
+
+        <service id="App\Component\Building\Domain\Factory\ResourceAmountFactory" />
+        <service id="App\Component\Building\Domain\Factory\ResourceAmountFactoryInterface"
+                 alias="App\Component\Building\Domain\Factory\ResourceAmountFactory"/>
+
+        <instanceof id="App\Component\Building\Domain\Service\BuildingMetadata\BuildingMetadataResolverInterface">
+            <tag name="building.metadata"/>
+        </instanceof>
+
+        <service id="App\Component\Building\Domain\Service\BuildingMetadataResolver" />
+        <service id="App\Component\Building\Domain\Service\BuildingMetadataResolverInterface"
+                 alias="App\Component\Building\Domain\Service\BuildingMetadataResolver"/>
+    </services>
+</container>

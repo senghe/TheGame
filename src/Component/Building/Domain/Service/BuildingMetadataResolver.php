@@ -10,6 +10,7 @@ use App\Component\Building\Domain\Service\BuildingMetadata\BuildingMetadataInter
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Building\Domain\ValueObject\ResourceMiningSpeedInterface;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 final class BuildingMetadataResolver implements BuildingMetadataResolverInterface
@@ -19,9 +20,14 @@ final class BuildingMetadataResolver implements BuildingMetadataResolverInterfac
      */
     private Collection $buildingMetadata;
 
-    public function __construct(Collection $buildingMetadata)
+    public function __construct()
     {
-        $this->buildingMetadata = $buildingMetadata;
+        $this->buildingMetadata = new ArrayCollection();
+    }
+
+    public function addBuildingMetadata(BuildingMetadataInterface $buildingMetadata): void
+    {
+        $this->buildingMetadata->add($buildingMetadata);
     }
 
     /**

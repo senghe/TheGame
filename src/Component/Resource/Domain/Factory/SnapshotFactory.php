@@ -9,6 +9,7 @@ use App\Component\Resource\Domain\Entity\Snapshot;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface;
 use App\Component\SharedKernel\Domain\PlanetInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 final class SnapshotFactory implements SnapshotFactoryInterface
@@ -21,11 +22,15 @@ final class SnapshotFactory implements SnapshotFactoryInterface
     private Collection $resourcesMetadata;
 
     public function __construct(
-        StorageFactoryInterface $storageFactory,
-        Collection $resourcesMetadata
+        StorageFactoryInterface $storageFactory
     ) {
         $this->storageFactory = $storageFactory;
-        $this->resourcesMetadata = $resourcesMetadata;
+        $this->resourcesMetadata = new ArrayCollection();
+    }
+
+    public function addResourceMetadata(ResourceMetadataInterface $resourceMetadata): void
+    {
+        $this->resourcesMetadata->add($resourceMetadata);
     }
 
     /**
