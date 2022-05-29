@@ -18,16 +18,16 @@ class Operation implements OperationInterface
 {
     use DoctrineEntityTrait;
 
-    private ?SnapshotInterface $snapshot;
-
     private OperationType $type;
+
+    private DateTimeInterface $performedAt;
+
+    private ?SnapshotInterface $snapshot;
 
     /**
      * @var Collection<OperationValueInterface>
      */
     private Collection $operationValues;
-
-    private DateTimeInterface $performedAt;
 
     public function __construct(OperationType $type, array $operationValues=[])
     {

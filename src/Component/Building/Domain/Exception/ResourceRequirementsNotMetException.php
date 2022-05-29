@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Component\Building\Domain\Exception;
 
 use App\Component\Building\Domain\Entity\BuildingInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 
 final class ResourceRequirementsNotMetException extends BuildingRequirementsNotMetException
 {

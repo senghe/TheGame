@@ -4,7 +4,7 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Planet\Domain\Entity\Planet" table="planet">
+    <entity name="App\Component\SharedKernel\Domain\Entity\Planet" table="planet">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>

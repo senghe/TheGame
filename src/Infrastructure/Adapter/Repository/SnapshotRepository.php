@@ -7,7 +7,7 @@ namespace App\Infrastructure\Adapter\Repository;
 use App\Component\Resource\Domain\Entity\Snapshot;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Port\SnapshotRepositoryInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 final class SnapshotRepository implements SnapshotRepositoryInterface

@@ -6,7 +6,7 @@ namespace App\Component\Resource\Domain;
 
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\SharedKernel\AggregateRootInterface as BaseAggregateRootInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 
 interface AggregateRootInterface extends BaseAggregateRootInterface
 {

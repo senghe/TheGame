@@ -7,7 +7,7 @@ namespace App\Component\Resource\Domain\Entity;
 use App\Component\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\Component\Resource\Domain\Exception\WorkingOnEmptySnapshotException;
 use App\Component\SharedKernel\DoctrineEntityTrait;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -15,7 +15,7 @@ class Snapshot implements SnapshotInterface
 {
     use DoctrineEntityTrait;
 
-    private PlanetInterface $load;
+    private PlanetInterface $planet;
 
     /**
      * @var Collection<StorageInterface>
@@ -24,11 +24,9 @@ class Snapshot implements SnapshotInterface
 
     private ?SnapshotInterface $previous;
 
-    private ?SnapshotInterface $next;
-
-    public function __construct(?PlanetInterface $load)
+    public function __construct(?PlanetInterface $planet)
     {
-        $this->load = $load;
+        $this->planet = $planet;
         $this->storages = new ArrayCollection();
     }
 
@@ -72,7 +70,7 @@ class Snapshot implements SnapshotInterface
     {
         $this->previous = $previous;
 
-        $this->load = $previous->load;
+        $this->planet = $previous->planet;
         foreach ($previous->storages as $previousStorage) {
             $previousStorage->lock();
 

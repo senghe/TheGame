@@ -4,19 +4,15 @@
                   xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
                                       https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
 
-    <entity name="App\Resource\Domain\Entity\OperationValue" table="resource_operation_value">
+    <entity name="App\Component\Resource\Domain\Entity\OperationValue" table="resource_operation_value">
         <id name="id" type="integer" column="id">
             <generator strategy="AUTO"/>
         </id>
 
         <field name="value" type="integer" nullable="false" />
 
-        <many-to-one field="resource" target-entity="App\Resource\Domain\Entity\Resource">
+        <many-to-one field="resource" target-entity="App\Component\Resource\Domain\Entity\Resource">
             <join-column name="resource_id" referenced-column-name="id" />
-        </many-to-one>
-
-        <many-to-one field="operation" target-entity="App\Resource\Domain\Entity\Operation" inversed-by="operationValues">
-            <join-column name="operation_id" referenced-column-name="id" />
         </many-to-one>
     </entity>
 </doctrine-mapping>

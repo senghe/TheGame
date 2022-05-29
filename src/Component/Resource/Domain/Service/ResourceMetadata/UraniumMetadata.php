@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Domain\Service\ResourceMetadata;
 
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 
 final class UraniumMetadata implements ResourceMetadataInterface
 {

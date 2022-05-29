@@ -8,7 +8,7 @@ use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\Snapshot;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 

@@ -10,7 +10,7 @@ use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\Component\Resource\Domain\Factory\SnapshotFactoryInterface;
 use App\Component\Resource\Domain\Port\SnapshotRepositoryInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
 use Doctrine\Common\Collections\Collection;
 

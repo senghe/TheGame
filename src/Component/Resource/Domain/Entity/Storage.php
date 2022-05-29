@@ -20,11 +20,17 @@ class Storage implements StorageInterface
 
     private const ONE_HOUR_IN_SECONDS = 3600;
 
-    private SnapshotInterface $snapshot;
-
     private ?int $initialAmount = 0;
 
     private ?int $maxAmount = 0;
+
+    private DateTimeInterface $createdAt;
+
+    private DateTimeInterface $updatedAt;
+
+    private ?DateTimeInterface $lockedAt = null;
+
+    private SnapshotInterface $snapshot;
 
     private ResourceInterface $resource;
 
@@ -32,12 +38,6 @@ class Storage implements StorageInterface
      * @var Collection<OperationInterface>
      */
     private Collection $operations;
-
-    private DateTimeInterface $createdAt;
-
-    private DateTimeInterface $updatedAt;
-
-    private ?DateTimeInterface $lockedAt = null;
 
     public function __construct(
         ResourceInterface $resource,

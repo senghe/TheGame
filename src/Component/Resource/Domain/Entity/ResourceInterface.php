@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Domain\Entity;
 
-use App\Component\SharedKernel\Domain\ResourceInterface as BaseResourceInterface;
+use App\Component\SharedKernel\Domain\Entity\ResourceInterface as BaseResourceInterface;
 
 interface ResourceInterface extends BaseResourceInterface
 {

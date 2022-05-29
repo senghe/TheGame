@@ -4,18 +4,21 @@ declare(strict_types=1);
 
 namespace App\Component\Building\Domain\Entity;
 
+use App\Component\SharedKernel\DoctrineEntityTrait;
 use DateTime;
 use DateTimeInterface;
 
 class Building implements BuildingInterface
 {
+    use DoctrineEntityTrait;
+
     private string $code;
 
     private int $level;
 
     private ?DateTimeInterface $upgradingStartedAt = null;
 
-    private ?DateTimeInterface $upgradingEndTime = null;
+    private ?DateTimeInterface $upgradingEndsAt = null;
 
     public function __construct(
         string $code,
@@ -56,13 +59,13 @@ class Building implements BuildingInterface
         }
 
         $this->upgradingStartedAt = new DateTime();
-        $this->upgradingEndTime = $endTime;
+        $this->upgradingEndsAt = $endTime;
     }
 
     public function cancelUpgrading()
     {
         $this->upgradingStartedAt = null;
-        $this->upgradingEndTime = null;
+        $this->upgradingEndsAt = null;
     }
 
     public function isUpgrading(): bool
@@ -71,7 +74,7 @@ class Building implements BuildingInterface
             return false;
         }
 
-        return $this->upgradingEndTime > new DateTime();
+        return $this->upgradingEndsAt > new DateTime();
     }
 
     public function finishUpgrading(): void
@@ -82,6 +85,6 @@ class Building implements BuildingInterface
 
         $this->level += 1;
         $this->upgradingStartedAt = null;
-        $this->upgradingEndTime = null;
+        $this->upgradingEndsAt = null;
     }
 }

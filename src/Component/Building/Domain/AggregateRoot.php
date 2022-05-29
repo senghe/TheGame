@@ -10,7 +10,7 @@ use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenStarted;
 use App\Component\Building\Domain\Exception\ResourceRequirementsNotMetException;
 use App\Component\Building\Domain\Port\EventRecorderInterface;
 use App\Component\Building\Domain\Service\BuildingMetadataResolverInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
 
 final class AggregateRoot implements AggregateRootInterface

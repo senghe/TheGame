@@ -8,10 +8,8 @@ use App\Component\Resource\Domain\AggregateRootInterface;
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Exception\CannotPerformOperationException;
-use App\Component\Resource\Domain\ViewModel\ResourceStorageViewModelInterface;
 use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;
 use Tests\CodeBase\Repository\OperationRepository;
@@ -22,24 +20,23 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
 {
     private AggregateRootInterface $resourcesAggregateRoot;
 
-    private EntityManagerInterface $entityManager;
-
     private ResourceRepository $resourceRepository;
 
     private OperationRepository $operationRepository;
 
     private SnapshotRepository $snapshotRepository;
 
+    private EntityManagerInterface $entityManager;
+
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->resourcesAggregateRoot = $this->getContainer()->get('resource.domain.aggregate_root');
+        $this->resourcesAggregateRoot = $this->getContainer()->get(AggregateRootInterface::class);
+        $this->resourceRepository = $this->getContainer()->get(ResourceRepository::class);
+        $this->operationRepository = $this->getContainer()->get(OperationRepository::class);
+        $this->snapshotRepository = $this->getContainer()->get(SnapshotRepository::class);
         $this->entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
-
-        $this->resourceRepository = $this->getContainer()->get('tests.repository.resource');
-        $this->operationRepository = $this->getContainer()->get('tests.repository.operation');
-        $this->snapshotRepository = $this->getContainer()->get('tests.repository.snapshot');
     }
 
     public function test_building_aggregate_with_incorrect_resources_collection(): void
@@ -53,59 +50,6 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
                 $notResourceMock
             ]));
         });
-    }
-
-    public function test_returning_resources_on_non_built_aggregate(): void
-    {
-        $this->expectException(AggregateRootNotBuiltException::class);
-
-        $this->act(function() {
-            $this->resourcesAggregateRoot->getResources();
-        });
-    }
-
-    public function test_returning_resources_view_models(): void
-    {
-        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_returning_resources_view_models.yaml');
-
-        $models = new ArrayCollection();
-        $this->act(function() use (&$models) {
-            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
-
-            /** @var Collection<ResourceStorageViewModelInterface> */
-            $models = $this->resourcesAggregateRoot->getResources();
-        });
-
-        $this->assertCount(2, $models);
-
-        $this->assertEquals('mineral', $models[0]->getCode());
-        $this->assertEquals(1550, $models[0]->getAmount());
-        $this->assertEquals(false, $models[0]->isFull());
-
-        $this->assertEquals('gas', $models[1]->getCode());
-        $this->assertEquals(2600, $models[1]->getAmount());
-        $this->assertEquals(false, $models[1]->isFull());
-    }
-
-    public function test_returning_resources_view_models_when_no_snapshot_is_available(): void
-    {
-        $this->loadFixturesFromFile('ResourceAggregateRootTest/test_returning_resources_view_models_when_no_snapshot_is_available.yaml');
-
-        $this->act(function() use (&$models) {
-            $this->resourcesAggregateRoot->build($this->resourceRepository->findAll());
-
-            $models = $this->resourcesAggregateRoot->getResources();
-        });
-
-        $this->assertCount(2, $models);
-
-        $this->assertEquals('mineral', $models[0]->getCode());
-        $this->assertEquals(250, $models[0]->getAmount());
-        $this->assertEquals(false, $models[0]->isFull());
-
-        $this->assertEquals('gas', $models[1]->getCode());
-        $this->assertEquals(250, $models[1]->getAmount());
-        $this->assertEquals(false, $models[1]->isFull());
     }
 
     public function test_performing_operation_on_non_built_aggregate(): void
@@ -223,17 +167,18 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
             $this->entityManager->flush();
         });
 
-        $snapshots = $this->snapshotRepository->findAll();
-
-        /** @var ResourceStorageViewModelInterface $viewModel1 */
-        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
-        $this->assertTrue($viewModel1->isFull());
-        $this->assertEquals(2000, $viewModel1->getAmount());
-
-        /** @var ResourceStorageViewModelInterface $viewModel2 */
-        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
-        $this->assertTrue($viewModel2->isFull());
-        $this->assertEquals(3000, $viewModel2->getAmount());
+        $this->assertTrue(false);
+//        $snapshots = $this->snapshotRepository->findAll();
+//
+//        /** @var ResourceStorageViewModelInterface $viewModel1 */
+//        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
+//        $this->assertTrue($viewModel1->isFull());
+//        $this->assertEquals(2000, $viewModel1->getAmount());
+//
+//        /** @var ResourceStorageViewModelInterface $viewModel2 */
+//        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
+//        $this->assertTrue($viewModel2->isFull());
+//        $this->assertEquals(3000, $viewModel2->getAmount());
     }
 
     public function test_performing_operation_after_one_which_overflows_storage(): void
@@ -254,18 +199,19 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
             $this->entityManager->flush();
         });
 
+        $this->assertTrue(false);
         $snapshots = $this->snapshotRepository->findAll();
 
-        /** @var ResourceStorageViewModelInterface $viewModel1 */
-        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
-
-        $this->assertFalse($viewModel1->isFull());
-        $this->assertEquals(1850, $viewModel1->getAmount());
-
-        /** @var ResourceStorageViewModelInterface $viewModel1 */
-        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
-
-        $this->assertFalse($viewModel2->isFull());
-        $this->assertEquals(2950, $viewModel2->getAmount());
+//        /** @var ResourceStorageViewModelInterface $viewModel1 */
+//        $viewModel1 = $snapshots->first()->getResourcesViewModel()->get(0);
+//
+//        $this->assertFalse($viewModel1->isFull());
+//        $this->assertEquals(1850, $viewModel1->getAmount());
+//
+//        /** @var ResourceStorageViewModelInterface $viewModel1 */
+//        $viewModel2 = $snapshots->first()->getResourcesViewModel()->get(1);
+//
+//        $this->assertFalse($viewModel2->isFull());
+//        $this->assertEquals(2950, $viewModel2->getAmount());
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Domain;
+namespace App\Component\SharedKernel\Domain\Entity;
 
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use Doctrine\Common\Collections\Collection;

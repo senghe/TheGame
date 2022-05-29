@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Domain;
+namespace App\Component\SharedKernel\Domain\Entity;
 
 use App\Component\Building\Domain\Entity\BuildingInterface;
-use App\Component\Building\Domain\Entity\PlanetInterface;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\SharedKernel\DoctrineEntityTrait;

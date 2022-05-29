@@ -6,7 +6,7 @@ namespace App\Component\Resource\Domain\Factory;
 
 use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
-use App\Component\SharedKernel\Domain\PlanetInterface;
+use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
 use Doctrine\Common\Collections\Collection;
 
 interface SnapshotFactoryInterface
