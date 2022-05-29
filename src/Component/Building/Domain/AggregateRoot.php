@@ -62,9 +62,21 @@ final class AggregateRoot implements AggregateRootInterface
                 $building->getCode(),
                 $building->getLevel(),
                 $resourceAmounts,
-                $this->buildingMetadataResolver->getNextMiningSpeed($building)
+                $this->getMiningSpeedsArray($building)
             )
         );
+    }
+
+    private function getMiningSpeedsArray(BuildingInterface $building): array
+    {
+        $miningSpeedsArray = [];
+
+        $miningSpeeds = $this->buildingMetadataResolver->getNextMiningSpeeds($building);
+        foreach ($miningSpeeds as $miningSpeed) {
+            $miningSpeedsArray[$miningSpeed->getResourceCode()] = $miningSpeed->getSpeed();
+        }
+
+        return $miningSpeedsArray;
     }
 
     public function cancelUpgrade(BuildingInterface $building): void

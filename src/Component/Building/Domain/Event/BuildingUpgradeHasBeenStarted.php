@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Component\Building\Domain\Event;
 
-use App\Component\Building\Domain\ValueObject\ResourceMiningSpeedInterface;
-use App\Component\SharedKernel\Event;
-use Doctrine\Common\Collections\Collection;
+use App\Component\SharedKernel\EventInterface;
 
-final class BuildingUpgradeHasBeenStarted implements Event
+final class BuildingUpgradeHasBeenStarted implements EventInterface
 {
     private int $planetId;
 
@@ -18,17 +16,14 @@ final class BuildingUpgradeHasBeenStarted implements Event
 
     private array $resourceAmounts;
 
-    /**
-     * @var Collection<ResourceMiningSpeedInterface>
-     */
-    private Collection $miningSpeeds;
+    private array $miningSpeeds;
 
     public function __construct(
         int $planetId,
         string $buildingCode,
         int $currentLevel,
         array $resourceAmounts,
-        Collection $miningSpeeds
+        array $miningSpeeds
     ) {
         $this->planetId = $planetId;
         $this->buildingCode = $buildingCode;
@@ -57,7 +52,7 @@ final class BuildingUpgradeHasBeenStarted implements Event
         return $this->resourceAmounts;
     }
 
-    public function getMiningSpeeds(): Collection
+    public function getMiningSpeeds(): array
     {
         return $this->miningSpeeds;
     }

@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Component\Resource\Application\EventSubscriber;
 
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenStarted;
-use App\Component\Resource\Application\Command\ChangeStorageAmountCommand;
+use App\Component\Resource\Application\Command\IncreaseMiningSpeedCommand;
 use App\Component\SharedKernel\CommandBusInterface;
 use App\Component\SharedKernel\EventSubscriberInterface;
 
-final class PayForBuildingUpgradeEventSubscriber implements EventSubscriberInterface
+final class IncreaseMiningSpeedChangeSubscriber implements EventSubscriberInterface
 {
     private CommandBusInterface $commandBus;
 
@@ -20,9 +20,11 @@ final class PayForBuildingUpgradeEventSubscriber implements EventSubscriberInter
 
     public function handle(BuildingUpgradeHasBeenStarted $event): void
     {
-        foreach ($event->getResourceAmounts() as $resourceCode => $amount) {
-            $this->commandBus->dispatch(new ChangeStorageAmountCommand(
-                $resourceCode, $amount
+        $miningSpeeds = $event->getMiningSpeeds();
+
+        foreach ($miningSpeeds as $resourceCode => $speed) {
+            $this->commandBus->dispatch(new IncreaseMiningSpeedCommand(
+                $resourceCode, $speed
             ));
         }
     }

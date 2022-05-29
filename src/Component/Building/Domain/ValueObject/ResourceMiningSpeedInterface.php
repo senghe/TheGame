@@ -10,5 +10,7 @@ interface ResourceMiningSpeedInterface
 {
     public function getResource(): ResourceInterface;
 
+    public function getResourceCode(): string;
+
     public function getSpeed(): int;
 }

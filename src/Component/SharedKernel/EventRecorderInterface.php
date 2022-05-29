@@ -6,5 +6,5 @@ namespace App\Component\SharedKernel;
 
 interface EventRecorderInterface
 {
-    public function record(Event $event): void;
+    public function record(EventInterface $event): void;
 }

@@ -21,7 +21,7 @@ interface BuildingMetadataInterface
     /**
      * @return Collection<ResourceMiningSpeedInterface>
      */
-    public function getMiningSpeed(int $level): Collection;
+    public function getMiningSpeeds(int $level): Collection;
 
     public function getSize(int $level): int;
 

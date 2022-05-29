@@ -25,6 +25,11 @@ final class ResourceMiningSpeed implements ResourceMiningSpeedInterface
         return $this->resource;
     }
 
+    public function getResourceCode(): string
+    {
+        return $this->resource->getCode();
+    }
+
     public function getSpeed(): int
     {
         return $this->speed;

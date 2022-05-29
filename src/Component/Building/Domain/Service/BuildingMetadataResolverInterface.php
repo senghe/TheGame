@@ -20,7 +20,7 @@ interface BuildingMetadataResolverInterface
     /**
      * @return Collection<ResourceMiningSpeedInterface>
      */
-    public function getNextMiningSpeed(BuildingInterface $building): Collection;
+    public function getNextMiningSpeeds(BuildingInterface $building): Collection;
 
     public function getUpgradingTime(BuildingInterface $building): DateTimeImmutable;
 

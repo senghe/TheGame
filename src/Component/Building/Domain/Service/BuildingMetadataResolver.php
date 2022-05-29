@@ -49,14 +49,14 @@ final class BuildingMetadataResolver implements BuildingMetadataResolverInterfac
     /**
      * @return Collection<ResourceMiningSpeedInterface>
      */
-    public function getNextMiningSpeed(BuildingInterface $building): Collection
+    public function getNextMiningSpeeds(BuildingInterface $building): Collection
     {
         foreach ($this->buildingMetadata as $template) {
             if ($template->supports($building) === false) {
                 continue;
             }
 
-            return $template->getMiningSpeed($building->getLevel()+1);
+            return $template->getMiningSpeeds($building->getLevel()+1);
         }
 
         throw new UnknownBuildingFoundException($building);

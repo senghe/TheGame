@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Component\Building\Domain\Event;
 
-use App\Component\SharedKernel\Event;
+use App\Component\SharedKernel\EventInterface;
 
-final class BuildingUpgradeHasBeenCancelled implements Event
+final class BuildingUpgradeHasBeenCancelled implements EventInterface
 {
     private int $planetId;
 
