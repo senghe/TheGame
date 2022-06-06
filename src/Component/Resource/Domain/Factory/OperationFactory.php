@@ -31,4 +31,18 @@ final class OperationFactory implements OperationFactoryInterface
             ]
         );
     }
+
+    public function createChangeAmount(
+        ResourceInterface $resource,
+        int $value
+    ): OperationInterface {
+        return new Operation(
+            OperationType::AmountChange, [
+                $this->operationValueFactory->create(
+                    $resource,
+                    $value
+                )
+            ]
+        );
+    }
 }

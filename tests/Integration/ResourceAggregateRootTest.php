@@ -8,7 +8,7 @@ use App\Component\Resource\Domain\AggregateRootInterface;
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Exception\CannotPerformOperationException;
-use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
+use App\SharedKernel\Exception\AggregateRootNotBuiltException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use InvalidArgumentException;

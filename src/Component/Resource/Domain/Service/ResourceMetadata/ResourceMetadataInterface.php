@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Domain\Service\ResourceMetadata;
 
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
 
 interface ResourceMetadataInterface
 {

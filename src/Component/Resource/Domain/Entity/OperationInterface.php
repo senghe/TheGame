@@ -22,4 +22,6 @@ interface OperationInterface
     public function linkToSnapshot(SnapshotInterface $snapshot): void;
 
     public function getValue(ResourceInterface $requestedResource): int;
+
+    public function isPerformedOver(DateTimeInterface $time): bool;
 }

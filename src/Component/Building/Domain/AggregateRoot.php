@@ -8,10 +8,10 @@ use App\Component\Building\Domain\Entity\BuildingInterface;
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenCancelled;
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenStarted;
 use App\Component\Building\Domain\Exception\ResourceRequirementsNotMetException;
-use App\Component\Building\Domain\Port\EventRecorderInterface;
 use App\Component\Building\Domain\Service\BuildingMetadataResolverInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
-use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
+use App\Component\Building\Port\EventRecorderInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Exception\AggregateRootNotBuiltException;
 
 final class AggregateRoot implements AggregateRootInterface
 {
@@ -62,6 +62,7 @@ final class AggregateRoot implements AggregateRootInterface
                 $building->getCode(),
                 $building->getLevel(),
                 $resourceAmounts,
+                $this->buildingMetadataResolver->isMine($building),
                 $this->getMiningSpeedsArray($building)
             )
         );
@@ -97,7 +98,10 @@ final class AggregateRoot implements AggregateRootInterface
             new BuildingUpgradeHasBeenCancelled(
                 $this->planet->getId(),
                 $building->getCode(),
-                $resourceAmounts
+                $building->getLevel(),
+                $resourceAmounts,
+                $this->buildingMetadataResolver->isMine($building),
+                $this->getMiningSpeedsArray($building)
             )
         );
     }

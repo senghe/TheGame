@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Component\SharedKernel\Exception;
+namespace App\SharedKernel\Exception;
 
-use App\Component\SharedKernel\AggregateRootInterface;
+use App\SharedKernel\AggregateRootInterface;
 use LogicException;
 
 final class AggregateRootNotBuiltException extends LogicException

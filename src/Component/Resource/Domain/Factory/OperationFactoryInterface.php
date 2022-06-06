@@ -13,4 +13,9 @@ interface OperationFactoryInterface
         ResourceInterface $resource,
         int $value
     ): OperationInterface;
+
+    public function createChangeAmount(
+        ResourceInterface $resource,
+        int $value
+    ): OperationInterface;
 }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Exception;
+namespace App\SharedKernel\Exception;
 
 use LogicException;
 
-final class NonDoctrineGetterCallException extends LogicException
+final class NonDoctrineSetterCallException extends LogicException
 {
     private string $className;
 

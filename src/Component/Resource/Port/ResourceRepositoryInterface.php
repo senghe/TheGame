@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Resource\Domain\Port;
+namespace App\Component\Resource\Port;
 
-use App\Component\SharedKernel\Domain\Entity\ResourceInterface;
+use App\SharedKernel\Domain\Entity\ResourceInterface;
 
 interface ResourceRepositoryInterface
 {

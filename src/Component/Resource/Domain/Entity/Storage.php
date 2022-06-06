@@ -7,12 +7,12 @@ namespace App\Component\Resource\Domain\Entity;
 use App\Component\Resource\Domain\Enum\OperationType;
 use App\Component\Resource\Domain\Exception\CannotPerformOperationException;
 use App\Component\Resource\Domain\Exception\WorkingOnLockedStorageException;
-use App\Component\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\Port\CollectionInterface;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 class Storage implements StorageInterface
 {
@@ -35,9 +35,9 @@ class Storage implements StorageInterface
     private ResourceInterface $resource;
 
     /**
-     * @var Collection<OperationInterface>
+     * @var CollectionInterface<OperationInterface>
      */
-    private Collection $operations;
+    private CollectionInterface $operations;
 
     public function __construct(
         ResourceInterface $resource,
@@ -96,9 +96,9 @@ class Storage implements StorageInterface
     }
 
     /**
-     * @return Collection<OperationInterface>
+     * @return CollectionInterface<OperationInterface>
      */
-    private function filterOperations(OperationType $type): Collection
+    private function filterOperations(OperationType $type): CollectionInterface
     {
         $filteredOperations = new ArrayCollection();
 
@@ -163,5 +163,20 @@ class Storage implements StorageInterface
     private function isLocked(): bool
     {
         return $this->lockedAt !== null;
+    }
+
+    public function removeOperationsOverTime(
+        $operationType,
+        DateTimeInterface $time
+    ): void {
+        foreach ($this->operations as $operation) {
+            if ($operation->is($operationType) === false) {
+                continue;
+            }
+
+            if ($operation->isPerformedOver($time)) {
+                $this->operations->removeElement($operation);
+            }
+        }
     }
 }

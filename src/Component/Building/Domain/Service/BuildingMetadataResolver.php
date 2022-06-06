@@ -9,16 +9,16 @@ use App\Component\Building\Domain\Exception\UnknownBuildingFoundException;
 use App\Component\Building\Domain\Service\BuildingMetadata\BuildingMetadataInterface;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Building\Domain\ValueObject\ResourceMiningSpeedInterface;
+use App\SharedKernel\Port\CollectionInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 final class BuildingMetadataResolver implements BuildingMetadataResolverInterface
 {
     /**
-     * @var Collection<BuildingMetadataInterface>
+     * @var CollectionInterface<BuildingMetadataInterface>
      */
-    private Collection $buildingMetadata;
+    private CollectionInterface $buildingMetadata;
 
     public function __construct()
     {
@@ -30,10 +30,23 @@ final class BuildingMetadataResolver implements BuildingMetadataResolverInterfac
         $this->buildingMetadata->add($buildingMetadata);
     }
 
+    public function isMine(BuildingInterface $building): bool
+    {
+        foreach ($this->buildingMetadata as $template) {
+            if ($template->supports($building) === false) {
+                continue;
+            }
+
+            return $template->isMine();
+        }
+
+        throw new UnknownBuildingFoundException($building);
+    }
+
     /**
-     * @return Collection<ResourceAmountInterface>
+     * @return CollectionInterface<ResourceAmountInterface>
      */
-    public function getNextResourceRequirements(BuildingInterface $building): Collection
+    public function getNextResourceRequirements(BuildingInterface $building): CollectionInterface
     {
         foreach ($this->buildingMetadata as $template) {
             if ($template->supports($building) === false) {
@@ -47,9 +60,9 @@ final class BuildingMetadataResolver implements BuildingMetadataResolverInterfac
     }
 
     /**
-     * @return Collection<ResourceMiningSpeedInterface>
+     * @return CollectionInterface<ResourceMiningSpeedInterface>
      */
-    public function getNextMiningSpeeds(BuildingInterface $building): Collection
+    public function getNextMiningSpeeds(BuildingInterface $building): CollectionInterface
     {
         foreach ($this->buildingMetadata as $template) {
             if ($template->supports($building) === false) {

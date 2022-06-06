@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Domain\Entity;
+namespace App\SharedKernel\Domain\Entity;
 
 interface ResourceInterface
 {

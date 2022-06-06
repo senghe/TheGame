@@ -6,8 +6,8 @@ namespace App\Component\Resource\Application\EventSubscriber;
 
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenStarted;
 use App\Component\Resource\Application\Command\IncreaseMiningSpeedCommand;
-use App\Component\SharedKernel\CommandBusInterface;
-use App\Component\SharedKernel\EventSubscriberInterface;
+use App\SharedKernel\Port\CommandBusInterface;
+use App\SharedKernel\Port\EventSubscriberInterface;
 
 final class IncreaseMiningSpeedChangeSubscriber implements EventSubscriberInterface
 {
@@ -20,11 +20,17 @@ final class IncreaseMiningSpeedChangeSubscriber implements EventSubscriberInterf
 
     public function handle(BuildingUpgradeHasBeenStarted $event): void
     {
+        if ($event->isMine() === false) {
+            return;
+        }
+
         $miningSpeeds = $event->getMiningSpeeds();
 
         foreach ($miningSpeeds as $resourceCode => $speed) {
             $this->commandBus->dispatch(new IncreaseMiningSpeedCommand(
-                $resourceCode, $speed
+                $event->getPlanetId(),
+                $resourceCode,
+                $speed
             ));
         }
     }

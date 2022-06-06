@@ -7,12 +7,14 @@ namespace App\Component\Resource\Domain;
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
+use App\Component\Resource\Domain\Enum\OperationType;
 use App\Component\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\Component\Resource\Domain\Factory\SnapshotFactoryInterface;
-use App\Component\Resource\Domain\Port\SnapshotRepositoryInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
-use App\Component\SharedKernel\Exception\AggregateRootNotBuiltException;
-use Doctrine\Common\Collections\Collection;
+use App\Component\Resource\Port\SnapshotRepositoryInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Exception\AggregateRootNotBuiltException;
+use App\SharedKernel\Port\CollectionInterface;
+use DateTime;
 
 final class AggregateRoot implements AggregateRootInterface
 {
@@ -33,7 +35,7 @@ final class AggregateRoot implements AggregateRootInterface
     }
 
     /**
-     * @var Collection<ResourceInterface>
+     * @var CollectionInterface<ResourceInterface>
      */
     public function build(PlanetInterface $planet): void
     {
@@ -61,5 +63,14 @@ final class AggregateRoot implements AggregateRootInterface
 
             $this->currentSnapshot->performOperation($operation);
         }
+    }
+
+    public function removeOperationsNotPerformedYet(
+        OperationType $operationType
+    ): void {
+        $this->currentSnapshot->removeOperationsOverTime(
+            $operationType,
+            new DateTime()
+        );
     }
 }

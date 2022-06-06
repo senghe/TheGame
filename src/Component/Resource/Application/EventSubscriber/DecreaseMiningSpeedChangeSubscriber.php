@@ -6,8 +6,8 @@ namespace App\Component\Resource\Application\EventSubscriber;
 
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenCancelled;
 use App\Component\Resource\Application\Command\DecreaseMiningSpeedCommand;
-use App\Component\SharedKernel\CommandBusInterface;
-use App\Component\SharedKernel\EventSubscriberInterface;
+use App\SharedKernel\Port\CommandBusInterface;
+use App\SharedKernel\Port\EventSubscriberInterface;
 
 final class DecreaseMiningSpeedChangeSubscriber implements EventSubscriberInterface
 {
@@ -20,8 +20,12 @@ final class DecreaseMiningSpeedChangeSubscriber implements EventSubscriberInterf
 
     public function handle(BuildingUpgradeHasBeenCancelled $event): void
     {
+        if ($event->isMine() === false) {
+            return;
+        }
+
         $this->commandBus->dispatch(new DecreaseMiningSpeedCommand(
-            $event->getBuildingCode()
+            $event->getPlanetId()
         ));
     }
 

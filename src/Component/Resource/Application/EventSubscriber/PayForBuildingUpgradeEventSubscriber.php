@@ -6,8 +6,8 @@ namespace App\Component\Resource\Application\EventSubscriber;
 
 use App\Component\Building\Domain\Event\BuildingUpgradeHasBeenStarted;
 use App\Component\Resource\Application\Command\ChangeStorageAmountCommand;
-use App\Component\SharedKernel\CommandBusInterface;
-use App\Component\SharedKernel\EventSubscriberInterface;
+use App\SharedKernel\Port\CommandBusInterface;
+use App\SharedKernel\Port\EventSubscriberInterface;
 
 final class PayForBuildingUpgradeEventSubscriber implements EventSubscriberInterface
 {
@@ -22,7 +22,9 @@ final class PayForBuildingUpgradeEventSubscriber implements EventSubscriberInter
     {
         foreach ($event->getResourceAmounts() as $resourceCode => $amount) {
             $this->commandBus->dispatch(new ChangeStorageAmountCommand(
-                $resourceCode, $amount
+                $event->getPlanetId(),
+                $resourceCode,
+                $amount
             ));
         }
     }

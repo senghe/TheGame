@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Building\Domain\Event;
 
-use App\Component\SharedKernel\EventInterface;
+use App\SharedKernel\EventInterface;
 
 final class BuildingUpgradeHasBeenStarted implements EventInterface
 {
@@ -16,6 +16,8 @@ final class BuildingUpgradeHasBeenStarted implements EventInterface
 
     private array $resourceAmounts;
 
+    private bool $isMine;
+
     private array $miningSpeeds;
 
     public function __construct(
@@ -23,12 +25,14 @@ final class BuildingUpgradeHasBeenStarted implements EventInterface
         string $buildingCode,
         int $currentLevel,
         array $resourceAmounts,
+        bool $isMine,
         array $miningSpeeds
     ) {
         $this->planetId = $planetId;
         $this->buildingCode = $buildingCode;
         $this->currentLevel = $currentLevel;
         $this->resourceAmounts = $resourceAmounts;
+        $this->isMine = $isMine;
         $this->miningSpeeds = $miningSpeeds;
     }
 
@@ -50,6 +54,11 @@ final class BuildingUpgradeHasBeenStarted implements EventInterface
     public function getResourceAmounts(): array
     {
         return $this->resourceAmounts;
+    }
+
+    public function isMine(): bool
+    {
+        return $this->isMine;
     }
 
     public function getMiningSpeeds(): array

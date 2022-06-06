@@ -8,18 +8,18 @@ use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\Snapshot;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Port\CollectionInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 final class SnapshotFactory implements SnapshotFactoryInterface
 {
     private StorageFactoryInterface $storageFactory;
 
     /**
-     * @var Collection<ResourceMetadataInterface>
+     * @var CollectionInterface<ResourceMetadataInterface>
      */
-    private Collection $resourcesMetadata;
+    private CollectionInterface $resourcesMetadata;
 
     public function __construct(
         StorageFactoryInterface $storageFactory
@@ -34,7 +34,7 @@ final class SnapshotFactory implements SnapshotFactoryInterface
     }
 
     /**
-     * @var Collection<ResourceInterface>
+     * @var CollectionInterface<ResourceInterface>
      */
     public function createInitial(PlanetInterface $planet): SnapshotInterface
     {

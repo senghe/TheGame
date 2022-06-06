@@ -6,7 +6,7 @@ namespace App\Component\Building\Domain\Factory;
 
 use App\Component\Building\Domain\ValueObject\ResourceAmount;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
-use App\Component\SharedKernel\Domain\Entity\ResourceInterface;
+use App\SharedKernel\Domain\Entity\ResourceInterface;
 
 final class ResourceAmountFactory implements ResourceAmountFactoryInterface
 {

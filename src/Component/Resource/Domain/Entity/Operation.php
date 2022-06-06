@@ -6,12 +6,12 @@ namespace App\Component\Resource\Domain\Entity;
 
 use App\Component\Resource\Domain\Enum\OperationType;
 use App\Component\Resource\Domain\Exception\NoValueFoundForResourceException;
-use App\Component\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\Port\CollectionInterface;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Webmozart\Assert\Assert;
 
 class Operation implements OperationInterface
@@ -25,9 +25,9 @@ class Operation implements OperationInterface
     private ?SnapshotInterface $snapshot;
 
     /**
-     * @var Collection<OperationValueInterface>
+     * @var CollectionInterface<OperationValueInterface>
      */
-    private Collection $operationValues;
+    private CollectionInterface $operationValues;
 
     public function __construct(OperationType $type, array $operationValues=[])
     {
@@ -78,5 +78,10 @@ class Operation implements OperationInterface
         }
 
         throw new NoValueFoundForResourceException($requestedResource);
+    }
+
+    public function isPerformedOver(DateTimeInterface $time): bool
+    {
+        return $this->performedAt > $time;
     }
 }

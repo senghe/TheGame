@@ -6,10 +6,11 @@ namespace App\Component\Resource\Domain\Entity;
 
 use App\Component\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\Component\Resource\Domain\Exception\WorkingOnEmptySnapshotException;
-use App\Component\SharedKernel\DoctrineEntityTrait;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Port\CollectionInterface;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 
 class Snapshot implements SnapshotInterface
 {
@@ -18,9 +19,9 @@ class Snapshot implements SnapshotInterface
     private PlanetInterface $planet;
 
     /**
-     * @var Collection<StorageInterface>
+     * @var CollectionInterface<StorageInterface>
      */
-    private Collection $storages;
+    private CollectionInterface $storages;
 
     private ?SnapshotInterface $previous;
 
@@ -76,6 +77,15 @@ class Snapshot implements SnapshotInterface
 
             $newStorage = $previousStorage->cloneFor($this);
             $this->storages->add($newStorage);
+        }
+    }
+
+    public function removeOperationsOverTime(
+        $operationType,
+        DateTimeInterface $time
+    ): void {
+        foreach ($this->storages as $storage) {
+            $storage->removeOperationsOverTime($operationType, $time);
         }
     }
 }

@@ -7,20 +7,22 @@ namespace App\Component\Building\Domain\Service;
 use App\Component\Building\Domain\Entity\BuildingInterface;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Building\Domain\ValueObject\ResourceMiningSpeedInterface;
+use App\SharedKernel\Port\CollectionInterface;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\Collection;
 
 interface BuildingMetadataResolverInterface
 {
-    /**
-     * @return Collection<ResourceAmountInterface>
-     */
-    public function getNextResourceRequirements(BuildingInterface $building): Collection;
+    public function isMine(BuildingInterface $building): bool;
 
     /**
-     * @return Collection<ResourceMiningSpeedInterface>
+     * @return CollectionInterface<ResourceAmountInterface>
      */
-    public function getNextMiningSpeeds(BuildingInterface $building): Collection;
+    public function getNextResourceRequirements(BuildingInterface $building): CollectionInterface;
+
+    /**
+     * @return CollectionInterface<ResourceMiningSpeedInterface>
+     */
+    public function getNextMiningSpeeds(BuildingInterface $building): CollectionInterface;
 
     public function getUpgradingTime(BuildingInterface $building): DateTimeImmutable;
 

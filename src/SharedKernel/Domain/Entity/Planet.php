@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Domain\Entity;
+namespace App\SharedKernel\Domain\Entity;
 
 use App\Component\Building\Domain\Entity\BuildingInterface;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
-use App\Component\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\Port\CollectionInterface;
 use DateTime;
-use Doctrine\Common\Collections\Collection;
 use Webmozart\Assert\Assert;
 
 class Planet implements PlanetInterface
@@ -21,16 +21,16 @@ class Planet implements PlanetInterface
     private string $name;
 
     /**
-     * @var Collection<BuildingInterface>
+     * @var CollectionInterface<BuildingInterface>
      */
-    private Collection $buildings;
+    private CollectionInterface $buildings;
 
     private DateTime $settledAt;
 
     /**
-     * @param Collection<ResourceAmountInterface> $resourcesAmounts
+     * @param CollectionInterface<ResourceAmountInterface> $resourcesAmounts
      */
-    public function hasEnoughResources(Collection $resourcesAmounts): bool
+    public function hasEnoughResources(CollectionInterface $resourcesAmounts): bool
     {
         Assert::allIsInstanceOf($resourcesAmounts, ResourceAmountInterface::class);
 

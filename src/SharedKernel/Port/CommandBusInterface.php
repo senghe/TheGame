@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel;
+namespace App\SharedKernel\Port;
+
+use App\SharedKernel\CommandInterface;
 
 interface CommandBusInterface
 {

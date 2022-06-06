@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel;
+namespace App\SharedKernel;
 
-use App\Component\SharedKernel\Exception\NonDoctrineGetterCallException;
-use App\Component\SharedKernel\Exception\NonDoctrineSetterCallException;
-use Doctrine\Common\Collections\Collection;
+use App\SharedKernel\Exception\NonDoctrineGetterCallException;
+use App\SharedKernel\Exception\NonDoctrineSetterCallException;
+use App\SharedKernel\Port\CollectionInterface;
 use Tests\Integration\IntegrationTestCase;
 
 trait DoctrineEntityTrait
@@ -21,7 +21,7 @@ trait DoctrineEntityTrait
 
         $reflection = new \ReflectionProperty(self::class, $property);
 
-        $isCollectionProperty = $reflection->getType()->getName() === Collection::class;
+        $isCollectionProperty = $reflection->getType()->getName() === CollectionInterface::class;
         if (is_array($value) && $isCollectionProperty) {
             foreach ($value as $row) {
                 $this->{$property}->add($row);

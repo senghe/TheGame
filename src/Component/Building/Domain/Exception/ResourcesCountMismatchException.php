@@ -3,17 +3,16 @@
 declare(strict_types=1);
 
 namespace App\Component\Building\Domain\Exception;
-
-use Doctrine\Common\Collections\Collection;
+use App\SharedKernel\Port\CollectionInterface;
 use LogicException;
 
 final class ResourcesCountMismatchException extends LogicException
 {
     private array $values;
 
-    private Collection $resources;
+    private CollectionInterface $resources;
 
-    public function __construct(array $values, Collection $resources)
+    public function __construct(array $values, CollectionInterface $resources)
     {
         parent::__construct();
 
@@ -26,7 +25,7 @@ final class ResourcesCountMismatchException extends LogicException
         return $this->values;
     }
 
-    public function getResources(): Collection
+    public function getResources(): CollectionInterface
     {
         return $this->resources;
     }

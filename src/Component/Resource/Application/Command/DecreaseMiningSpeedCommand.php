@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Application\Command;
 
-use App\Component\SharedKernel\CommandInterface;
+use App\SharedKernel\CommandInterface;
 
 final class DecreaseMiningSpeedCommand implements CommandInterface
 {
-    private string $buildingCode;
+    private int $planetId;
 
-    public function __construct(string $buildingCode)
-    {
-        $this->buildingCode = $buildingCode;
+    public function __construct(
+        int $planetId
+    ) {
+        $this->planetId = $planetId;
     }
 
-    public function getBuildingCode(): string
+    public function getPlanetId(): int
     {
-        return $this->buildingCode;
+        return $this->planetId;
     }
 }

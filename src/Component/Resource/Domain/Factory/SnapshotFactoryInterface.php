@@ -6,13 +6,13 @@ namespace App\Component\Resource\Domain\Factory;
 
 use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
-use Doctrine\Common\Collections\Collection;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Port\CollectionInterface;
 
 interface SnapshotFactoryInterface
 {
     /**
-     * @var Collection<ResourceInterface>
+     * @var CollectionInterface<ResourceInterface>
      */
     public function createInitial(PlanetInterface $planet): SnapshotInterface;
 

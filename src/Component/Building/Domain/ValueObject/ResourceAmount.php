@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Building\Domain\ValueObject;
 
-use App\Component\SharedKernel\Domain\Entity\ResourceInterface;
+use App\SharedKernel\Domain\Entity\ResourceInterface;
 
 final class ResourceAmount implements ResourceAmountInterface
 {

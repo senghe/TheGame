@@ -4,18 +4,28 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Application\Command;
 
-use App\Component\SharedKernel\CommandInterface;
+use App\SharedKernel\CommandInterface;
 
 final class ChangeStorageAmountCommand implements CommandInterface
 {
     private string $resourceCode;
 
-    private int $value;
+    private int $amount;
+    private int $planetId;
 
-    public function __construct(string $resourceCode, int $value)
-    {
+    public function __construct(
+        int $planetId,
+        string $resourceCode,
+        int $amount
+    ) {
+        $this->planetId = $planetId;
         $this->resourceCode = $resourceCode;
-        $this->value = $value;
+        $this->amount = $amount;
+    }
+
+    public function getPlanetId(): int
+    {
+        return $this->planetId;
     }
 
     public function getResourceCode(): string
@@ -23,8 +33,8 @@ final class ChangeStorageAmountCommand implements CommandInterface
         return $this->resourceCode;
     }
 
-    public function getValue(): int
+    public function getAmount(): int
     {
-        return $this->value;
+        return $this->amount;
     }
 }

@@ -7,7 +7,7 @@ namespace App\Component\Building\Domain\Service\BuildingMetadata;
 use App\Component\Building\Domain\Entity\BuildingInterface;
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
 use App\Component\Building\Domain\ValueObject\ResourceMiningSpeedInterface;
-use Doctrine\Common\Collections\Collection;
+use App\SharedKernel\Port\CollectionInterface;
 
 final class MetalMineMetadata implements BuildingMetadataInterface
 {
@@ -16,18 +16,23 @@ final class MetalMineMetadata implements BuildingMetadataInterface
         return $building->getCode() === BuildingInterface::CODE_METAL_MINE;
     }
 
+    public function isMine(): bool
+    {
+        return true;
+    }
+
     /**
-     * @return Collection<ResourceAmountInterface>
+     * @return CollectionInterface<ResourceAmountInterface>
      */
-    public function getResourceRequirements(int $level): Collection
+    public function getResourceRequirements(int $level): CollectionInterface
     {
 
     }
 
     /**
-     * @return Collection<ResourceMiningSpeedInterface>
+     * @return CollectionInterface<ResourceMiningSpeedInterface>
      */
-    public function getMiningSpeeds(int $level): Collection
+    public function getMiningSpeeds(int $level): CollectionInterface
     {
 
     }

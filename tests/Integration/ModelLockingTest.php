@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Integration;
 
-use App\Component\SharedKernel\DoctrineEntityTrait;
-use App\Component\SharedKernel\Exception\NonDoctrineGetterCallException;
-use App\Component\SharedKernel\Exception\NonDoctrineSetterCallException;
+use App\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\Exception\NonDoctrineGetterCallException;
+use App\SharedKernel\Exception\NonDoctrineSetterCallException;
 
 class TestedModel
 {

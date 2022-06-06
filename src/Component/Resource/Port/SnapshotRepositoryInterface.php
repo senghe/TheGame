@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Component\Resource\Domain\Port;
+namespace App\Component\Resource\Port;
 
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
 
 interface SnapshotRepositoryInterface
 {

@@ -7,7 +7,7 @@ namespace App\Component\Resource\Domain\Factory;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Entity\StorageInterface;
 use App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface;
-use App\Component\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\Domain\Entity\PlanetInterface;
 
 interface StorageFactoryInterface
 {

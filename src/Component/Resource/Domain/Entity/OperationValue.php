@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Domain\Entity;
 
-use App\Component\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\DoctrineEntityTrait;
 
 class OperationValue implements OperationValueInterface
 {

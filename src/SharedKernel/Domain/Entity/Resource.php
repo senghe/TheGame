@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Component\SharedKernel\Domain\Entity;
+namespace App\SharedKernel\Domain\Entity;
 
-use App\Component\SharedKernel\DoctrineEntityTrait;
+use App\SharedKernel\DoctrineEntityTrait;
 
 class Resource implements ResourceInterface
 {
