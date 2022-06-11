@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Integration;
 
-use App\Component\Resource\Domain\AggregateRootInterface;
+use App\Component\Resource\Domain\AggregateInterface;
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Exception\CannotPerformOperationException;
@@ -18,7 +18,7 @@ use Tests\CodeBase\Repository\SnapshotRepository;
 
 final class ResourceAggregateRootTest extends IntegrationTestCase
 {
-    private AggregateRootInterface $resourcesAggregateRoot;
+    private AggregateInterface $resourcesAggregateRoot;
 
     private ResourceRepository $resourceRepository;
 
@@ -32,7 +32,7 @@ final class ResourceAggregateRootTest extends IntegrationTestCase
     {
         parent::setUp();
 
-        $this->resourcesAggregateRoot = $this->getContainer()->get(AggregateRootInterface::class);
+        $this->resourcesAggregateRoot = $this->getContainer()->get(AggregateInterface::class);
         $this->resourceRepository = $this->getContainer()->get(ResourceRepository::class);
         $this->operationRepository = $this->getContainer()->get(OperationRepository::class);
         $this->snapshotRepository = $this->getContainer()->get(SnapshotRepository::class);

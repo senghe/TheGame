@@ -2,21 +2,21 @@
 
 namespace App\SharedKernel\Exception;
 
-use App\SharedKernel\AggregateRootInterface;
+use App\SharedKernel\AggregateInterface;
 use LogicException;
 
 final class AggregateRootNotBuiltException extends LogicException
 {
-    private AggregateRootInterface $aggregateRoot;
+    private AggregateInterface $aggregateRoot;
 
-    public function __construct(AggregateRootInterface $aggregateRoot)
+    public function __construct(AggregateInterface $aggregateRoot)
     {
         parent::__construct();
 
         $this->aggregateRoot = $aggregateRoot;
     }
 
-    public function getAggregateRoot(): AggregateRootInterface
+    public function getAggregateRoot(): AggregateInterface
     {
         return $this->aggregateRoot;
     }

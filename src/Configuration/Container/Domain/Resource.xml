@@ -4,9 +4,9 @@
     <services>
         <defaults autowire="true" autoconfigure="true" />
 
-        <service id="App\Component\Resource\Domain\AggregateRoot" />
-        <service id="App\Component\Resource\Domain\AggregateRootInterface"
-                 alias="App\Component\Resource\Domain\AggregateRoot" />
+        <service id="ResourceAggregate" />
+        <service id="AggregateInterface"
+                 alias="ResourceAggregate" />
 
         <instanceof id="App\Component\Resource\Domain\Service\ResourceMetadata\ResourceMetadataInterface">
             <tag name="resource.metadata"/>

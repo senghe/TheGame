@@ -4,9 +4,9 @@
     <services>
         <defaults autowire="true" autoconfigure="true" />
 
-        <service id="App\Component\Building\Domain\AggregateRoot" />
-        <service id="App\Component\Building\Domain\AggregateRootInterface"
-                 alias="App\Component\Building\Domain\AggregateRoot" />
+        <service id="BuildingAggregate" />
+        <service id="AggregateInterface"
+                 alias="BuildingAggregate" />
 
         <service id="App\Component\Building\Domain\Factory\ResourceAmountFactory" />
         <service id="App\Component\Building\Domain\Factory\ResourceAmountFactoryInterface"

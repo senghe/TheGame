@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Component\Resource\Domain\Entity;
 
+use App\SharedKernel\EntityInterface;
 use DateTimeInterface;
 
-interface SnapshotInterface
+interface SnapshotInterface extends EntityInterface
 {
-    public function getId(): int;
-
     public function hasEnough(ResourceInterface $resource, int $amount): bool;
 
     public function addStorage(StorageInterface $storage): void;

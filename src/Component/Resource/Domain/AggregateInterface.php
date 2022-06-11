@@ -6,13 +6,10 @@ namespace App\Component\Resource\Domain;
 
 use App\Component\Resource\Domain\Entity\OperationInterface;
 use App\Component\Resource\Domain\Enum\OperationType;
-use App\SharedKernel\AggregateRootInterface as BaseAggregateRootInterface;
-use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\AggregateInterface as BaseAggregateRootInterface;
 
-interface AggregateRootInterface extends BaseAggregateRootInterface
+interface AggregateInterface extends BaseAggregateRootInterface
 {
-    public function build(PlanetInterface $planet): void;
-
     public function performOperation(OperationInterface $operation): void;
 
     public function removeOperationsNotPerformedYet(OperationType $operationType): void;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\SharedKernel;
 
-interface AggregateRootInterface
+interface EntityInterface
 {
-
+    public function getId(): int;
 }

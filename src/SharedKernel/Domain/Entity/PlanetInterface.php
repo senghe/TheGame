@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\SharedKernel\Domain\Entity;
 
 use App\Component\Building\Domain\ValueObject\ResourceAmountInterface;
+use App\SharedKernel\EntityInterface;
 use App\SharedKernel\Port\CollectionInterface;
 
-interface PlanetInterface
+interface PlanetInterface extends EntityInterface
 {
-    public function getId(): int;
-
     public function isInitial(): bool;
 
     /**

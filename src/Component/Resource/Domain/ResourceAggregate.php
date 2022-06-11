@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\Component\Resource\Domain;
 
 use App\Component\Resource\Domain\Entity\OperationInterface;
-use App\Component\Resource\Domain\Entity\ResourceInterface;
 use App\Component\Resource\Domain\Entity\SnapshotInterface;
 use App\Component\Resource\Domain\Enum\OperationType;
 use App\Component\Resource\Domain\Exception\OperatingOnClosedSnapshotException;
 use App\Component\Resource\Domain\Factory\SnapshotFactoryInterface;
 use App\Component\Resource\Port\SnapshotRepositoryInterface;
-use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\EntityInterface;
 use App\SharedKernel\Exception\AggregateRootNotBuiltException;
-use App\SharedKernel\Port\CollectionInterface;
 use DateTime;
+use InvalidArgumentException;
 
-final class AggregateRoot implements AggregateRootInterface
+final class ResourceAggregate implements AggregateInterface
 {
     private SnapshotRepositoryInterface $snapshotRepository;
 
@@ -34,15 +33,10 @@ final class AggregateRoot implements AggregateRootInterface
         $this->snapshotFactory = $snapshotFactory;
     }
 
-    /**
-     * @var CollectionInterface<ResourceInterface>
-     */
-    public function build(PlanetInterface $planet): void
+    public function setAggregateRoot(EntityInterface $currentSnapshot): void
     {
-        $currentSnapshot = $this->snapshotRepository->findLatest($planet);
-        if ($currentSnapshot === null) {
-            $currentSnapshot = $this->snapshotFactory->createInitial($planet);
-            $this->snapshotRepository->add($currentSnapshot);
+        if ($currentSnapshot instanceof SnapshotInterface::class === false) {
+            throw new InvalidArgumentException(sprintf('%s class accepts only %s entities', self::class, SnapshotInterface::class));
         }
 
         $this->currentSnapshot = $currentSnapshot;

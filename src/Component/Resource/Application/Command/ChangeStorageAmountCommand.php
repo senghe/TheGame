@@ -11,6 +11,7 @@ final class ChangeStorageAmountCommand implements CommandInterface
     private string $resourceCode;
 
     private int $amount;
+
     private int $planetId;
 
     public function __construct(

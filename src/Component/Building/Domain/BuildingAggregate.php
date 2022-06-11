@@ -11,9 +11,11 @@ use App\Component\Building\Domain\Exception\ResourceRequirementsNotMetException;
 use App\Component\Building\Domain\Service\BuildingMetadataResolverInterface;
 use App\Component\Building\Port\EventRecorderInterface;
 use App\SharedKernel\Domain\Entity\PlanetInterface;
+use App\SharedKernel\EntityInterface;
 use App\SharedKernel\Exception\AggregateRootNotBuiltException;
+use InvalidArgumentException;
 
-final class AggregateRoot implements AggregateRootInterface
+final class BuildingAggregate implements AggregateInterface
 {
     private EventRecorderInterface $eventRecorder;
 
@@ -31,8 +33,12 @@ final class AggregateRoot implements AggregateRootInterface
         $this->buildingMetadataResolver = $buildingMetadataResolver;
     }
 
-    public function build(PlanetInterface $planet): void
+    public function setAggregateRoot(EntityInterface $planet): void
     {
+        if ($planet instanceof PlanetInterface::class === false) {
+            throw new InvalidArgumentException(sprintf('%s class accepts only %s entities', self::class, PlanetInterface::class));
+        }
+
         $this->planet = $planet;
         $this->isBuilt = true;
     }
