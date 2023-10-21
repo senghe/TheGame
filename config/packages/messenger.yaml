@@ -21,4 +21,4 @@ framework:
             Symfony\Component\Notifier\Message\SmsMessage: async
 
             # Route your messages to the transports
-            # 'App\Message\YourMessage': async
+            # 'TheGame\Message\YourMessage': async
