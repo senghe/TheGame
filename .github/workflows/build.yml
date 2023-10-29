@@ -72,8 +72,8 @@ jobs:
 
             - name: Prepare test application database
               run: |
-                  (cd tests/Application && bin/console doctrine:database:create -vvv)
-                  (cd tests/Application && bin/console doctrine:schema:create -vvv)
+                  bin/console doctrine:database:create -vvv
+                  bin/console doctrine:schema:create -vvv
 
             - name: Prepare test application cache
               run: (cd tests/Application && bin/console cache:warmup -vvv)
