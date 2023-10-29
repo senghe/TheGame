@@ -1,4 +1,6 @@
 {
+    "name": "senghe/the-game",
+    "description": "A simple strategy, browser game about space warships",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
