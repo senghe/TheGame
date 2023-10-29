@@ -15,6 +15,7 @@ use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 
 class StoragesCollection
 {
+    /** @var Collection<int, Storage> */
     protected Collection $storages;
 
     public function __construct(

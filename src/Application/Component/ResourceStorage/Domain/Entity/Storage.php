@@ -56,7 +56,7 @@ class Storage
             throw new InsufficientResourcesException($planetId, $amount);
         }
 
-        $this->currentAmount -= $amount->amount;
+        $this->currentAmount -= $amount->getAmount();
     }
 
     public function dispatch(int $amount): void
@@ -65,7 +65,7 @@ class Storage
 
         $reachedLimit = $this->limit !== null && $this->currentAmount > $this->limit;
         if ($reachedLimit) {
-            $this->currentAmount = $this->limit;
+            $this->currentAmount = (int) $this->limit;
         }
     }
 

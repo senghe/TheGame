@@ -8,9 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use TheGame\Application\Component\ResourceMiners\Domain\MinesCollectionIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 
 class MinesCollection
 {
+    /** @var Collection<int, Mine> */
     private Collection $mines;
 
     public function __construct(
@@ -30,6 +32,7 @@ class MinesCollection
         return $this->mines->isEmpty();
     }
 
+    /** @return ResourceAmountInterface[] */
     public function extract(): array
     {
         $result = [];
