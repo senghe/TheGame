@@ -81,8 +81,9 @@ jobs:
             - name: Validate composer.json
               run: composer validate --ansi --strict --no-check-lock
 
-            - name: Validate database schema
-              run: bin/console doctrine:schema:validate
+#           Commented out, as we currently have no database mappings
+#            - name: Validate database schema
+#              run: bin/console doctrine:schema:validate
 
             - name: Run ECS
               run: vendor/bin/ecs check
