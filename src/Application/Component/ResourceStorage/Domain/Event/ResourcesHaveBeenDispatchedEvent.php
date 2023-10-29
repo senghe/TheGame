@@ -13,6 +13,5 @@ final class ResourcesHaveBeenDispatchedEvent implements EventInterface
         public readonly string $resourceId,
         public readonly int $amount,
     ) {
-
     }
 }

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
-use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInterface;
 use DateTimeInterface;
 use Doctrine\Common\Collections\Collection;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
+use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 
@@ -19,7 +19,6 @@ class StoragesCollection
         protected Collection $storages,
         protected DateTimeInterface $updatedAt,
     ) {
-
     }
 
     public function getId(): StoragesCollectionIdInterface

@@ -9,11 +9,10 @@ final class PlanetId implements PlanetIdInterface
     public function __construct(
         private readonly string $id
     ) {
-
     }
 
-     public function getUuid(): string
-     {
-         return $this->id;
-     }
+    public function getUuid(): string
+    {
+        return $this->id;
+    }
 }

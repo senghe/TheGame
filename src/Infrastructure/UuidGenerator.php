@@ -11,6 +11,5 @@ final class UuidGenerator implements UuidGeneratorInterface
 {
     public function generateNewStorageId(): StorageIdInterface
     {
-
     }
 }

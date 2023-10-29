@@ -17,7 +17,6 @@ final class StorageFactory
     public function __construct(
         private readonly UuidGeneratorInterface $uuidGenerator,
     ) {
-
     }
 
     public function createNew(ResourceIdInterface $resourceId): Storage

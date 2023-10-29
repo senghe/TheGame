@@ -20,7 +20,6 @@ final class UseResourcesCommandHandler
         private readonly ResourceStoragesRepositoryInterface $storagesRepository,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(UseResourcesCommand $command): void

@@ -9,7 +9,6 @@ final class StorageCollectionId implements StoragesCollectionIdInterface
     public function __construct(
         private readonly string $id
     ) {
-
     }
 
     public function getUuid(): string

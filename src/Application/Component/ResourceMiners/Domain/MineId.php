@@ -9,7 +9,6 @@ final class MineId implements MineIdInterface
     public function __construct(
         private readonly string $id
     ) {
-
     }
 
     public function getUuid(): string

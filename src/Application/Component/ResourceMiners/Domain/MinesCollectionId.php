@@ -9,7 +9,6 @@ final class MinesCollectionId implements MinesCollectionIdInterface
     public function __construct(
         private readonly string $id
     ) {
-
     }
 
     public function getUuid(): string

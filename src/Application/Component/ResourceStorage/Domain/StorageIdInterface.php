@@ -8,5 +8,4 @@ use TheGame\Application\SharedKernel\UuidInterface;
 
 interface StorageIdInterface extends UuidInterface
 {
-
 }

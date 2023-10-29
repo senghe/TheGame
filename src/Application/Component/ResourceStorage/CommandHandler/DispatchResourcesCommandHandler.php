@@ -21,7 +21,6 @@ final class DispatchResourcesCommandHandler
         private readonly StorageFactory $storageFactory,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(DispatchResourcesCommand $command): void

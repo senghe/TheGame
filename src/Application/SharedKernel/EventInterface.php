@@ -6,5 +6,4 @@ namespace TheGame\Application\SharedKernel;
 
 interface EventInterface
 {
-
 }

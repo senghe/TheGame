@@ -16,7 +16,6 @@ final class ExtractResourcesCommandHandler
         private readonly ResourceMinersRepositoryInterface $minersRepository,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(ExtractResourcesCommand $command): void

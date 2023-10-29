@@ -12,6 +12,5 @@ final class StorageAmountHasChangedEvent implements EventInterface
         public readonly string $planetId,
         public readonly string $resourceId,
     ) {
-
     }
 }

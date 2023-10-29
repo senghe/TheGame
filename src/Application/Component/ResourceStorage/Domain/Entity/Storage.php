@@ -18,7 +18,6 @@ class Storage
         protected int $currentAmount,
         protected ?int $limit = null,
     ) {
-
     }
 
     public function getId(): StorageId
