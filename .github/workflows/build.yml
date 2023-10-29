@@ -76,13 +76,13 @@ jobs:
                   bin/console doctrine:schema:create -vvv
 
             - name: Prepare test application cache
-              run: (cd bin/console cache:warmup -vvv)
+              run: bin/console cache:warmup -vvv
 
             - name: Validate composer.json
               run: composer validate --ansi --strict
 
             - name: Validate database schema
-              run: (cd bin/console doctrine:schema:validate)
+              run: bin/console doctrine:schema:validate
 
             - name: Run ECS
               run: vendor/bin/ecs check
