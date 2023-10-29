@@ -13,6 +13,7 @@ final class ExtractResourcesCommandSpec extends ObjectBehavior
     {
         $planetId = "d8391d08-7c2e-40d8-b60c-a7c982e5e19e";
         $resourceId = "b9d07968-c016-4485-9796-7c6f3a3ed2ed";
+        $amount = 10;
 
         $this->beConstructedWith($planetId, $resourceId, $amount);
     }
