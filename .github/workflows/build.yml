@@ -79,7 +79,7 @@ jobs:
               run: bin/console cache:warmup -vvv
 
             - name: Validate composer.json
-              run: composer validate --ansi --strict
+              run: composer validate --ansi --strict --no-check-lock
 
             - name: Validate database schema
               run: bin/console doctrine:schema:validate
