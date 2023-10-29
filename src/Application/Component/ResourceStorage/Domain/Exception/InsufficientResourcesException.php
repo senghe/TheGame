@@ -6,20 +6,20 @@ namespace TheGame\Application\Component\ResourceStorage\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceAmount;
+use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 
 final class InsufficientResourcesException extends DomainException
 {
     public function __construct(
         PlanetIdInterface $planetId,
-        ResourceAmount $amount,
+        ResourceAmountInterface $amount,
     ) {
         parent::__construct(
             sprintf(
                 'Cannot use %d amount of resource %s on planet %s',
-                $amount->amount,
+                $amount->getAmount(),
                 $planetId->getUuid(),
-                $amount->resourceId->getUuid(),
+                $amount->getResourceId()->getUuid(),
             ),
         );
     }

@@ -25,6 +25,11 @@ class MinesCollection
         return $this->id;
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->mines->isEmpty();
+    }
+
     public function extract(): array
     {
         $result = [];

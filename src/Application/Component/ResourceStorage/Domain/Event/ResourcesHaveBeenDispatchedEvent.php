@@ -9,9 +9,24 @@ use TheGame\Application\SharedKernel\EventInterface;
 final class ResourcesHaveBeenDispatchedEvent implements EventInterface
 {
     public function __construct(
-        public readonly string $planetId,
-        public readonly string $resourceId,
-        public readonly int $amount,
+        private readonly string $planetId,
+        private readonly string $resourceId,
+        private readonly int $amount,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
+    }
+
+    public function getResourceId(): string
+    {
+        return $this->resourceId;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 }

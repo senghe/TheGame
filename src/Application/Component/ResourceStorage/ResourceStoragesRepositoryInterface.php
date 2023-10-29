@@ -9,5 +9,5 @@ use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 
 interface ResourceStoragesRepositoryInterface
 {
-    public function findForPlanet(PlanetIdInterface $planetId): StoragesCollection;
+    public function findForPlanet(PlanetIdInterface $planetId): ?StoragesCollection;
 }

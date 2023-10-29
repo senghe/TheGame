@@ -8,7 +8,7 @@ use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
 use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
-final class StorageFactory
+final class StorageFactory implements StorageFactoryInterface
 {
     private const DEFAULT_STORAGE_LIMIT = 10000;
 

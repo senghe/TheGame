@@ -13,6 +13,7 @@ use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\EventBusInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UseResourcesCommandHandler
 {
@@ -24,11 +25,14 @@ final class UseResourcesCommandHandler
 
     public function __invoke(UseResourcesCommand $command): void
     {
-        $planetId = new PlanetId($command->planetId);
+        $planetId = new PlanetId($command->getPlanetId());
         $storages = $this->storagesRepository->findForPlanet($planetId);
+        if ($storages === null) {
+            throw new InconsistentModelException(sprintf("Planet %d has no storages collection attached", $command->getPlanetId()));
+        }
 
-        $resourceId = new ResourceId($command->resourceId);
-        $amount = new ResourceAmount($resourceId, $command->amount);
+        $resourceId = new ResourceId($command->getResourceId());
+        $amount = new ResourceAmount($resourceId, $command->getAmount());
 
         if ($storages->supports($amount) === false) {
             throw new CannotUseUnsupportedResourceException(
@@ -46,8 +50,8 @@ final class UseResourcesCommandHandler
         $storages->use($amount);
 
         $event = new StorageAmountHasChangedEvent(
-            $command->planetId,
-            $command->resourceId,
+            $command->getPlanetId(),
+            $command->getResourceId(),
         );
         $this->eventBus->dispatch($event);
     }

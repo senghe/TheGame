@@ -9,5 +9,5 @@ use TheGame\Application\SharedKernel\Domain\PlanetId;
 
 interface ResourceMinersRepositoryInterface
 {
-    public function findForPlanet(PlanetId $planetId): MinesCollection;
+    public function findForPlanet(PlanetId $planetId): ?MinesCollection;
 }

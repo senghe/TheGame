@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceStorage\Command;
 
 use TheGame\Application\Component\ResourceStorage\Exception\InvalidUseAmountException;
+use TheGame\Application\SharedKernel\CommandInterface;
 
-final class UseResourcesCommand
+final class UseResourcesCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $planetId,
-        public readonly string $resourceId,
-        public readonly int $amount,
+        private readonly string $planetId,
+        private readonly string $resourceId,
+        private readonly int $amount,
     ) {
         if ($this->amount <= 0) {
             throw new InvalidUseAmountException(
@@ -20,5 +21,20 @@ final class UseResourcesCommand
                 $this->amount
             );
         }
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
+    }
+
+    public function getResourceId(): string
+    {
+        return $this->resourceId;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 }

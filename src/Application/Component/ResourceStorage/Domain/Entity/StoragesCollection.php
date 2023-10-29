@@ -5,20 +5,24 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
+use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceAmount;
+use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 
 class StoragesCollection
 {
+    protected Collection $storages;
+
     public function __construct(
         protected readonly StoragesCollectionIdInterface $id,
         protected readonly PlanetId $planetId,
-        protected Collection $storages,
         protected DateTimeInterface $updatedAt,
     ) {
+        $this->storages = new ArrayCollection([]);
     }
 
     public function getId(): StoragesCollectionIdInterface
@@ -31,7 +35,7 @@ class StoragesCollection
         $this->storages->add($storage);
     }
 
-    public function supports(ResourceAmount $resourceAmount): bool
+    public function supports(ResourceAmountInterface $resourceAmount): bool
     {
         foreach ($this->storages as $storage) {
             if ($storage->supports($resourceAmount) === true) {
@@ -42,7 +46,7 @@ class StoragesCollection
         return false;
     }
 
-    public function hasEnough(ResourceAmount $resourceAmount): bool
+    public function hasEnough(ResourceAmountInterface $resourceAmount): bool
     {
         foreach ($this->storages as $storage) {
             if ($storage->supports($resourceAmount) === true) {
@@ -53,13 +57,20 @@ class StoragesCollection
         return false;
     }
 
-    public function use(ResourceAmount $resourceAmount): void
+    public function use(ResourceAmountInterface $resourceAmount): void
     {
         foreach ($this->storages as $storage) {
             if ($storage->supports($resourceAmount) === true) {
-                $storage->use($this->planetId, $resourceAmount);
+                if ($storage->hasEnough($resourceAmount)) {
+                    $storage->use($this->planetId, $resourceAmount);
 
-                return;
+                    return;
+                }
+
+                throw new InsufficientResourcesException(
+                    $this->planetId,
+                    $resourceAmount,
+                );
             }
         }
 
@@ -69,11 +80,13 @@ class StoragesCollection
         );
     }
 
-    public function dispatch(ResourceAmount $resourceAmount): void
+    public function dispatch(ResourceAmountInterface $resourceAmount): void
     {
         foreach ($this->storages as $storage) {
             if ($storage->supports($resourceAmount)) {
-                $storage->dispatch($resourceAmount);
+                $storage->dispatch($resourceAmount->getAmount());
+
+                return;
             }
         }
     }

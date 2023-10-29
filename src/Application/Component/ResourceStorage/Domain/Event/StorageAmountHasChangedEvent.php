@@ -9,8 +9,18 @@ use TheGame\Application\SharedKernel\EventInterface;
 final class StorageAmountHasChangedEvent implements EventInterface
 {
     public function __construct(
-        public readonly string $planetId,
-        public readonly string $resourceId,
+        private readonly string $planetId,
+        private readonly string $resourceId,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
+    }
+
+    public function getResourceId(): string
+    {
+        return $this->resourceId;
     }
 }

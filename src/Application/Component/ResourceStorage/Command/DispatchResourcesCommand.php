@@ -10,9 +10,9 @@ use TheGame\Application\SharedKernel\CommandInterface;
 final class DispatchResourcesCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $planetId,
-        public readonly string $resourceId,
-        public readonly int $amount,
+        private readonly string $planetId,
+        private readonly string $resourceId,
+        private readonly int $amount,
     ) {
         if ($this->amount <= 0) {
             throw new InvalidDispatchAmountException(
@@ -21,5 +21,20 @@ final class DispatchResourcesCommand implements CommandInterface
                 $this->amount
             );
         }
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
+    }
+
+    public function getResourceId(): string
+    {
+        return $this->resourceId;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 }

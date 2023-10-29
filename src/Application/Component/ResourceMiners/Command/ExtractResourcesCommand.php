@@ -9,7 +9,12 @@ use TheGame\Application\SharedKernel\CommandInterface;
 final class ExtractResourcesCommand implements CommandInterface
 {
     public function __construct(
-        public readonly string $planetId,
+        private readonly string $planetId,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
     }
 }

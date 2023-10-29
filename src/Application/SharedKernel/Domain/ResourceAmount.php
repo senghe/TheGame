@@ -6,11 +6,11 @@ namespace TheGame\Application\SharedKernel\Domain;
 
 use TheGame\Application\SharedKernel\Domain\Exception\InvalidResourceAmountException;
 
-final class ResourceAmount
+final class ResourceAmount implements ResourceAmountInterface
 {
     public function __construct(
-        public readonly ResourceIdInterface $resourceId,
-        public readonly int $amount,
+        private readonly ResourceIdInterface $resourceId,
+        private readonly int $amount,
     ) {
         if ($this->amount <= 0) {
             throw new InvalidResourceAmountException(
@@ -18,5 +18,15 @@ final class ResourceAmount
                 $this->amount
             );
         }
+    }
+
+    public function getResourceId(): ResourceIdInterface
+    {
+        return $this->resourceId;
+    }
+
+    public function getAmount(): int
+    {
+        return $this->amount;
     }
 }

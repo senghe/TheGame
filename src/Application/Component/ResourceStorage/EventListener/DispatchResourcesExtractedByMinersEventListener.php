@@ -18,9 +18,9 @@ final class DispatchResourcesExtractedByMinersEventListener
     public function __invoke(ResourceHasBeenExtractedEvent $event): void
     {
         $command = new DispatchResourcesCommand(
-            $event->planetId,
-            $event->resourceId,
-            $event->amount,
+            $event->getPlanetId(),
+            $event->getResourceId(),
+            $event->getAmount(),
         );
         $this->commandBus->dispatch($command);
     }

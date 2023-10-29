@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DateTimeInterface;
 use TheGame\Application\Component\ResourceMiners\Domain\MineIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
+use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
 class Mine
@@ -32,10 +33,11 @@ class Mine
 
     public function upgrade(): void
     {
+        $this->currentLevel++;
         $this->currentMiningSpeed = $this->baseMiningSpeed * $this->miningMultiplier * $this->currentLevel;
     }
 
-    public function extract(): ResourceAmount
+    public function extract(): ResourceAmountInterface
     {
         $now = new DateTimeImmutable();
         $diffInSeconds = $now->getTimestamp() - $this->extractedAt->getTimestamp();
