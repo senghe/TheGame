@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\Domain\Event;
+namespace TheGame\Application\Component\ResourceMines\Domain\Event;
 
 use TheGame\Application\SharedKernel\EventInterface;
 

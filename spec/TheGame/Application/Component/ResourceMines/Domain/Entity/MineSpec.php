@@ -2,22 +2,17 @@
 
 declare(strict_types=1);
 
-namespace spec\TheGame\Application\Component\ResourceMiners\Domain\Entity;
+namespace spec\TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
-use TheGame\Application\Component\ResourceMiners\Domain\MineId;
-use TheGame\Application\Component\ResourceMiners\Domain\MineIdInterface;
+use TheGame\Application\Component\ResourceMines\Domain\MineId;
+use TheGame\Application\Component\ResourceMines\Domain\MineIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class MineSpec extends ObjectBehavior
 {
-    public function let(
-
-    ): void {
-    }
-
     public function it_has_identifier(): void
     {
         $mineId = new MineId("df58a284-9255-4467-8a09-4d9296d6af60");

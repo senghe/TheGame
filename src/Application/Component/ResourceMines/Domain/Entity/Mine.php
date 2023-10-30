@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\Domain\Entity;
+namespace TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use TheGame\Application\Component\ResourceMiners\Domain\MineIdInterface;
+use TheGame\Application\Component\ResourceMines\Domain\MineIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;

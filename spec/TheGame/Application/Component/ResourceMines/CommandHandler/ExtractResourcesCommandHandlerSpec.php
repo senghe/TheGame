@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace spec\TheGame\Application\Component\ResourceMiners\CommandHandler;
+namespace spec\TheGame\Application\Component\ResourceMines\CommandHandler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use TheGame\Application\Component\ResourceMiners\Command\ExtractResourcesCommand;
-use TheGame\Application\Component\ResourceMiners\Domain\Entity\MinesCollection;
-use TheGame\Application\Component\ResourceMiners\Domain\Event\ResourceHasBeenExtractedEvent;
-use TheGame\Application\Component\ResourceMiners\ResourceMinersRepositoryInterface;
+use TheGame\Application\Component\ResourceMines\Command\ExtractResourcesCommand;
+use TheGame\Application\Component\ResourceMines\Domain\Entity\MinesCollection;
+use TheGame\Application\Component\ResourceMines\Domain\Event\ResourceHasBeenExtractedEvent;
+use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
@@ -19,14 +19,14 @@ use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 final class ExtractResourcesCommandHandlerSpec extends ObjectBehavior
 {
     public function let(
-        ResourceMinersRepositoryInterface $minersRepository,
+        ResourceMinesRepositoryInterface $minesRepository,
         EventBusInterface $eventBus,
     ): void {
-        $this->beConstructedWith($minersRepository, $eventBus);
+        $this->beConstructedWith($minesRepository, $eventBus);
     }
 
     public function it_extracts_two_kind_of_resources(
-        ResourceMinersRepositoryInterface $minersRepository,
+        ResourceMinesRepositoryInterface $minesRepository,
         EventBusInterface $eventBus,
         MinesCollection $minesCollection,
         ResourceAmountInterface $firstMineResourcesAmount,
@@ -35,7 +35,7 @@ final class ExtractResourcesCommandHandlerSpec extends ObjectBehavior
         $planetId = "777597c4-60e8-4043-a2dd-c52267a6eb9a";
         $command = new ExtractResourcesCommand($planetId);
 
-        $minersRepository->findForPlanet(new PlanetId($planetId))
+        $minesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn($minesCollection);
 
         $minesCollection->isEmpty()->willReturn(false);
@@ -60,13 +60,13 @@ final class ExtractResourcesCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_do_nothing_when_planet_has_no_mines(
-        ResourceMinersRepositoryInterface $minersRepository,
+        ResourceMinesRepositoryInterface $minesRepository,
         MinesCollection $minesCollection,
     ): void {
         $planetId = "777597c4-60e8-4043-a2dd-c52267a6eb9a";
         $command = new ExtractResourcesCommand($planetId);
 
-        $minersRepository->findForPlanet(new PlanetId($planetId))
+        $minesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn($minesCollection);
 
         $minesCollection->isEmpty()->willReturn(true);
@@ -75,12 +75,12 @@ final class ExtractResourcesCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_throws_exception_when_planet_has_no_mines_collection_which_is_obligatory(
-        ResourceMinersRepositoryInterface $minersRepository,
+        ResourceMinesRepositoryInterface $minesRepository,
     ): void {
         $planetId = "777597c4-60e8-4043-a2dd-c52267a6eb9a";
         $command = new ExtractResourcesCommand($planetId);
 
-        $minersRepository->findForPlanet(new PlanetId($planetId))
+        $minesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn(null);
 
         $this->shouldThrow(InconsistentModelException::class)

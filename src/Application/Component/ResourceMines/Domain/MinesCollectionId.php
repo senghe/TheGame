@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\Domain;
+namespace TheGame\Application\Component\ResourceMines\Domain;
 
-final class MineId implements MineIdInterface
+final class MinesCollectionId implements MinesCollectionIdInterface
 {
     public function __construct(
         private readonly string $id

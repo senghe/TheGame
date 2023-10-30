@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\ResourceStorage\EventListener;
 
-use TheGame\Application\Component\ResourceMiners\Domain\Event\ResourceHasBeenExtractedEvent;
+use TheGame\Application\Component\ResourceMines\Domain\Event\ResourceHasBeenExtractedEvent;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
 
-final class DispatchResourcesExtractedByMinersEventListener
+final class DispatchResourcesExtractedByMinesEventListener
 {
     public function __construct(
         private readonly CommandBusInterface $commandBus,

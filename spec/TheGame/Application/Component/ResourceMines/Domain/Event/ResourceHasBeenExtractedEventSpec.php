@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace spec\TheGame\Application\Component\ResourceMiners\Domain\Event;
+namespace spec\TheGame\Application\Component\ResourceMines\Domain\Event;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\SharedKernel\EventInterface;

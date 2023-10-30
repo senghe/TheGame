@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\CommandHandler;
+namespace TheGame\Application\Component\ResourceMines\CommandHandler;
 
-use TheGame\Application\Component\ResourceMiners\Command\ExtractResourcesCommand;
-use TheGame\Application\Component\ResourceMiners\Domain\Event\ResourceHasBeenExtractedEvent;
-use TheGame\Application\Component\ResourceMiners\ResourceMinersRepositoryInterface;
+use TheGame\Application\Component\ResourceMines\Command\ExtractResourcesCommand;
+use TheGame\Application\Component\ResourceMines\Domain\Event\ResourceHasBeenExtractedEvent;
+use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
@@ -14,7 +14,7 @@ use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 final class ExtractResourcesCommandHandler
 {
     public function __construct(
-        private readonly ResourceMinersRepositoryInterface $minersRepository,
+        private readonly ResourceMinesRepositoryInterface $minesRepository,
         private readonly EventBusInterface $eventBus,
     ) {
     }
@@ -22,16 +22,16 @@ final class ExtractResourcesCommandHandler
     public function __invoke(ExtractResourcesCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $minersCollection = $this->minersRepository->findForPlanet($planetId);
-        if ($minersCollection === null) {
-            throw new InconsistentModelException(sprintf("Planet %d has no miners collection attached", $command->getPlanetId()));
+        $minesCollection = $this->minesRepository->findForPlanet($planetId);
+        if ($minesCollection === null) {
+            throw new InconsistentModelException(sprintf("Planet %d has no mines collection attached", $command->getPlanetId()));
         }
 
-        if ($minersCollection->isEmpty()) {
+        if ($minesCollection->isEmpty()) {
             return;
         }
 
-        $extractionResult = $minersCollection->extract();
+        $extractionResult = $minesCollection->extract();
 
         foreach ($extractionResult as $resourceAmount) {
             $event = new ResourceHasBeenExtractedEvent(

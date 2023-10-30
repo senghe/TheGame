@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace spec\TheGame\Application\Component\ResourceMiners\Command;
+namespace spec\TheGame\Application\Component\ResourceMines\Command;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\SharedKernel\CommandInterface;

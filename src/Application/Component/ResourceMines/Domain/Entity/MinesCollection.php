@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\Domain\Entity;
+namespace TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use TheGame\Application\Component\ResourceMiners\Domain\MinesCollectionIdInterface;
+use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace spec\TheGame\Application\Component\ResourceMiners\Domain\Entity;
+namespace spec\TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use PhpSpec\ObjectBehavior;
-use TheGame\Application\Component\ResourceMiners\Domain\Entity\Mine;
-use TheGame\Application\Component\ResourceMiners\Domain\MinesCollectionId;
+use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
+use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;

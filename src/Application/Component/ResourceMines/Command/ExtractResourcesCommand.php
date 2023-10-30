@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\ResourceMiners\Command;
+namespace TheGame\Application\Component\ResourceMines\Command;
 
 use TheGame\Application\SharedKernel\CommandInterface;
 

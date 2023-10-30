@@ -6,11 +6,11 @@ namespace spec\TheGame\Application\Component\ResourceStorage\EventListener;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use TheGame\Application\Component\ResourceMiners\Domain\Event\ResourceHasBeenExtractedEvent;
+use TheGame\Application\Component\ResourceMines\Domain\Event\ResourceHasBeenExtractedEvent;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
 
-final class DispatchResourcesExtractedByMinersEventListenerSpec extends ObjectBehavior
+final class DispatchResourcesExtractedByMinesEventListenerSpec extends ObjectBehavior
 {
     public function let(CommandBusInterface $commandBus): void
     {
