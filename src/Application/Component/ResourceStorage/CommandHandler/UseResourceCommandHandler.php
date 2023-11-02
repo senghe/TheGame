@@ -15,7 +15,7 @@ use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
-final class UseResourcesCommandHandler
+final class UseResourceCommandHandler
 {
     public function __construct(
         private readonly ResourceStoragesRepositoryInterface $storagesRepository,

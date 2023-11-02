@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Exception\InvalidUseAmountException;
 use TheGame\Application\SharedKernel\CommandInterface;
 
-final class UseResourcesCommandSpec extends ObjectBehavior
+final class UseResourceCommandSpec extends ObjectBehavior
 {
     public function let(): void
     {
