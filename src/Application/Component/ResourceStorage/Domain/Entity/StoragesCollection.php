@@ -12,6 +12,7 @@ use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientR
 use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
+use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 class StoragesCollection
 {
@@ -47,15 +48,30 @@ class StoragesCollection
         return false;
     }
 
-    public function hasEnough(ResourceAmountInterface $resourceAmount): bool
+    public function hasEnough(ResourceRequirementsInterface $requirements): bool
     {
+        $requirementsArray = $requirements->getAll();
         foreach ($this->storages as $storage) {
-            if ($storage->supports($resourceAmount) === true) {
-                return $storage->hasEnough($resourceAmount);
+            foreach ($requirementsArray as $requirement) {
+                if ($storage->supports($requirement) === false) {
+                    return false;
+                }
             }
         }
 
-        return false;
+        foreach ($requirementsArray as $requirement) {
+            foreach ($this->storages as $storage) {
+                if ($storage->supports($requirement) === false) {
+                    continue;
+                }
+
+                if ($storage->hasEnough($requirement) === false) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public function use(ResourceAmountInterface $resourceAmount): void

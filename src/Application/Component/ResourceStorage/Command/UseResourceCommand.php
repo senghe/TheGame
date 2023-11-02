@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\ResourceStorage\Command;
 use TheGame\Application\Component\ResourceStorage\Exception\InvalidUseAmountException;
 use TheGame\Application\SharedKernel\CommandInterface;
 
-final class UseResourcesCommand implements CommandInterface
+final class UseResourceCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $planetId,

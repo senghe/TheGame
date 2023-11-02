@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
-use TheGame\Application\Component\BuildingConstruction\Command\FinishConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingType;
-use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenFinishedEvent;
+use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
-final class FinishConstructingCommandHandler
+final class CancelConstructingCommandHandler
 {
     public function __construct(
         private readonly BuildingRepositoryInterface $buildingRepository,
@@ -20,7 +20,7 @@ final class FinishConstructingCommandHandler
     ) {
     }
 
-    public function __invoke(FinishConstructingCommand $command): void
+    public function __invoke(CancelConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
         $buildingType = new BuildingType($command->getBuildingType());
@@ -33,9 +33,9 @@ final class FinishConstructingCommandHandler
             );
         }
 
-        $building->finishUpgrading();
+        $building->cancelUpgrading();
 
-        $event = new BuildingConstructionHasBeenFinishedEvent(
+        $event = new BuildingConstructionHasBeenCancelledEvent(
             $command->getPlanetId(),
             $command->getBuildingType(),
         );

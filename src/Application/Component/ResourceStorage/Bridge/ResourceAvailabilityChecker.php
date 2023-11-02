@@ -6,7 +6,8 @@ namespace TheGame\Application\Component\ResourceStorage\Bridge;
 
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
+use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class ResourceAvailabilityChecker
 {
@@ -15,18 +16,17 @@ final class ResourceAvailabilityChecker
     ) {
     }
 
-    /** @var ResourceAmountInterface[] $resourcesAmounts */
     public function check(
         PlanetIdInterface $planetId,
-        array $resourcesAmounts
+        ResourceRequirementsInterface $requirements
     ): bool {
         $aggregate = $this->storagesRepository->findForPlanet($planetId);
-        foreach ($resourcesAmounts as $resourceAmount) {
-            if ($aggregate->hasEnough($resourceAmount) === false) {
-                return false;
-            }
+        if ($aggregate === null) {
+            throw new InconsistentModelException(
+                sprintf("Planet %d has no storages collection attached", $planetId->getUuid()),
+            );
         }
 
-        return true;
+        return $aggregate->hasEnough($requirements);
     }
 }
