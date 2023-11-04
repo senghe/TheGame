@@ -109,9 +109,8 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getResourceId()
             ->willReturn(new ResourceId("3a58570a-bf32-4bd2-9a65-1fa26567b80b"));
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
         $this->shouldThrow(CannotUseUnsupportedResourceException::class)
-            ->during('use', [$planetId, $resourceAmount]);
+            ->during('use', [$resourceAmount]);
     }
 
     public function it_throws_exception_when_using_more_resources_than_already_have(
@@ -123,9 +122,8 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getAmount()
             ->willReturn(500);
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
         $this->shouldThrow(InsufficientResourcesException::class)
-            ->during('use', [$planetId, $resourceAmount]);
+            ->during('use', [$resourceAmount]);
     }
 
     public function it_dispatches_amount_without_limit_specified(): void

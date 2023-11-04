@@ -5,14 +5,17 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageCollectionId;
+use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 final class StoragesCollectionSpec extends ObjectBehavior
 {
@@ -66,11 +69,16 @@ final class StoragesCollectionSpec extends ObjectBehavior
             ->shouldReturn(false);
     }
 
-    public function it_has_enough_resources_for_resource_amount(
+    public function it_has_enough_resources_for_supported_resources(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
+        ResourceRequirementsInterface $resourceRequirements,
     ): void {
         $this->add($storage);
+
+        $resourceRequirements->getAll()->willReturn([
+            $resourceAmount->getWrappedObject(),
+        ]);
 
         $storage->supports($resourceAmount)
             ->willReturn(true);
@@ -78,15 +86,20 @@ final class StoragesCollectionSpec extends ObjectBehavior
         $storage->hasEnough($resourceAmount)
             ->willReturn(true);
 
-        $this->hasEnough($resourceAmount)
+        $this->hasEnough($resourceRequirements)
             ->shouldReturn(true);
     }
 
-    public function it_hasnt_enough_resources_for_resource_amount_while_supporting_resource(
+    public function it_hasnt_enough_resources_for_supported_resource(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
+        ResourceRequirementsInterface $resourceRequirements,
     ): void {
         $this->add($storage);
+
+        $resourceRequirements->getAll()->willReturn([
+            $resourceAmount->getWrappedObject(),
+        ]);
 
         $storage->supports($resourceAmount)
             ->willReturn(true);
@@ -94,20 +107,25 @@ final class StoragesCollectionSpec extends ObjectBehavior
         $storage->hasEnough($resourceAmount)
             ->willReturn(false);
 
-        $this->hasEnough($resourceAmount)
+        $this->hasEnough($resourceRequirements)
             ->shouldReturn(false);
     }
 
-    public function it_hasnt_enough_resources_for_resource_amount_becouse_of_not_supporting_resource(
+    public function it_hasnt_enough_resources_because_of_not_supported_resource(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
+        ResourceRequirementsInterface $resourceRequirements,
     ): void {
         $this->add($storage);
+
+        $resourceRequirements->getAll()->willReturn([
+            $resourceAmount->getWrappedObject(),
+        ]);
 
         $storage->supports($resourceAmount)
             ->willReturn(false);
 
-        $this->hasEnough($resourceAmount)
+        $this->hasEnough($resourceRequirements)
             ->shouldReturn(false);
     }
 
@@ -159,6 +177,9 @@ final class StoragesCollectionSpec extends ObjectBehavior
             ->willReturn(new ResourceId($resourceId));
         $resourceAmount->getAmount()
             ->willReturn(10);
+
+        $storageId = "65B35793-C142-48E2-A86E-CEEB96584C92";
+        $storage->getId()->willReturn(new StorageId($storageId));
 
         $storage->supports($resourceAmount)
             ->willReturn(true);

@@ -22,8 +22,6 @@ final class MineSpec extends ObjectBehavior
             $mineId,
             $resourceId,
             60,
-            60,
-            1.0,
             new DateTimeImmutable("1 second ago"),
         );
 
@@ -40,8 +38,6 @@ final class MineSpec extends ObjectBehavior
             $mineId,
             $resourceId,
             60,
-            60,
-            1.0,
             new DateTimeImmutable("1 second ago"),
         );
 
@@ -60,12 +56,10 @@ final class MineSpec extends ObjectBehavior
             $mineId,
             $resourceId,
             60,
-            60,
-            1.0,
             new DateTimeImmutable("1 second ago"),
         );
 
-        $this->upgradeMiningSpeed();
+        $this->upgradeMiningSpeed(120);
 
         $extractedData = $this->extract();
         $extractedData->shouldHaveType(ResourceAmount::class);
@@ -82,8 +76,6 @@ final class MineSpec extends ObjectBehavior
             $mineId,
             $resourceId,
             60,
-            60,
-            1.0,
             new DateTimeImmutable("10 seconds ago"),
         );
 
