@@ -11,10 +11,18 @@ final class ResourceMineConstructionHasBeenFinishedEvent extends BuildingConstru
 {
     public function __construct(
         private readonly string $planetId,
+        private readonly string $resourceContextId,
+        private readonly int $currentLevel,
     ) {
         return parent::__construct(
             $this->planetId,
-            BuildingType::ResourceMine->value
+            BuildingType::ResourceMine->value,
+            $this->currentLevel,
         );
+    }
+
+    public function getResourceContextId(): string
+    {
+        return $this->resourceContextId;
     }
 }

@@ -12,6 +12,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Exception\Building
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingTimeHasNotPassedException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
 class Building
 {
@@ -25,6 +26,7 @@ class Building
         protected readonly PlanetIdInterface $planetId,
         protected readonly BuildingIdInterface $buildingId,
         protected readonly BuildingType $type,
+        protected readonly ResourceIdInterface $resourceContextId,
     ) {
     }
 
@@ -89,5 +91,10 @@ class Building
         $this->duringUpgrade = false;
         $this->finishUpgradeAt = null;
         $this->currentLevel++;
+    }
+
+    public function getResourceContextId(): ResourceIdInterface
+    {
+        return $this->resourceContextId;
     }
 }

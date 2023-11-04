@@ -19,12 +19,14 @@ final class BuildingTypeEventFactory
         switch ($type) {
             case BuildingType::ResourceMine: {
                 return new ResourceMineConstructionHasBeenFinishedEvent(
-                    $building->getPlanetId()->getUuid()
+                    $building->getPlanetId()->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
                 );
             }
             case BuildingType::ResourceStorage: {
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
-                    $building->getPlanetId()->getUuid()
+                    $building->getPlanetId()->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
                 );
             }
         }

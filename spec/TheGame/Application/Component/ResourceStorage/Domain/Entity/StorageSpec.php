@@ -100,8 +100,7 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getAmount()
             ->willReturn(5);
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
-        $this->use($planetId, $resourceAmount);
+        $this->use($resourceAmount);
     }
 
     public function it_throws_exception_when_using_unsupported_resources(

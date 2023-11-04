@@ -65,7 +65,7 @@ final class MineSpec extends ObjectBehavior
             new DateTimeImmutable("1 second ago"),
         );
 
-        $this->upgrade();
+        $this->upgradeMiningSpeed();
 
         $extractedData = $this->extract();
         $extractedData->shouldHaveType(ResourceAmount::class);

@@ -11,10 +11,18 @@ final class ResourceStorageConstructionHasBeenFinishedEvent extends BuildingCons
 {
     public function __construct(
         private readonly string $planetId,
+        private readonly string $resourceContextId,
+        private readonly int $currentLevel,
     ) {
         return parent::__construct(
             $this->planetId,
-            BuildingType::ResourceStorage->value
+            BuildingType::ResourceStorage->value,
+            $this->currentLevel,
         );
+    }
+
+    public function getResourceContextId(): string
+    {
+        return $this->resourceContextId;
     }
 }

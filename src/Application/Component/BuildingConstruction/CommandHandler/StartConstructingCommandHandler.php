@@ -14,6 +14,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFa
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class StartConstructingCommandHandler
@@ -34,9 +35,11 @@ final class StartConstructingCommandHandler
 
         $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
         if ($building === null) {
+            $resourceContextId = new ResourceId($command->getResourceContextId());
             $building = $this->buildingFactory->createNew(
                 $planetId,
                 $buildingType,
+                $resourceContextId,
             );
         }
 

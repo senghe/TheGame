@@ -11,6 +11,7 @@ final class StartConstructingCommand implements CommandInterface
     public function __construct(
         private readonly string $planetId,
         private readonly string $buildingType,
+        private readonly ?string $resourceContextId = null,
     ) {
     }
 
@@ -22,5 +23,10 @@ final class StartConstructingCommand implements CommandInterface
     public function getBuildingType(): string
     {
         return $this->buildingType;
+    }
+
+    public function getResourceContextId(): ?string
+    {
+        return $this->resourceContextId;
     }
 }

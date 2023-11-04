@@ -123,8 +123,7 @@ final class StoragesCollectionSpec extends ObjectBehavior
         $storage->hasEnough($resourceAmount)
             ->willReturn(true);
 
-        $planetId = "6100ab0e-285b-40ea-a22a-0cbcb7d35421";
-        $storage->use(new PlanetId($planetId), $resourceAmount)
+        $storage->use($resourceAmount)
             ->shouldBeCalledOnce();
 
         $this->use($resourceAmount);
