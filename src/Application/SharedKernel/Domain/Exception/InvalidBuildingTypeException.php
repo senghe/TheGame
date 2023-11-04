@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\BuildingConstruction\Domain\Exception;
+namespace TheGame\Application\SharedKernel\Domain\Exception;
 
 use DomainException;
 

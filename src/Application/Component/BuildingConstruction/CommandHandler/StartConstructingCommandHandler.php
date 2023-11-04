@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
+use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingCommand;
-use TheGame\Application\Component\BuildingConstruction\Domain\BuildingType;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenStartedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFactory;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
+use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
@@ -19,6 +20,7 @@ final class StartConstructingCommandHandler
     public function __construct(
         private readonly ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         private readonly BuildingRepositoryInterface $buildingRepository,
+        private readonly BuildingContextInterface $buildingBalanceContext,
         private readonly BuildingFactory $buildingFactory,
         private readonly EventBusInterface $eventBus,
     ) {
@@ -39,7 +41,10 @@ final class StartConstructingCommandHandler
 
         $hasEnoughResources = $this->resourceAvailabilityChecker->check(
             $planetId,
-            $building->getCosts(),
+            $this->buildingBalanceContext->getResourceRequirements(
+                $building->getCurrentLevel(),
+                $building->getType(),
+            ),
         );
 
         if ($hasEnoughResources === false) {

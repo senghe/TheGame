@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\Domain\Entity;
 
+use DateTimeInterface;
+use DateTime;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
-use TheGame\Application\Component\BuildingConstruction\Domain\BuildingType;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingIsAlreadyUpgradingException;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingIsNotUpgradingYetException;
+use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingTimeHasNotPassedException;
+use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
@@ -17,6 +20,8 @@ class Building
 
     private bool $duringUpgrade = false;
 
+    private ?DateTimeInterface $finishUpgradeAt;
+
     public function __construct(
         protected readonly PlanetIdInterface $planetId,
         protected readonly BuildingIdInterface $buildingId,
@@ -24,7 +29,17 @@ class Building
     ) {
     }
 
-    public function startUpgrading(): void
+    public function getCurrentLevel(): int
+    {
+        return $this->currentLevel;
+    }
+
+    public function getType(): BuildingType
+    {
+        return $this->type;
+    }
+
+    public function startUpgrading(DateTimeInterface $finishAt): void
     {
         if ($this->duringUpgrade === true) {
             throw new BuildingIsAlreadyUpgradingException(
@@ -34,6 +49,7 @@ class Building
         }
 
         $this->duringUpgrade = true;
+        $this->finishUpgradeAt = $finishAt;
     }
 
     public function cancelUpgrading(): void
@@ -46,6 +62,7 @@ class Building
         }
 
         $this->duringUpgrade = false;
+        $this->finishUpgradeAt = null;
     }
 
     public function finishUpgrading(): void
@@ -57,11 +74,16 @@ class Building
             );
         }
 
-        $this->duringUpgrade = false;
-        $this->currentLevel++;
-    }
+        $now = new DateTime();
+        if ($this->finishUpgradeAt > $now) {
+            throw new BuildingTimeHasNotPassedException(
+                $this->planetId,
+                $this->type,
+            );
+        }
 
-    public function getCosts(): ResourceRequirementsInterface
-    {
+        $this->duringUpgrade = false;
+        $this->finishUpgradeAt = null;
+        $this->currentLevel++;
     }
 }

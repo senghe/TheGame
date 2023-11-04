@@ -8,14 +8,14 @@ use DomainException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 
-final class BuildingIsNotUpgradingYetException extends DomainException
+final class BuildingTimeHasNotPassedException extends DomainException
 {
     public function __construct(
         PlanetIdInterface $planetId,
         BuildingType $buildingType,
     ) {
         $message = sprintf(
-            'Building with type %s is not being upgraded yet on planet %s',
+            'Buildings time with type %s has not passed on planet %s',
             $buildingType->getValue(),
             $planetId->getUuid(),
         );

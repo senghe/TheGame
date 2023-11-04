@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\Domain\Factory;
 
-use TheGame\Application\Component\BuildingConstruction\Domain\BuildingType;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
+use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\BuildingConstruction\Domain;
+namespace TheGame\Application\SharedKernel\Domain;
 
-use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InvalidBuildingTypeException;
+use TheGame\Application\SharedKernel\Domain\Exception\InvalidBuildingTypeException;
 
 final class BuildingType
 {
