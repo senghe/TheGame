@@ -6,7 +6,8 @@ namespace TheGame\Application\SharedKernel\Domain;
 
 use TheGame\Application\SharedKernel\Domain\Exception\InvalidBuildingTypeException;
 
-enum BuildingType: string {
+enum BuildingType: string
+{
     case ResourceMine = 'mine';
 
     case ResourceStorage = 'resource-storage';

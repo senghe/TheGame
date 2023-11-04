@@ -33,7 +33,9 @@ final class PayForConstructedBuildingListenerSpec extends ObjectBehavior
             "8F474C2C-3AD0-4E27-A6EE-AF09151852C5" => 250,
         ];
         $event = new BuildingConstructionHasBeenStartedEvent(
-            $planetId, $buildingType, $resourceRequirements
+            $planetId,
+            $buildingType,
+            $resourceRequirements
         );
         $this->__invoke($event);
     }

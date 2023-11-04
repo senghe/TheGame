@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\Domain\Entity;
 
-use DateTimeInterface;
 use DateTime;
+use DateTimeInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingIsAlreadyUpgradingException;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingIsNotUpgradingYetException;

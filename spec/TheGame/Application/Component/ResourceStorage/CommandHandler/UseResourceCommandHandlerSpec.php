@@ -9,14 +9,12 @@ use Prophecy\Argument;
 use TheGame\Application\Component\ResourceStorage\Command\UseResourceCommand;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\StoragesCollection;
 use TheGame\Application\Component\ResourceStorage\Domain\Event\StorageAmountHasChangedEvent;
-use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

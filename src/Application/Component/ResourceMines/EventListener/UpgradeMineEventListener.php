@@ -17,7 +17,6 @@ final class UpgradeMineEventListener
         private readonly ResourceMinesRepositoryInterface $minesRepository,
         private readonly ResourceMinesContextInterface $resourceMinesContext,
     ) {
-
     }
 
     public function __invoke(ResourceMineConstructionHasBeenFinishedEvent $event): void
@@ -30,7 +29,8 @@ final class UpgradeMineEventListener
 
         $resourceId = new ResourceId($event->getResourceContextId());
         $newMiningSpeed = $this->resourceMinesContext->getMiningSpeed(
-            $event->getLevel(), $resourceId
+            $event->getLevel(),
+            $resourceId
         );
 
         $minesCollection->upgradeMiningSpeed(

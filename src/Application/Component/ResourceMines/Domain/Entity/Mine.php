@@ -19,7 +19,6 @@ class Mine
         protected float $currentMiningSpeed,
         protected DateTimeInterface $extractedAt,
     ) {
-
     }
 
     public function getId(): MineIdInterface

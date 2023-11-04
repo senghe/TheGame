@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgradeStorageForUnsupportedResourceException;

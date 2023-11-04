@@ -32,7 +32,8 @@ final class BuildingTypeEventFactory
         }
 
         return new BuildingConstructionHasBeenFinishedEvent(
-            $building->getPlanetId()->getUuid(), $type->value
+            $building->getPlanetId()->getUuid(),
+            $type->value
         );
     }
 }

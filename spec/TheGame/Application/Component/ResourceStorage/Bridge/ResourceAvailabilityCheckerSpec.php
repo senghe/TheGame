@@ -6,11 +6,9 @@ namespace spec\TheGame\Application\Component\ResourceStorage\Bridge;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\StoragesCollection;
-use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInterface;
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;

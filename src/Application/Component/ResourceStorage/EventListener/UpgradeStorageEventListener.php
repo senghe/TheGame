@@ -17,7 +17,6 @@ final class UpgradeStorageEventListener
         private readonly ResourceStoragesRepositoryInterface $storagesRepository,
         private readonly ResourceStoragesContextInterface $resourceStoragesContext,
     ) {
-
     }
 
     public function __invoke(ResourceStorageConstructionHasBeenFinishedEvent $event): void
@@ -30,11 +29,13 @@ final class UpgradeStorageEventListener
 
         $resourceId = new ResourceId($event->getResourceContextId());
         $newLimit = $this->resourceStoragesContext->getLimit(
-            $event->getLevel(), $resourceId
+            $event->getLevel(),
+            $resourceId
         );
 
         $storages->upgradeLimit(
-            $resourceId, $newLimit
+            $resourceId,
+            $newLimit
         );
     }
 }

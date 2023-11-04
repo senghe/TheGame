@@ -24,6 +24,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
             $resourceMinesContext,
         );
     }
+
     public function it_throws_exception_when_aggregate_is_not_found(
         ResourceMinesRepositoryInterface $minesRepository,
     ): void {
@@ -34,11 +35,13 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
             ->willReturn(null);
 
         $event = new ResourceMineConstructionHasBeenFinishedEvent(
-            $planetId, $resourceId, 2
+            $planetId,
+            $resourceId,
+            2
         );
         $this->shouldThrow(InconsistentModelException::class)
             ->during('__invoke', [
-                $event
+                $event,
             ]);
     }
 
@@ -60,7 +63,9 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
             ->shouldBeCalledOnce();
 
         $event = new ResourceMineConstructionHasBeenFinishedEvent(
-            $planetId, $resourceId, 2
+            $planetId,
+            $resourceId,
+            2
         );
         $this->__invoke($event);
     }

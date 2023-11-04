@@ -20,8 +20,7 @@ final class RefundForCancelledBuildingConstructionListenerSpec extends ObjectBeh
 
     public function it_creates_command_for_each_resource_requirement(
         CommandBusInterface $commandBus,
-    ): void
-    {
+    ): void {
         $planetId = "DF3A7B29-6D32-4EBC-AC9D-7FD3939A6E47";
         $buildingType = BuildingType::ResourceStorage->value;
 
@@ -33,7 +32,9 @@ final class RefundForCancelledBuildingConstructionListenerSpec extends ObjectBeh
             "8F474C2C-3AD0-4E27-A6EE-AF09151852C5" => 250,
         ];
         $event = new BuildingConstructionHasBeenCancelledEvent(
-            $planetId, $buildingType, $resourceRequirements
+            $planetId,
+            $buildingType,
+            $resourceRequirements
         );
         $this->__invoke($event);
     }

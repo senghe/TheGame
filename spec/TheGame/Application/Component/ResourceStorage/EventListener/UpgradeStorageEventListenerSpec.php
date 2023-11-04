@@ -24,6 +24,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
             $resourceStoragesContext
         );
     }
+
     public function it_throws_exception_when_aggregate_is_not_found(
         ResourceStoragesRepositoryInterface $storagesRepository,
     ): void {
@@ -35,11 +36,13 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
         $resourceContextId = "0F8DC0DB-766C-4D04-998B-1D9A86FC7A7C";
         $currentLevel = 5;
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
-            $planetId, $resourceContextId, $currentLevel
+            $planetId,
+            $resourceContextId,
+            $currentLevel
         );
         $this->shouldThrow(InconsistentModelException::class)
             ->during('__invoke', [
-                $event
+                $event,
             ]);
     }
 
@@ -62,7 +65,9 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
             ->shouldBeCalledOnce();
 
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
-            $planetId, $resourceContextId, $currentLevel
+            $planetId,
+            $resourceContextId,
+            $currentLevel
         );
 
         $this->__invoke($event);
