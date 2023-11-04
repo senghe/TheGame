@@ -6,22 +6,19 @@ namespace TheGame\Application\SharedKernel\Domain;
 
 use TheGame\Application\SharedKernel\Domain\Exception\InvalidBuildingTypeException;
 
-final class BuildingType
-{
-    private const SUPPORTED_TYPES = [
-        'mine',
-    ];
+enum BuildingType: string {
+    case ResourceMine = 'mine';
 
-    public function __construct(
-        private readonly string $type,
-    ) {
-        if (in_array($this->type, self::SUPPORTED_TYPES) === false) {
-            throw new InvalidBuildingTypeException($this->type);
-        }
-    }
+    case ResourceStorage = 'resource-storage';
 
-    public function getValue(): string
+    public static function fromName(string $name): self
     {
-        return $this->type;
+        foreach (self::cases() as $type) {
+            if ($name === $type->name) {
+                return $type;
+            }
+        }
+
+        throw new InvalidBuildingTypeException($name);
     }
-}
+};

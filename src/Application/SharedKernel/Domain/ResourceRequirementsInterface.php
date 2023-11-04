@@ -10,6 +10,9 @@ interface ResourceRequirementsInterface
 
     public function getAmount(ResourceIdInterface $resourceId): int;
 
+    /** @return array<string, int> */
+    public function toScalarArray(): array;
+
     /** @return array<int, ResourceAmountInterface> */
     public function getAll(): array;
 }

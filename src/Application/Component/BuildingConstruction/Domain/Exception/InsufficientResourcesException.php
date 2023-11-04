@@ -17,7 +17,7 @@ final class InsufficientResourcesException extends DomainException
         parent::__construct(
             sprintf(
                 'Insufficient resources for constructing building %s on planet %s',
-                $buildingType->getValue(),
+                $buildingType->value,
                 $planetId->getUuid(),
             ),
         );

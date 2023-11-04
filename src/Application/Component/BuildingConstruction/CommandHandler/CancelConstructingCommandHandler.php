@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
+use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
@@ -16,6 +17,7 @@ final class CancelConstructingCommandHandler
 {
     public function __construct(
         private readonly BuildingRepositoryInterface $buildingRepository,
+        private readonly BuildingContextInterface $buildingBalanceContext,
         private readonly EventBusInterface $eventBus,
     ) {
     }
@@ -23,7 +25,7 @@ final class CancelConstructingCommandHandler
     public function __invoke(CancelConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $buildingType = new BuildingType($command->getBuildingType());
+        $buildingType = BuildingType::from($command->getBuildingType());
 
         $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
         if ($building === null) {
@@ -34,10 +36,13 @@ final class CancelConstructingCommandHandler
         }
 
         $building->cancelUpgrading();
+        $currentLevel = $building->getCurrentLevel();
+        $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements($currentLevel, $buildingType);
 
         $event = new BuildingConstructionHasBeenCancelledEvent(
             $command->getPlanetId(),
             $command->getBuildingType(),
+            $resourceRequirements->toScalarArray(),
         );
         $this->eventBus->dispatch($event);
     }

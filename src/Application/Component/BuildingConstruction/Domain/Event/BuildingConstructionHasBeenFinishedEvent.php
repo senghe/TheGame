@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\Domain\Event;
 
 use TheGame\Application\SharedKernel\EventInterface;
 
-final class BuildingConstructionHasBeenFinishedEvent implements EventInterface
+class BuildingConstructionHasBeenFinishedEvent implements EventInterface
 {
     public function __construct(
         private readonly string $planetId,

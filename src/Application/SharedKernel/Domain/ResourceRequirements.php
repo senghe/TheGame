@@ -7,7 +7,7 @@ namespace TheGame\Application\SharedKernel\Domain;
 final class ResourceRequirements implements ResourceRequirementsInterface
 {
     /** @var array<string, ResourceAmountInterface> */
-    private array $resources = [];
+    private array $requirements = [];
 
     public function add(ResourceAmountInterface $resourceAmount): void
     {
@@ -18,7 +18,7 @@ final class ResourceRequirements implements ResourceRequirementsInterface
             return;
         }
 
-        $this->resources[$resourceId->getUuid()] = $resourceAmount;
+        $this->requirements[$resourceId->getUuid()] = $resourceAmount;
     }
 
     public function getAmount(ResourceIdInterface $resourceId): int
@@ -27,28 +27,39 @@ final class ResourceRequirements implements ResourceRequirementsInterface
             return 0;
         }
 
-        return $this->resources[$resourceId->getUuid()]->getAmount();
+        return $this->requirements[$resourceId->getUuid()]->getAmount();
     }
 
     private function hasResource(ResourceIdInterface $resourceId): bool
     {
-        return isset($this->resources[$resourceId->getUuid()]);
+        return isset($this->requirements[$resourceId->getUuid()]);
     }
 
     private function appendResource(ResourceAmountInterface $incomingResourceAmount): void
     {
         $resourceId = $incomingResourceAmount->getResourceId();
-        $currentResourceAmount = $this->resources[$resourceId->getUuid()];
+        $currentResourceAmount = $this->requirements[$resourceId->getUuid()];
 
-        $this->resources[$resourceId->getUuid()] = new ResourceAmount(
+        $this->requirements[$resourceId->getUuid()] = new ResourceAmount(
             $resourceId,
             $currentResourceAmount->getAmount() + $incomingResourceAmount->getAmount(),
         );
     }
 
+    /** @return array<string, int> */
+    public function toScalarArray(): array
+    {
+        $retVal = [];
+        foreach ($this->requirements as $resourceUuid => $resourceAmount) {
+            $retVal[$resourceUuid] = $resourceAmount->getAmount();
+        }
+
+        return $retVal;
+    }
+
     /** @return array<int, ResourceAmountInterface> */
     public function getAll(): array
     {
-        return array_values($this->resources);
+        return array_values($this->requirements);
     }
 }

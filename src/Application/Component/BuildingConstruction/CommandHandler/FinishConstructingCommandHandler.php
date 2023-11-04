@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\FinishConstructingCommand;
-use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenFinishedEvent;
+use TheGame\Application\Component\BuildingConstruction\Domain\Event\Factory\BuildingTypeEventFactory;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
@@ -17,13 +17,14 @@ final class FinishConstructingCommandHandler
     public function __construct(
         private readonly BuildingRepositoryInterface $buildingRepository,
         private readonly EventBusInterface $eventBus,
+        private readonly BuildingTypeEventFactory $buildingTypeEventFactory,
     ) {
     }
 
     public function __invoke(FinishConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $buildingType = new BuildingType($command->getBuildingType());
+        $buildingType = BuildingType::fromName($command->getBuildingType());
 
         $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
         if ($building === null) {
@@ -35,10 +36,7 @@ final class FinishConstructingCommandHandler
 
         $building->finishUpgrading();
 
-        $event = new BuildingConstructionHasBeenFinishedEvent(
-            $command->getPlanetId(),
-            $command->getBuildingType(),
-        );
+        $event = $this->buildingTypeEventFactory->createConstructingFinishedEvent($building);
         $this->eventBus->dispatch($event);
     }
 }

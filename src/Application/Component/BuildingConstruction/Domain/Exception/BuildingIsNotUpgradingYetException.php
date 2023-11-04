@@ -16,7 +16,7 @@ final class BuildingIsNotUpgradingYetException extends DomainException
     ) {
         $message = sprintf(
             'Building with type %s is not being upgraded yet on planet %s',
-            $buildingType->getValue(),
+            $buildingType->value,
             $planetId->getUuid(),
         );
 

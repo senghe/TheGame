@@ -16,7 +16,7 @@ final class BuildingTimeHasNotPassedException extends DomainException
     ) {
         $message = sprintf(
             'Buildings time with type %s has not passed on planet %s',
-            $buildingType->getValue(),
+            $buildingType->value,
             $planetId->getUuid(),
         );
 

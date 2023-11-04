@@ -16,7 +16,7 @@ final class BuildingIsAlreadyUpgradingException extends DomainException
     ) {
         $message = sprintf(
             'Building with type %s is already being upgraded on %s planet',
-            $buildingType->getValue(),
+            $buildingType->value,
             $planetId->getUuid(),
         );
 

@@ -16,7 +16,7 @@ final class BuildingHasNotBeenBuiltYetFoundException extends DomainException
     ) {
         $message = sprintf(
             'Building with type %s was not built yet on planet %s',
-            $buildingType->getValue(),
+            $buildingType->value,
             $planetId->getUuid(),
         );
 
