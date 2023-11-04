@@ -12,7 +12,7 @@ use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 final class ResourceAvailabilityChecker
 {
     public function __construct(
-        private readonly ResourceStoragesRepositoryInterface $storagesRepository
+        private readonly ResourceStoragesRepositoryInterface $storagesRepository,
     ) {
     }
 

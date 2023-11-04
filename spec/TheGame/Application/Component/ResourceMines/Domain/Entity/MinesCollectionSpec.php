@@ -6,6 +6,7 @@ namespace spec\TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
+use TheGame\Application\Component\ResourceMines\Domain\Exception\CannotUpgradeMiningSpeedForUnsupportedResourceException;
 use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
@@ -74,13 +75,28 @@ final class MinesCollectionSpec extends ObjectBehavior
         $extractedResult[1]->getAmount()->shouldReturn(10);
     }
 
-    public function it_upgrades_mining_speed_for_supported_mine(): void
-    {
+    public function it_upgrades_mining_speed_for_supported_mine(
+        Mine $mine,
+    ): void {
+        $this->addMine($mine);
 
+        $resourceId = new ResourceId("91F4327A-8CCF-4D22-95A6-2D2F8E835A14");
+        $mine->isForResource($resourceId)->willReturn(true);
+
+        $mine->upgradeMiningSpeed(500)->shouldBeCalledOnce();
+
+        $this->upgradeMiningSpeed($resourceId, 500);
     }
 
-    public function it_throws_exception_when_upgrading_mining_speed_for_unsupported_mine(): void
-    {
+    public function it_throws_exception_when_upgrading_mining_speed_for_unsupported_mine(
+        Mine $mine,
+    ): void {
+        $this->addMine($mine);
 
+        $resourceId = new ResourceId("91F4327A-8CCF-4D22-95A6-2D2F8E835A14");
+        $mine->isForResource($resourceId)->willReturn(false);
+
+        $this->shouldThrow(CannotUpgradeMiningSpeedForUnsupportedResourceException::class)
+            ->during('upgradeMiningSpeed', [$resourceId, 500]);
     }
 }

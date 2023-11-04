@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
+use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgradeStorageForUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageCollectionId;
@@ -216,13 +217,31 @@ final class StoragesCollectionSpec extends ObjectBehavior
         $this->dispatch($resourceAmount);
     }
 
-    public function it_upgrades_limit_for_supported_resource(): void
-    {
+    public function it_upgrades_limit_for_supported_resource(
+        Storage $storage,
+    ): void {
+        $resourceId = "a8d6fc51-9f91-4a46-8785-4c6a58464802";
 
+        $this->add($storage);
+
+        $storage->isForResource(new ResourceId($resourceId))
+            ->willReturn(true);
+        $storage->upgradeLimit(1000)->shouldBeCalledOnce();
+
+        $this->upgradeLimit(new ResourceId($resourceId), 1000);
     }
 
-    public function it_throws_exception_when_upgrading_limit_for_unsupported_resource(): void
-    {
+    public function it_throws_exception_when_upgrading_limit_for_unsupported_resource(
+        Storage $storage,
+    ): void {
+        $resourceId = "a8d6fc51-9f91-4a46-8785-4c6a58464802";
 
+        $this->add($storage);
+
+        $storage->isForResource(new ResourceId($resourceId))
+            ->willReturn(false);
+
+        $this->shouldThrow(CannotUpgradeStorageForUnsupportedResourceException::class)
+            ->during('upgradeLimit', [new ResourceId($resourceId), 1000]);
     }
 }

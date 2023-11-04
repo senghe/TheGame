@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
 use PhpSpec\ObjectBehavior;
+use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgradeStorageLimitForLowerValueException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
@@ -183,26 +184,32 @@ final class StorageSpec extends ObjectBehavior
 
     public function it_is_for_resource_with_specified_id(): void
     {
+        $resourceId = "6100ab0e-285b-40ea-a22a-0cbcb7d35421";
 
+        $this->isForResource(new ResourceId($resourceId))->shouldReturn(true);
     }
 
     public function it_is_not_for_resource_with_specified_id(): void
     {
+        $resourceId = "EBEF7262-52CE-45F2-98CD-B122643EE377";
 
+        $this->isForResource(new ResourceId($resourceId))->shouldReturn(false);
     }
 
     public function it_upgrades_limit(): void
     {
-
+        $this->upgradeLimit(200000);
     }
 
     public function it_throws_exception_when_upgrading_limit_but_new_is_lower_than_current(): void
     {
-
+        $this->shouldThrow(CannotUpgradeStorageLimitForLowerValueException::class)
+            ->during('upgradeLimit', [10]);
     }
 
     public function it_throws_exception_when_upgrading_limit_but_new_is_equal_to_current(): void
     {
-
+        $this->shouldThrow(CannotUpgradeStorageLimitForLowerValueException::class)
+            ->during('upgradeLimit', [100000]);
     }
 }
