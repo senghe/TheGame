@@ -180,4 +180,29 @@ final class StorageSpec extends ObjectBehavior
 
         $this->getCurrentAmount()->shouldReturn($limit);
     }
+
+    public function it_is_for_resource_with_specified_id(): void
+    {
+
+    }
+
+    public function it_is_not_for_resource_with_specified_id(): void
+    {
+
+    }
+
+    public function it_upgrades_limit(): void
+    {
+
+    }
+
+    public function it_throws_exception_when_upgrading_limit_but_new_is_lower_than_current(): void
+    {
+
+    }
+
+    public function it_throws_exception_when_upgrading_limit_but_new_is_equal_to_current(): void
+    {
+
+    }
 }

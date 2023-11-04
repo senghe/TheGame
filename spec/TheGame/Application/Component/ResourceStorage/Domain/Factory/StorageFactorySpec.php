@@ -21,7 +21,6 @@ final class StorageFactorySpec extends ObjectBehavior
         ResourceIdInterface $resourceId,
         UuidGeneratorInterface $uuidGenerator,
         StorageIdInterface $storageId,
-        Storage $storage,
     ): void {
         $uuidGenerator->generateNewStorageId()
             ->willReturn($storageId);

@@ -73,4 +73,14 @@ final class MinesCollectionSpec extends ObjectBehavior
         $extractedResult[1]->getResourceId()->getUuid()->shouldReturn("d63a2187-daf5-437f-8586-7fa4e0ef5d7a");
         $extractedResult[1]->getAmount()->shouldReturn(10);
     }
+
+    public function it_upgrades_mining_speed_for_supported_mine(): void
+    {
+
+    }
+
+    public function it_throws_exception_when_upgrading_mining_speed_for_unsupported_mine(): void
+    {
+
+    }
 }

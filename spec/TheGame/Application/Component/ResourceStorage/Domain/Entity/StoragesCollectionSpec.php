@@ -215,4 +215,14 @@ final class StoragesCollectionSpec extends ObjectBehavior
 
         $this->dispatch($resourceAmount);
     }
+
+    public function it_upgrades_limit_for_supported_resource(): void
+    {
+
+    }
+
+    public function it_throws_exception_when_upgrading_limit_for_unsupported_resource(): void
+    {
+
+    }
 }

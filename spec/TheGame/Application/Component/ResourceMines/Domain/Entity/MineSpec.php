@@ -84,4 +84,14 @@ final class MineSpec extends ObjectBehavior
         $extractedData->getResourceId()->shouldReturn($resourceId);
         $extractedData->getAmount()->shouldReturn(10);
     }
+
+    public function it_is_for_resource_with_specified_id(): void
+    {
+
+    }
+
+    public function it_is_not_for_resource_with_specified_id(): void
+    {
+
+    }
 }
