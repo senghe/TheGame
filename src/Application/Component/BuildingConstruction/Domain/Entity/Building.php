@@ -30,6 +30,11 @@ class Building
     ) {
     }
 
+    public function getId(): BuildingIdInterface
+    {
+        return $this->buildingId;
+    }
+
     public function getPlanetId(): PlanetIdInterface
     {
         return $this->planetId;

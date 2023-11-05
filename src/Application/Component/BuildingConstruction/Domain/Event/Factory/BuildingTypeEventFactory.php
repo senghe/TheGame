@@ -21,19 +21,22 @@ final class BuildingTypeEventFactory
                 return new ResourceMineConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getResourceContextId()->getUuid(),
+                    $building->getCurrentLevel(),
                 );
             }
             case BuildingType::ResourceStorage: {
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getResourceContextId()->getUuid(),
+                    $building->getCurrentLevel(),
                 );
             }
         }
 
         return new BuildingConstructionHasBeenFinishedEvent(
             $building->getPlanetId()->getUuid(),
-            $type->value
+            $type->value,
+            $building->getCurrentLevel(),
         );
     }
 }
