@@ -13,17 +13,12 @@ use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
 class Mine
 {
-    protected int $currentLevel;
-
     public function __construct(
         protected readonly MineIdInterface $id,
         protected readonly ResourceIdInterface $resourceId,
-        protected float $baseMiningSpeed,
-        protected float $currentMiningSpeed,
-        protected float $miningMultiplier,
+        protected int $currentMiningSpeed,
         protected DateTimeInterface $extractedAt,
     ) {
-        $this->currentLevel = 1;
     }
 
     public function getId(): MineIdInterface
@@ -31,10 +26,14 @@ class Mine
         return $this->id;
     }
 
-    public function upgrade(): void
+    public function isForResource(ResourceIdInterface $resourceId): bool
     {
-        $this->currentLevel++;
-        $this->currentMiningSpeed = $this->baseMiningSpeed * $this->miningMultiplier * $this->currentLevel;
+        return $this->resourceId->getUuid() === $resourceId->getUuid();
+    }
+
+    public function upgradeMiningSpeed(int $newSpeed): void
+    {
+        $this->currentMiningSpeed = $newSpeed;
     }
 
     public function extract(): ResourceAmountInterface

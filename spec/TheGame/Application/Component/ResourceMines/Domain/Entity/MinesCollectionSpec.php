@@ -6,6 +6,7 @@ namespace spec\TheGame\Application\Component\ResourceMines\Domain\Entity;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
+use TheGame\Application\Component\ResourceMines\Domain\Exception\CannotUpgradeMiningSpeedForUnsupportedResourceException;
 use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
@@ -72,5 +73,56 @@ final class MinesCollectionSpec extends ObjectBehavior
         $extractedResult[1]->getResourceId()->shouldHaveType(ResourceId::class);
         $extractedResult[1]->getResourceId()->getUuid()->shouldReturn("d63a2187-daf5-437f-8586-7fa4e0ef5d7a");
         $extractedResult[1]->getAmount()->shouldReturn(10);
+    }
+
+    public function it_upgrades_mining_speed_for_supported_mine(
+        Mine $mine,
+    ): void {
+        $this->addMine($mine);
+
+        $resourceId = new ResourceId("91F4327A-8CCF-4D22-95A6-2D2F8E835A14");
+        $mine->isForResource($resourceId)->willReturn(true);
+
+        $mine->upgradeMiningSpeed(500)->shouldBeCalledOnce();
+
+        $this->upgradeMiningSpeed($resourceId, 500);
+    }
+
+    public function it_throws_exception_when_upgrading_mining_speed_for_unsupported_mine(
+        Mine $mine,
+    ): void {
+        $this->addMine($mine);
+
+        $resourceId = new ResourceId("91F4327A-8CCF-4D22-95A6-2D2F8E835A14");
+        $mine->isForResource($resourceId)->willReturn(false);
+
+        $this->shouldThrow(CannotUpgradeMiningSpeedForUnsupportedResourceException::class)
+            ->during('upgradeMiningSpeed', [$resourceId, 500]);
+    }
+
+    public function it_has_mine_for_resource(
+        Mine $mine,
+    ): void {
+        $resourceId = "9c1caf31-3fb6-4473-948e-fc63ece22a57";
+        $mine->isForResource(new ResourceId($resourceId))
+            ->willReturn(true);
+
+        $this->addMine($mine);
+
+        $this->hasMineForResource(new ResourceId($resourceId))
+            ->shouldReturn(true);
+    }
+
+    public function it_hasnt_mine_for_resource(
+        Mine $mine,
+    ): void {
+        $resourceId = "9c1caf31-3fb6-4473-948e-fc63ece22a57";
+        $mine->isForResource(new ResourceId($resourceId))
+            ->willReturn(false);
+
+        $this->addMine($mine);
+
+        $this->hasMineForResource(new ResourceId($resourceId))
+            ->shouldReturn(false);
     }
 }

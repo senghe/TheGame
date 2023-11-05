@@ -6,19 +6,19 @@ namespace spec\TheGame\Application\Component\ResourceStorage\CommandHandler;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use TheGame\Application\Component\ResourceStorage\Command\UseResourcesCommand;
+use TheGame\Application\Component\ResourceStorage\Command\UseResourceCommand;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\StoragesCollection;
 use TheGame\Application\Component\ResourceStorage\Domain\Event\StorageAmountHasChangedEvent;
-use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
-final class UseResourcesCommandHandlerSpec extends ObjectBehavior
+final class UseResourceCommandHandlerSpec extends ObjectBehavior
 {
     public function let(
         ResourceStoragesRepositoryInterface $storagesRepository,
@@ -40,49 +40,25 @@ final class UseResourcesCommandHandlerSpec extends ObjectBehavior
             ->willReturn($storagesCollection);
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
+        $resourceRequirements = new ResourceRequirements();
+        $resourceRequirements->add($resourceAmount);
 
         $storagesCollection->supports($resourceAmount)
             ->willReturn(true);
 
-        $storagesCollection->hasEnough($resourceAmount)
+        $storagesCollection->hasEnough($resourceRequirements)
             ->willReturn(true);
 
         $storagesCollection->use($resourceAmount)->shouldBeCalledOnce();
 
         $eventBus->dispatch(Argument::type(StorageAmountHasChangedEvent::class))->shouldBeCalledOnce();
 
-        $command = new UseResourcesCommand(
+        $command = new UseResourceCommand(
             $planetId,
             $resourceId,
             $amount
         );
         $this->__invoke($command);
-    }
-
-    public function it_throws_exception_when_using_unsupported_resources(
-        ResourceStoragesRepositoryInterface $storagesRepository,
-        EventBusInterface $eventBus,
-        StoragesCollection $storagesCollection,
-    ): void {
-        $planetId = "c584286e-08e6-4875-990b-3af569f74eee";
-        $resourceId = "aac85d88-7f05-4ca9-85a4-c1d0dbc71f6a";
-        $amount = 10;
-
-        $storagesRepository->findForPlanet(new PlanetId($planetId))
-            ->willReturn($storagesCollection);
-
-        $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
-
-        $storagesCollection->supports($resourceAmount)
-            ->willReturn(false);
-
-        $command = new UseResourcesCommand(
-            $planetId,
-            $resourceId,
-            $amount
-        );
-        $this->shouldThrow(CannotUseUnsupportedResourceException::class)
-            ->during('__invoke', [$command]);
     }
 
     public function it_throws_exception_when_has_not_enough_resources(
@@ -98,14 +74,13 @@ final class UseResourcesCommandHandlerSpec extends ObjectBehavior
             ->willReturn($storagesCollection);
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
+        $resourcesRequirements = new ResourceRequirements();
+        $resourcesRequirements->add($resourceAmount);
 
-        $storagesCollection->supports($resourceAmount)
-            ->willReturn(true);
-
-        $storagesCollection->hasEnough($resourceAmount)
+        $storagesCollection->hasEnough($resourcesRequirements)
             ->willReturn(false);
 
-        $command = new UseResourcesCommand(
+        $command = new UseResourceCommand(
             $planetId,
             $resourceId,
             $amount
@@ -124,7 +99,7 @@ final class UseResourcesCommandHandlerSpec extends ObjectBehavior
         $storagesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn(null);
 
-        $command = new UseResourcesCommand(
+        $command = new UseResourceCommand(
             $planetId,
             $resourceId,
             $amount

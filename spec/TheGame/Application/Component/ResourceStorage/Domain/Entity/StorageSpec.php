@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
 use PhpSpec\ObjectBehavior;
+use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgradeStorageLimitForLowerValueException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 
@@ -100,8 +100,7 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getAmount()
             ->willReturn(5);
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
-        $this->use($planetId, $resourceAmount);
+        $this->use($resourceAmount);
     }
 
     public function it_throws_exception_when_using_unsupported_resources(
@@ -110,9 +109,8 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getResourceId()
             ->willReturn(new ResourceId("3a58570a-bf32-4bd2-9a65-1fa26567b80b"));
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
         $this->shouldThrow(CannotUseUnsupportedResourceException::class)
-            ->during('use', [$planetId, $resourceAmount]);
+            ->during('use', [$resourceAmount]);
     }
 
     public function it_throws_exception_when_using_more_resources_than_already_have(
@@ -124,9 +122,8 @@ final class StorageSpec extends ObjectBehavior
         $resourceAmount->getAmount()
             ->willReturn(500);
 
-        $planetId = new PlanetId("1ca09e5f-1418-4a53-9df7-d8ecd190e3fd");
         $this->shouldThrow(InsufficientResourcesException::class)
-            ->during('use', [$planetId, $resourceAmount]);
+            ->during('use', [$resourceAmount]);
     }
 
     public function it_dispatches_amount_without_limit_specified(): void
@@ -182,5 +179,36 @@ final class StorageSpec extends ObjectBehavior
         $this->dispatch(10000000);
 
         $this->getCurrentAmount()->shouldReturn($limit);
+    }
+
+    public function it_is_for_resource_with_specified_id(): void
+    {
+        $resourceId = "6100ab0e-285b-40ea-a22a-0cbcb7d35421";
+
+        $this->isForResource(new ResourceId($resourceId))->shouldReturn(true);
+    }
+
+    public function it_is_not_for_resource_with_specified_id(): void
+    {
+        $resourceId = "EBEF7262-52CE-45F2-98CD-B122643EE377";
+
+        $this->isForResource(new ResourceId($resourceId))->shouldReturn(false);
+    }
+
+    public function it_upgrades_limit(): void
+    {
+        $this->upgradeLimit(200000);
+    }
+
+    public function it_throws_exception_when_upgrading_limit_but_new_is_lower_than_current(): void
+    {
+        $this->shouldThrow(CannotUpgradeStorageLimitForLowerValueException::class)
+            ->during('upgradeLimit', [10]);
+    }
+
+    public function it_throws_exception_when_upgrading_limit_but_new_is_equal_to_current(): void
+    {
+        $this->shouldThrow(CannotUpgradeStorageLimitForLowerValueException::class)
+            ->during('upgradeLimit', [100000]);
     }
 }

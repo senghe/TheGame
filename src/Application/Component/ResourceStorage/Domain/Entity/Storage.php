@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\ResourceStorage\Domain\Entity;
 
+use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgradeStorageLimitForLowerValueException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
@@ -43,17 +43,17 @@ class Storage
         return $this->currentAmount >= $amount->getAmount();
     }
 
-    public function use(PlanetIdInterface $planetId, ResourceAmountInterface $amount): void
+    public function use(ResourceAmountInterface $amount): void
     {
         if ($this->supports($amount) === false) {
             throw new CannotUseUnsupportedResourceException(
-                $planetId,
+                $this->storageId,
                 $amount,
             );
         }
 
         if ($this->hasEnough($amount) === false) {
-            throw new InsufficientResourcesException($planetId, $amount);
+            throw new InsufficientResourcesException($this->storageId, $amount);
         }
 
         $this->currentAmount -= $amount->getAmount();
@@ -72,5 +72,26 @@ class Storage
     public function getCurrentAmount(): int
     {
         return $this->currentAmount;
+    }
+
+    public function isForResource(ResourceIdInterface $resourceId): bool
+    {
+        return $this->resourceId->getUuid() === $resourceId->getUuid();
+    }
+
+    public function upgradeLimit(int $newLimit): void
+    {
+        if ($newLimit > $this->limit) {
+            $this->limit = $newLimit;
+
+            return;
+        }
+
+        throw new CannotUpgradeStorageLimitForLowerValueException(
+            $this->storageId,
+            $this->resourceId,
+            $this->limit ?? 0,
+            $newLimit
+        );
     }
 }
