@@ -20,13 +20,13 @@ class Building
 
     private bool $duringUpgrade = false;
 
-    private ?DateTimeInterface $finishUpgradeAt;
+    private ?DateTimeInterface $finishUpgradeAt = null;
 
     public function __construct(
         protected readonly PlanetIdInterface $planetId,
         protected readonly BuildingIdInterface $buildingId,
         protected readonly BuildingType $type,
-        protected readonly ResourceIdInterface $resourceContextId,
+        protected readonly ?ResourceIdInterface $resourceContextId = null,
     ) {
     }
 
@@ -98,7 +98,7 @@ class Building
         $this->currentLevel++;
     }
 
-    public function getResourceContextId(): ResourceIdInterface
+    public function getResourceContextId(): ?ResourceIdInterface
     {
         return $this->resourceContextId;
     }

@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\FinishConstructingCommand;
-use TheGame\Application\Component\BuildingConstruction\Domain\Event\Factory\BuildingTypeEventFactory;
+use TheGame\Application\Component\BuildingConstruction\Domain\Event\Factory\BuildingTypeEventFactoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
@@ -17,14 +17,14 @@ final class FinishConstructingCommandHandler
     public function __construct(
         private readonly BuildingRepositoryInterface $buildingRepository,
         private readonly EventBusInterface $eventBus,
-        private readonly BuildingTypeEventFactory $buildingTypeEventFactory,
+        private readonly BuildingTypeEventFactoryInterface $buildingTypeEventFactory,
     ) {
     }
 
     public function __invoke(FinishConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $buildingType = BuildingType::fromName($command->getBuildingType());
+        $buildingType = BuildingType::from($command->getBuildingType());
 
         $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
         if ($building === null) {

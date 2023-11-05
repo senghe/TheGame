@@ -10,7 +10,7 @@ use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterfa
 use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenStartedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InsufficientResourcesException;
-use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFactory;
+use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
@@ -23,7 +23,7 @@ final class StartConstructingCommandHandler
         private readonly ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         private readonly BuildingRepositoryInterface $buildingRepository,
         private readonly BuildingContextInterface $buildingBalanceContext,
-        private readonly BuildingFactory $buildingFactory,
+        private readonly BuildingFactoryInterface $buildingFactory,
         private readonly EventBusInterface $eventBus,
     ) {
     }
@@ -43,12 +43,12 @@ final class StartConstructingCommandHandler
             );
         }
 
+        $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements(
+            $building->getCurrentLevel(),
+            $building->getType(),
+        );
         $hasEnoughResources = $this->resourceAvailabilityChecker->check(
-            $planetId,
-            $this->buildingBalanceContext->getResourceRequirements(
-                $building->getCurrentLevel(),
-                $building->getType(),
-            ),
+            $planetId, $resourceRequirements,
         );
 
         if ($hasEnoughResources === false) {
@@ -62,10 +62,6 @@ final class StartConstructingCommandHandler
         $buildingFinishDate = new DateTimeImmutable(sprintf("now + %d seconds", $buildingDuration));
         $building->startUpgrading($buildingFinishDate);
 
-        $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements(
-            $building->getCurrentLevel(),
-            $building->getType()
-        );
         $event = new BuildingConstructionHasBeenStartedEvent(
             $command->getPlanetId(),
             $command->getBuildingType(),

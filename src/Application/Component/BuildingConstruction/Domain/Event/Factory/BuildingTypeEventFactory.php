@@ -9,11 +9,10 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingCons
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\EventInterface;
 
-final class BuildingTypeEventFactory
+final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterface
 {
-    public function createConstructingFinishedEvent(Building $building): EventInterface
+    public function createConstructingFinishedEvent(Building $building): BuildingConstructionHasBeenFinishedEvent
     {
         $type = $building->getType();
         switch ($type) {
