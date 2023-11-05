@@ -31,7 +31,7 @@ final class BuildingFactorySpec extends ObjectBehavior
         $buildingType = BuildingType::ResourceMine;
 
         $building = $this->createNew($planetId, $buildingType, $resourceContextId);
-        
+
         $building->getPlanetId()->shouldReturn($planetId);
         $building->getType()->shouldReturn($buildingType);
         $building->getCurrentLevel()->shouldReturn(0);

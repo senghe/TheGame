@@ -48,7 +48,8 @@ final class StartConstructingCommandHandler
             $building->getType(),
         );
         $hasEnoughResources = $this->resourceAvailabilityChecker->check(
-            $planetId, $resourceRequirements,
+            $planetId,
+            $resourceRequirements,
         );
 
         if ($hasEnoughResources === false) {

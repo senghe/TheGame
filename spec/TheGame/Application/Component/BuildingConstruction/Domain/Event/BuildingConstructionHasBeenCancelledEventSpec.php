@@ -18,7 +18,9 @@ final class BuildingConstructionHasBeenCancelledEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, BuildingType::ResourceStorage->value, $resourceRequirements,
+            $planetId,
+            BuildingType::ResourceStorage->value,
+            $resourceRequirements,
         );
     }
 
@@ -48,7 +50,9 @@ final class BuildingConstructionHasBeenCancelledEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $buildingType, $resourceRequirements,
+            $planetId,
+            $buildingType,
+            $resourceRequirements,
         );
 
         $this->shouldThrow(InvalidArgumentException::class)
@@ -66,7 +70,9 @@ final class BuildingConstructionHasBeenCancelledEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $buildingType, $resourceRequirements,
+            $planetId,
+            $buildingType,
+            $resourceRequirements,
         );
 
         $this->shouldThrow(InvalidArgumentException::class)

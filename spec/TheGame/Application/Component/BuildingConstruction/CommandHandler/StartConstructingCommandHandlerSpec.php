@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace spec\TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
-use DateTimeImmutable;
 use DateTimeInterface;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -56,7 +55,9 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
             ->willReturn(null);
 
         $buildingFactory->createNew(
-            new PlanetId($planetId), BuildingType::ResourceStorage, new ResourceId($resourceContextId),
+            new PlanetId($planetId),
+            BuildingType::ResourceStorage,
+            new ResourceId($resourceContextId),
         )->willReturn($building);
 
         $building->getCurrentLevel()->willReturn(1);
@@ -102,7 +103,9 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
             ->willReturn(null);
 
         $buildingFactory->createNew(
-            new PlanetId($planetId), BuildingType::ResourceStorage, new ResourceId($resourceContextId),
+            new PlanetId($planetId),
+            BuildingType::ResourceStorage,
+            new ResourceId($resourceContextId),
         )->willReturn($building);
 
         $building->getCurrentLevel()->willReturn(1);

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace spec\TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
-use PhpParser\Node\Arg;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;

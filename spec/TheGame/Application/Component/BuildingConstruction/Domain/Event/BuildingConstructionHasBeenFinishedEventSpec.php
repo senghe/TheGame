@@ -15,7 +15,9 @@ final class BuildingConstructionHasBeenFinishedEventSpec extends ObjectBehavior
         $level = 1;
 
         $this->beConstructedWith(
-            $planetId, BuildingType::ResourceStorage->value, $level,
+            $planetId,
+            BuildingType::ResourceStorage->value,
+            $level,
         );
     }
 
