@@ -14,7 +14,7 @@ final class ResourceMineConstructionHasBeenFinishedEvent extends BuildingConstru
         private readonly string $resourceContextId,
         private readonly int $currentLevel,
     ) {
-        return parent::__construct(
+        parent::__construct(
             $this->planetId,
             BuildingType::ResourceMine->value,
             $this->currentLevel,

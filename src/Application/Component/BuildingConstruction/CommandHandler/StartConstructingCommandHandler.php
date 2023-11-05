@@ -35,7 +35,11 @@ final class StartConstructingCommandHandler
 
         $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
         if ($building === null) {
-            $resourceContextId = new ResourceId($command->getResourceContextId());
+            $resourceContextId = $command->getResourceContextId();
+            if ($resourceContextId !== null) {
+                $resourceContextId = new ResourceId($resourceContextId);
+            }
+
             $building = $this->buildingFactory->createNew(
                 $planetId,
                 $buildingType,

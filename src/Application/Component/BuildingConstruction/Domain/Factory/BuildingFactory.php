@@ -20,7 +20,7 @@ final class BuildingFactory implements BuildingFactoryInterface
     public function createNew(
         PlanetIdInterface $planetId,
         BuildingType $type,
-        ResourceIdInterface $resourceContextId,
+        ?ResourceIdInterface $resourceContextId,
     ): Building {
         $buildingId = $this->uuidGenerator->generateNewBuildingId();
 

@@ -14,6 +14,6 @@ interface BuildingFactoryInterface
     public function createNew(
         PlanetIdInterface $planetId,
         BuildingType $type,
-        ResourceIdInterface $resourceContextId,
+        ?ResourceIdInterface $resourceContextId,
     ): Building;
 }

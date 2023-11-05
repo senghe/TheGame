@@ -9,6 +9,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingCons
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
+use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
 final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterface
 {
@@ -17,16 +18,20 @@ final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterfac
         $type = $building->getType();
         switch ($type) {
             case BuildingType::ResourceMine: {
+                /** @var ResourceIdInterface $resourceContextId */
+                $resourceContextId = $building->getResourceContextId();
                 return new ResourceMineConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
-                    $building->getResourceContextId()->getUuid(),
+                    $resourceContextId->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
             case BuildingType::ResourceStorage: {
+                /** @var ResourceIdInterface $resourceContextId */
+                $resourceContextId = $building->getResourceContextId();
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
-                    $building->getResourceContextId()->getUuid(),
+                    $resourceContextId->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }

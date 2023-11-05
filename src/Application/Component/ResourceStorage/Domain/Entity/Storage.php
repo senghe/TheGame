@@ -90,7 +90,7 @@ class Storage
         throw new CannotUpgradeStorageLimitForLowerValueException(
             $this->storageId,
             $this->resourceId,
-            $this->limit,
+            $this->limit ?? 0,
             $newLimit
         );
     }
