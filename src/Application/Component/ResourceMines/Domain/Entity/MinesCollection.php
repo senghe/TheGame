@@ -70,4 +70,15 @@ class MinesCollection
             $newSpeed
         );
     }
+
+    public function hasMineForResource(ResourceIdInterface $resourceId): bool
+    {
+        foreach ($this->mines as $mine) {
+            if ($mine->isForResource($resourceId) === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

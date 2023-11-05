@@ -27,9 +27,4 @@ final class ResourceMineConstructionHasBeenFinishedEventSpec extends ObjectBehav
     {
 
     }
-
-    public function it_has_no_resource_context_id(): void
-    {
-
-    }
 }

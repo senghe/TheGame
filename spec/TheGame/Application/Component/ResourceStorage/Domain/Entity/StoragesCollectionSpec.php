@@ -243,4 +243,30 @@ final class StoragesCollectionSpec extends ObjectBehavior
         $this->shouldThrow(CannotUpgradeStorageForUnsupportedResourceException::class)
             ->during('upgradeLimit', [new ResourceId($resourceId), 1000]);
     }
+
+    public function it_has_storage_for_resource(
+        Storage $storage,
+    ): void {
+        $resourceId = "a19de2ab-2af9-4f87-a6b5-175d69c5b87a";
+        $storage->isForResource(new ResourceId($resourceId))
+            ->willReturn(true);
+
+        $this->add($storage);
+
+        $this->hasStorageForResource(new ResourceId($resourceId))
+            ->shouldReturn(true);
+    }
+
+    public function it_hasnt_storage_for_resource(
+        Storage $storage,
+    ): void {
+        $resourceId = "a19de2ab-2af9-4f87-a6b5-175d69c5b87a";
+        $storage->isForResource(new ResourceId($resourceId))
+            ->willReturn(false);
+
+        $this->add($storage);
+
+        $this->hasStorageForResource(new ResourceId($resourceId))
+            ->shouldReturn(false);
+    }
 }

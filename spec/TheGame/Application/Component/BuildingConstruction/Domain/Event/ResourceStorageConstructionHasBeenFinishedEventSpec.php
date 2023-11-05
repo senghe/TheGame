@@ -27,9 +27,4 @@ final class ResourceStorageConstructionHasBeenFinishedEventSpec extends ObjectBe
     {
 
     }
-
-    public function it_has_no_resource_context_id(): void
-    {
-
-    }
 }

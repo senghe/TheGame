@@ -16,9 +16,10 @@ class Mine
     public function __construct(
         protected readonly MineIdInterface $id,
         protected readonly ResourceIdInterface $resourceId,
-        protected float $currentMiningSpeed,
+        protected int $currentMiningSpeed,
         protected DateTimeInterface $extractedAt,
     ) {
+
     }
 
     public function getId(): MineIdInterface

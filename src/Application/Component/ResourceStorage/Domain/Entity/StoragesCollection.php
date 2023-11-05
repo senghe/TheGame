@@ -127,4 +127,15 @@ class StoragesCollection
             $resourceId,
         );
     }
+
+    public function hasStorageForResource(ResourceIdInterface $resourceId): bool
+    {
+        foreach ($this->storages as $storage) {
+            if ($storage->isForResource($resourceId) === true) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

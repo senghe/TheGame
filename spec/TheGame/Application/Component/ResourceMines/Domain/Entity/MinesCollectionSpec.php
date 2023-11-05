@@ -99,4 +99,30 @@ final class MinesCollectionSpec extends ObjectBehavior
         $this->shouldThrow(CannotUpgradeMiningSpeedForUnsupportedResourceException::class)
             ->during('upgradeMiningSpeed', [$resourceId, 500]);
     }
+
+    public function it_has_mine_for_resource(
+        Mine $mine,
+    ): void {
+        $resourceId = "9c1caf31-3fb6-4473-948e-fc63ece22a57";
+        $mine->isForResource(new ResourceId($resourceId))
+            ->willReturn(true);
+
+        $this->addMine($mine);
+
+        $this->hasMineForResource(new ResourceId($resourceId))
+            ->shouldReturn(true);
+    }
+
+    public function it_hasnt_mine_for_resource(
+        Mine $mine,
+    ): void {
+        $resourceId = "9c1caf31-3fb6-4473-948e-fc63ece22a57";
+        $mine->isForResource(new ResourceId($resourceId))
+            ->willReturn(false);
+
+        $this->addMine($mine);
+
+        $this->hasMineForResource(new ResourceId($resourceId))
+            ->shouldReturn(false);
+    }
 }

@@ -6,6 +6,7 @@ namespace TheGame\Application\Component\ResourceMines\EventListener;
 
 use TheGame\Application\Component\Balance\Bridge\ResourceMinesContextInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
+use TheGame\Application\Component\ResourceMines\Domain\Factory\MineFactoryInterface;
 use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
@@ -16,6 +17,7 @@ final class UpgradeMineEventListener
     public function __construct(
         private readonly ResourceMinesRepositoryInterface $minesRepository,
         private readonly ResourceMinesContextInterface $resourceMinesContext,
+        private readonly MineFactoryInterface $resourceMineFactory,
     ) {
     }
 
@@ -25,6 +27,12 @@ final class UpgradeMineEventListener
         $minesCollection = $this->minesRepository->findForPlanet($planetId);
         if ($minesCollection === null) {
             throw new InconsistentModelException(sprintf("Planet %d has no mines collection attached", $event->getPlanetId()));
+        }
+
+        $resourceId = new ResourceId($event->getResourceContextId());
+        if ($minesCollection->hasMineForResource($resourceId) === false) {
+            $mine = $this->resourceMineFactory->createNew($resourceId);
+            $minesCollection->addMine($mine);
         }
 
         $resourceId = new ResourceId($event->getResourceContextId());
