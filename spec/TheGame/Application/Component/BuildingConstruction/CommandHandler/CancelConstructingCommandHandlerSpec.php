@@ -35,7 +35,7 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         BuildingRepositoryInterface $buildingRepository,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceMine)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceMine)
             ->willReturn(null);
 
         $command = new CancelConstructingCommand(
@@ -54,7 +54,7 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         ResourceRequirementsInterface $resourceRequirements,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceMine)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceMine)
             ->willReturn($building);
 
         $buildingBalanceContext->getResourceRequirements(5, BuildingType::ResourceMine)

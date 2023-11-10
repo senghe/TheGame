@@ -13,6 +13,8 @@ final class BuildingConstructionHasBeenCancelledEvent implements EventInterface
     public function __construct(
         private readonly string $planetId,
         private readonly string $buildingType,
+        private readonly string $buildingId,
+        private readonly int $cancelledLevel,
         private readonly array $resourceRequirements,
     ) {
         foreach ($this->resourceRequirements as $key => $value) {
@@ -30,6 +32,16 @@ final class BuildingConstructionHasBeenCancelledEvent implements EventInterface
     public function getBuildingType(): string
     {
         return $this->buildingType;
+    }
+
+    public function getBuildingId(): string
+    {
+        return $this->buildingId;
+    }
+
+    public function getCancelledLevel(): int
+    {
+        return $this->cancelledLevel;
     }
 
     /** @return array<string, int> */

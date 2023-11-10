@@ -8,15 +8,17 @@ use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 interface ShipyardContextInterface
 {
-    public function getCannonConstructionTime(string $type): int;
+    public function getShipyardProductionLimit(int $level): int;
 
-    public function getCannonResourceRequirements(string $type): ResourceRequirementsInterface;
+    public function getCannonConstructionTime(string $type, int $shipyardLevel): int;
 
     public function getCannonProductionLoad(string $type): int;
 
-    public function getShipConstructionTime(string $type): int;
+    public function getCannonResourceRequirements(string $type): ResourceRequirementsInterface;
 
-    public function getShipResourceRequirements(string $type): ResourceRequirementsInterface;
+    public function getShipConstructionTime(string $type, int $shipyardLevel): int;
 
     public function getShipProductionLoad(string $type): int;
+
+    public function getShipResourceRequirements(string $type): ResourceRequirementsInterface;
 }

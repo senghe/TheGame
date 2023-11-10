@@ -6,11 +6,13 @@ namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\FinishConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\Factory\BuildingTypeEventFactoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class FinishConstructingCommandHandler
 {
@@ -24,14 +26,12 @@ final class FinishConstructingCommandHandler
     public function __invoke(FinishConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $buildingType = BuildingType::from($command->getBuildingType());
+        $buildingId = new BuildingId($command->getBuildingId());
 
-        $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
+        $building = $this->buildingRepository->findForPlanetById($planetId, $buildingId);
         if ($building === null) {
-            throw new BuildingHasNotBeenBuiltYetFoundException(
-                $planetId,
-                $buildingType
-            );
+            $message = sprintf("The building %s was not found", $command->getBuildingId());
+            throw new InconsistentModelException($message);
         }
 
         $building->finishUpgrading();

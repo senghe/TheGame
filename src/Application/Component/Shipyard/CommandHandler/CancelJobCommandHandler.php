@@ -18,7 +18,6 @@ final class CancelJobCommandHandler
         private readonly ShipyardRepositoryInterface $shipyardRepository,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(CancelJobCommand $command): void

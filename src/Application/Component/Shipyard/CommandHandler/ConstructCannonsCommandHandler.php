@@ -23,7 +23,6 @@ final class ConstructCannonsCommandHandler
         private readonly ShipyardContextInterface $shipyardBalanceContext,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(ConstructCannonsCommand $command): void
@@ -37,12 +36,14 @@ final class ConstructCannonsCommandHandler
         $cannon = new Cannon(
             $command->getType(),
             $this->shipyardBalanceContext->getCannonResourceRequirements($command->getType()),
-            $this->shipyardBalanceContext->getCannonConstructionTime($command->getType()),
+            $this->shipyardBalanceContext->getCannonConstructionTime(
+                $command->getType(),
+                $shipyard->getCurrentLevel(),
+            ),
             $this->shipyardBalanceContext->getCannonProductionLoad($command->getType()),
         );
 
         $planetId = $shipyard->getPlanetId();
-
         $resourceRequirements = $shipyard->calculateResourceRequirements($cannon, $command->getQuantity());
         $hasEnoughResources = $this->resourceAvailabilityChecker->check($planetId, $resourceRequirements);
         if ($hasEnoughResources === false) {

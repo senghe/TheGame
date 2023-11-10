@@ -18,7 +18,6 @@ final class FinishJobsCommandHandler
         private readonly FinishedConstructionEventFactory $finishedConstructionEventFactory,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(FinishJobsCommand $command): void

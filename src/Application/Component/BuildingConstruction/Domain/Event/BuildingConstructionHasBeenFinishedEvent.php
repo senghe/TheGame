@@ -11,8 +11,8 @@ class BuildingConstructionHasBeenFinishedEvent implements EventInterface
     public function __construct(
         private readonly string $planetId,
         private readonly string $buildingType,
-        private readonly ?string $buildingId,
-        private readonly int $currentLevel,
+        private readonly string $buildingId,
+        private readonly int $upgradedLevel,
     ) {
     }
 
@@ -26,13 +26,13 @@ class BuildingConstructionHasBeenFinishedEvent implements EventInterface
         return $this->buildingType;
     }
 
-    public function getBuildingId(): ?string
+    public function getBuildingId(): string
     {
         return $this->buildingId;
     }
 
-    public function getLevel(): int
+    public function getUpgradedLevel(): int
     {
-        return $this->currentLevel;
+        return $this->upgradedLevel;
     }
 }

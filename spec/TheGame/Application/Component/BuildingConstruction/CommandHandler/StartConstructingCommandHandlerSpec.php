@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
-use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingNewBuildingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenStartedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InsufficientResourcesException;
@@ -51,7 +51,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $resourceContextId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";
 
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
             ->willReturn(null);
 
         $buildingFactory->createNew(
@@ -80,7 +80,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::type(BuildingConstructionHasBeenStartedEvent::class))
             ->shouldBeCalledOnce();
 
-        $command = new StartConstructingCommand(
+        $command = new StartConstructingNewBuildingCommand(
             $planetId,
             BuildingType::ResourceStorage->value,
             $resourceContextId,
@@ -99,7 +99,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $resourceContextId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";
 
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
             ->willReturn(null);
 
         $buildingFactory->createNew(
@@ -117,7 +117,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $resourceAvailabilityChecker->check(new PlanetId($planetId), $resourceRequirements)
             ->willReturn(false);
 
-        $command = new StartConstructingCommand(
+        $command = new StartConstructingNewBuildingCommand(
             $planetId,
             BuildingType::ResourceStorage->value,
             $resourceContextId,
@@ -137,7 +137,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $resourceContextId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";
 
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
             ->willReturn($building);
 
         $building->getCurrentLevel()->willReturn(1);
@@ -160,7 +160,7 @@ final class StartConstructingCommandHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::type(BuildingConstructionHasBeenStartedEvent::class))
             ->shouldBeCalledOnce();
 
-        $command = new StartConstructingCommand(
+        $command = new StartConstructingNewBuildingCommand(
             $planetId,
             BuildingType::ResourceStorage->value,
             $resourceContextId,

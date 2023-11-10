@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\Command;
 
 use TheGame\Application\SharedKernel\CommandInterface;
 
-final class FinishConstructingCommand implements CommandInterface
+final class StartUpgradingBuildingCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $planetId,

@@ -7,11 +7,13 @@ namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class CancelConstructingCommandHandler
 {
@@ -25,23 +27,24 @@ final class CancelConstructingCommandHandler
     public function __invoke(CancelConstructingCommand $command): void
     {
         $planetId = new PlanetId($command->getPlanetId());
-        $buildingType = BuildingType::from($command->getBuildingType());
+        $buildingId = new BuildingId($command->getBuildingId());
 
-        $building = $this->buildingRepository->findForPlanet($planetId, $buildingType);
+        $building = $this->buildingRepository->findForPlanetById($planetId, $buildingId);
         if ($building === null) {
-            throw new BuildingHasNotBeenBuiltYetFoundException(
-                $planetId,
-                $buildingType
-            );
+            $message = sprintf("The building %s was not found", $command->getBuildingId());
+            throw new InconsistentModelException($message);
         }
 
         $building->cancelUpgrading();
-        $currentLevel = $building->getCurrentLevel();
-        $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements($currentLevel, $buildingType);
+
+        $cancelledLevel = $building->getCurrentLevel()+1;
+        $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements($cancelledLevel, $building->getType());
 
         $event = new BuildingConstructionHasBeenCancelledEvent(
             $command->getPlanetId(),
-            $command->getBuildingType(),
+            $building->getType()->value,
+            $command->getBuildingId(),
+            $cancelledLevel,
             $resourceRequirements->toScalarArray(),
         );
         $this->eventBus->dispatch($event);

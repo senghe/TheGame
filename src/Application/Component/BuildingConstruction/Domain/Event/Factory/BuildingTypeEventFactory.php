@@ -10,11 +10,10 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMine
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ShipyardConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\EventInterface;
 
-final class BuildingTypeEventFactory
+final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterface
 {
-    public function createConstructingFinishedEvent(Building $building): EventInterface
+    public function createConstructingFinishedEvent(Building $building): BuildingConstructionHasBeenFinishedEvent
     {
         $type = $building->getType();
         switch ($type) {
@@ -22,7 +21,7 @@ final class BuildingTypeEventFactory
                 return new ResourceMineConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getId()->getUuid(),
-                    $building->getResourceContextId()->getUuid(),
+                    $building->getResourceContextId()?->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
@@ -30,7 +29,7 @@ final class BuildingTypeEventFactory
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getId()->getUuid(),
-                    $building->getResourceContextId()->getUuid(),
+                    $building->getResourceContextId()?->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
@@ -45,8 +44,8 @@ final class BuildingTypeEventFactory
 
         return new BuildingConstructionHasBeenFinishedEvent(
             $building->getPlanetId()->getUuid(),
-            $building->getId()->getUuid(),
             $type->value,
+            $building->getId()->getUuid(),
             $building->getCurrentLevel(),
         );
     }

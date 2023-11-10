@@ -23,7 +23,6 @@ final class ConstructShipsCommandHandler
         private readonly ShipyardContextInterface $shipyardBalanceContext,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(ConstructShipsCommand $command): void
@@ -37,7 +36,10 @@ final class ConstructShipsCommandHandler
         $ship = new Ship(
             $command->getType(),
             $this->shipyardBalanceContext->getShipResourceRequirements($command->getType()),
-            $this->shipyardBalanceContext->getShipConstructionTime($command->getType()),
+            $this->shipyardBalanceContext->getShipConstructionTime(
+                $command->getType(),
+                $shipyard->getCurrentLevel(),
+            ),
             $this->shipyardBalanceContext->getShipProductionLoad($command->getType()),
         );
 

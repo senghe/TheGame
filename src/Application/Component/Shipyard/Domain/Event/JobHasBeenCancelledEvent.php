@@ -9,6 +9,7 @@ use TheGame\Application\SharedKernel\EventInterface;
 
 final class JobHasBeenCancelledEvent implements EventInterface
 {
+    /** @phpstan-ignore-next-line The validation is done in constructor */
     public function __construct(
         private readonly string $shipyardId,
         private readonly string $jobId,

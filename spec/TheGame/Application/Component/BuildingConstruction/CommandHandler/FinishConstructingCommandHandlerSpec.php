@@ -35,7 +35,7 @@ final class FinishConstructingCommandHandlerSpec extends ObjectBehavior
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
 
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
             ->willReturn(null);
 
         $command = new FinishConstructingCommand(
@@ -54,7 +54,7 @@ final class FinishConstructingCommandHandlerSpec extends ObjectBehavior
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
 
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
             ->willReturn($building);
 
         $building->finishUpgrading()->shouldBeCalledOnce();

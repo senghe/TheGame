@@ -13,13 +13,13 @@ final class ResourceStorageConstructionHasBeenFinishedEvent extends BuildingCons
         private readonly string $planetId,
         private readonly string $buildingId,
         private readonly string $resourceContextId,
-        private readonly int $currentLevel,
+        private readonly int $upgradedLevel,
     ) {
         parent::__construct(
             $this->planetId,
-            $this->buildingId,
             BuildingType::ResourceStorage->value,
-            $this->currentLevel,
+            $this->buildingId,
+            $this->upgradedLevel,
         );
     }
 

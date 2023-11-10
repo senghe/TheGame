@@ -13,13 +13,13 @@ final class ShipyardConstructionHasBeenFinishedEvent extends BuildingConstructio
     public function __construct(
         private readonly string $planetId,
         private readonly string $buildingId,
-        private readonly int $currentLevel,
+        private readonly int $upgradedLevel,
     ) {
         return parent::__construct(
             $this->planetId,
             BuildingType::Shipyard->value,
             $this->buildingId,
-            $this->currentLevel,
+            $this->upgradedLevel,
         );
     }
 }

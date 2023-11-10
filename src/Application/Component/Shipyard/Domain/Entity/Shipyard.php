@@ -22,13 +22,14 @@ class Shipyard
     /** @var array<int, Job> */
     private array $jobQueue;
 
+    private int $currentLevel = 0;
+
     public function __construct(
         private readonly ShipyardIdInterface $shipyardId,
         private readonly PlanetIdInterface $planetId,
         private int $productionLimit,
         private DateTimeInterface $lastUpdatedAt
     ) {
-
     }
 
     public function getId(): ShipyardIdInterface
@@ -168,5 +169,16 @@ class Shipyard
         }
 
         throw new ShipyardJobNotFoundException($jobId);
+    }
+
+    public function upgrade(int $newProductionLimit): void
+    {
+        $this->productionLimit = $newProductionLimit;
+        $this->currentLevel++;
+    }
+
+    public function getCurrentLevel(): int
+    {
+        return $this->currentLevel;
     }
 }
