@@ -12,6 +12,8 @@ enum BuildingType: string
 
     case ResourceStorage = 'resource-storage';
 
+    case Shipyard = 'shipyard';
+
     public static function fromName(string $name): self
     {
         foreach (self::cases() as $type) {

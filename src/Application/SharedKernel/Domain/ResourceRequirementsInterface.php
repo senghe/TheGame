@@ -15,4 +15,6 @@ interface ResourceRequirementsInterface
 
     /** @return array<int, ResourceAmountInterface> */
     public function getAll(): array;
+
+    public function multipliedBy(int $quantity): ResourceRequirementsInterface;
 }

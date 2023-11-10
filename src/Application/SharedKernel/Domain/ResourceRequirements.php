@@ -62,4 +62,18 @@ final class ResourceRequirements implements ResourceRequirementsInterface
     {
         return array_values($this->requirements);
     }
+
+    public function multipliedBy(int $quantity): ResourceRequirementsInterface
+    {
+        $newRequirements = new self();
+        foreach ($this->requirements as $resourceAmount) {
+            $newAmount = new ResourceAmount(
+                $resourceAmount->getResourceId(),
+                $resourceAmount->getAmount() * $quantity,
+            );
+            $newRequirements->add($newAmount);
+        }
+
+        return $newRequirements;
+    }
 }
