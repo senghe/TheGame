@@ -13,7 +13,6 @@ final class ConstructShipsCommand implements CommandInterface
         private readonly string $type,
         private readonly int $quantity,
     ) {
-
     }
 
     public function getShipyardId(): string

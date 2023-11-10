@@ -15,7 +15,6 @@ final class ShipyardFactory implements ShipyardFactoryInterface
     public function __construct(
         private readonly UuidGeneratorInterface $uuidGenerator,
     ) {
-
     }
 
     public function create(

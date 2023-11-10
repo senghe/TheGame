@@ -9,8 +9,6 @@ use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterfa
 use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
-use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
-use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
@@ -37,7 +35,7 @@ final class CancelConstructingCommandHandler
 
         $building->cancelUpgrading();
 
-        $cancelledLevel = $building->getCurrentLevel()+1;
+        $cancelledLevel = $building->getCurrentLevel() + 1;
         $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements($cancelledLevel, $building->getType());
 
         $event = new BuildingConstructionHasBeenCancelledEvent(

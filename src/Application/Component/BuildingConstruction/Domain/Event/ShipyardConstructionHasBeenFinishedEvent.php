@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\BuildingConstruction\Domain\Event;
 
-use InvalidArgumentException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\EventInterface;
 

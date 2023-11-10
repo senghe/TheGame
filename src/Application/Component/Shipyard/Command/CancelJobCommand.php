@@ -12,7 +12,6 @@ final class CancelJobCommand implements CommandInterface
         private readonly string $shipyardId,
         private readonly string $jobId,
     ) {
-
     }
 
     public function getShipyardId(): string

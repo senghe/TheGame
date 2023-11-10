@@ -16,7 +16,6 @@ class Job implements ConstructibleInterface
         private readonly ConstructibleInterface $constructible,
         private int $quantity,
     ) {
-
     }
 
     public function getId(): JobIdInterface
@@ -28,7 +27,6 @@ class Job implements ConstructibleInterface
     {
         return $this->constructible->getConstructionUnit();
     }
-
 
     public function getType(): string
     {
@@ -69,6 +67,5 @@ class Job implements ConstructibleInterface
 
     public function finish(): void
     {
-
     }
 }

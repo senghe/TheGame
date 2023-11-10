@@ -7,16 +7,12 @@ namespace TheGame\Application\Component\BuildingConstruction\CommandHandler;
 use DateTimeImmutable;
 use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
-use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingNewBuildingCommand;
 use TheGame\Application\Component\BuildingConstruction\Command\StartUpgradingBuildingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenStartedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InsufficientResourcesException;
-use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
-use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
@@ -42,7 +38,7 @@ final class StartUpgradingBuildingCommandHandler
         }
 
         $resourceRequirements = $this->buildingBalanceContext->getResourceRequirements(
-            $building->getCurrentLevel()+1,
+            $building->getCurrentLevel() + 1,
             $building->getType(),
         );
         $hasEnoughResources = $this->resourceAvailabilityChecker->check(
@@ -61,7 +57,7 @@ final class StartUpgradingBuildingCommandHandler
         $buildingFinishDate = new DateTimeImmutable(sprintf("now + %d seconds", $buildingDuration));
         $building->startUpgrading($buildingFinishDate);
 
-        $newLevel = $building->getCurrentLevel()+1;
+        $newLevel = $building->getCurrentLevel() + 1;
         $event = new BuildingConstructionHasBeenStartedEvent(
             $command->getPlanetId(),
             $building->getType()->value,

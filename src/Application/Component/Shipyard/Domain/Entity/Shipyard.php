@@ -149,7 +149,7 @@ class Shipyard
             );
 
             array_shift($this->jobQueue);
-        } while($elapsedTime > 0);
+        } while ($elapsedTime > 0);
 
         $this->lastUpdatedAt = $now;
 

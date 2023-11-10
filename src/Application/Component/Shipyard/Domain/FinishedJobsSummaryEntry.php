@@ -11,7 +11,6 @@ final class FinishedJobsSummaryEntry
         private readonly string $type,
         private int $quantity = 0,
     ) {
-
     }
 
     public function getUnit(): ConstructibleUnit

@@ -8,7 +8,7 @@ use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 interface ConstructibleInterface
 {
-    function getConstructionUnit(): ConstructibleUnit;
+    public function getConstructionUnit(): ConstructibleUnit;
 
     public function getType(): string;
 

@@ -12,7 +12,6 @@ final class NewShipsHaveBeenConstructedEvent implements EventInterface
         private readonly string $type,
         private readonly int $quantity,
     ) {
-
     }
 
     public function getType(): string

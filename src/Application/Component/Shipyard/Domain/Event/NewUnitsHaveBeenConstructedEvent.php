@@ -13,7 +13,6 @@ final class NewUnitsHaveBeenConstructedEvent implements EventInterface
         private readonly string $type,
         private readonly int $quantity,
     ) {
-
     }
 
     public function getUnit(): string

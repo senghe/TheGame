@@ -16,7 +16,6 @@ abstract class AbstractConstructible implements ConstructibleInterface
         private readonly int $duration,
         private readonly int $productionLoad,
     ) {
-
     }
 
     abstract public function getConstructionUnit(): ConstructibleUnit;
