@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\Shipyard\Domain\Entity;
 
 use DateTimeInterface;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\Exception\CantCancelCurrentlyTakenJobException;
 use TheGame\Application\Component\Shipyard\Domain\Exception\ProductionLimitHasBeenReachedException;
@@ -27,6 +28,7 @@ class Shipyard
     public function __construct(
         private readonly ShipyardIdInterface $shipyardId,
         private readonly PlanetIdInterface $planetId,
+        private readonly BuildingIdInterface $buildingId,
         private int $productionLimit,
         private DateTimeInterface $lastUpdatedAt
     ) {
@@ -40,6 +42,11 @@ class Shipyard
     public function getPlanetId(): PlanetIdInterface
     {
         return $this->planetId;
+    }
+
+    public function getBuildingId(): BuildingIdInterface
+    {
+        return $this->buildingId;
     }
 
     public function queueShips(

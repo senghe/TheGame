@@ -28,6 +28,7 @@ final class ShipyardFactory implements ShipyardFactoryInterface
         return new Shipyard(
             $shipyardId,
             $planetId,
+            $buildingId,
             $noProductionLimit,
             new DateTimeImmutable(),
         );
