@@ -12,11 +12,13 @@ final class ResourceStorageConstructionHasBeenFinishedEventSpec extends ObjectBe
     public function let(): void
     {
         $planetId = "6B685A5A-E279-4E8D-A9D4-0EEC6E7F0F3D";
-        $level = 1;
+        $buildingId = "95EBB0A5-95C6-4D7F-AD9C-475DE30D59D9";
         $resourceContextId = "F8214FC4-B5E8-4D19-8360-8E95BE8FBF9B";
+        $level = 1;
 
         $this->beConstructedWith(
             $planetId,
+            $buildingId,
             $resourceContextId,
             $level,
         );
@@ -27,14 +29,19 @@ final class ResourceStorageConstructionHasBeenFinishedEventSpec extends ObjectBe
         $this->getPlanetId()->shouldReturn("6B685A5A-E279-4E8D-A9D4-0EEC6E7F0F3D");
     }
 
+    public function it_has_building_id(): void
+    {
+        $this->getBuildingId()->shouldReturn("95EBB0A5-95C6-4D7F-AD9C-475DE30D59D9");
+    }
+
     public function it_has_building_type(): void
     {
         $this->getBuildingType()->shouldReturn(BuildingType::ResourceStorage->value);
     }
 
-    public function it_has_current_level(): void
+    public function it_has_upgraded_level(): void
     {
-        $this->getLevel()->shouldReturn(1);
+        $this->getUpgradedLevel()->shouldReturn(1);
     }
 
     public function it_has_resource_context_id(): void

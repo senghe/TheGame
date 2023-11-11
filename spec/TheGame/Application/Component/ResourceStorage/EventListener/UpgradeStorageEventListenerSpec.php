@@ -33,6 +33,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
         ResourceStoragesRepositoryInterface $storagesRepository,
     ): void {
         $planetId = "4DF55530-FFF2-439C-B616-41C8244C596C";
+        $buildingId = "98A5FE8E-B43B-4E82-B8AA-6E00FE445A77";
 
         $storagesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn(null);
@@ -41,6 +42,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
         $currentLevel = 5;
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceContextId,
             $currentLevel
         );
@@ -56,6 +58,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
         StoragesCollection $storagesCollection,
     ): void {
         $planetId = "4DF55530-FFF2-439C-B616-41C8244C596C";
+        $buildingId = "98A5FE8E-B43B-4E82-B8AA-6E00FE445A77";
         $resourceContextId = "0F8DC0DB-766C-4D04-998B-1D9A86FC7A7C";
         $currentLevel = 5;
 
@@ -73,6 +76,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
 
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceContextId,
             $currentLevel
         );
@@ -88,6 +92,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
         Storage $storage,
     ): void {
         $planetId = "4DF55530-FFF2-439C-B616-41C8244C596C";
+        $buildingId = "98A5FE8E-B43B-4E82-B8AA-6E00FE445A77";
         $resourceContextId = "0F8DC0DB-766C-4D04-998B-1D9A86FC7A7C";
         $currentLevel = 5;
 
@@ -111,6 +116,7 @@ final class UpgradeStorageEventListenerSpec extends ObjectBehavior
 
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceContextId,
             $currentLevel
         );

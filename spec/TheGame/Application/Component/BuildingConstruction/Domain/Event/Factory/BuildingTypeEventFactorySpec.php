@@ -6,6 +6,7 @@ namespace spec\TheGame\Application\Component\BuildingConstruction\Domain\Event\F
 
 use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
@@ -20,6 +21,9 @@ final class BuildingTypeEventFactorySpec extends ObjectBehavior
     ): void {
         $planetId = "A16D8FB1-FD3B-4C25-A1FC-D04857EF917A";
         $building->getPlanetId()->willReturn(new PlanetId($planetId));
+
+        $buildingId = "4110CF0F-81FD-4C63-83FF-19069C597BDB";
+        $building->getId()->willReturn(new BuildingId($buildingId));
 
         $resourceContextId = "3FA9C84B-F2A7-44D0-8EA3-63DD66D23899";
         $building->getResourceContextId()->willReturn(new ResourceId($resourceContextId));
@@ -36,6 +40,9 @@ final class BuildingTypeEventFactorySpec extends ObjectBehavior
     ): void {
         $planetId = "A16D8FB1-FD3B-4C25-A1FC-D04857EF917A";
         $building->getPlanetId()->willReturn(new PlanetId($planetId));
+
+        $buildingId = "4110CF0F-81FD-4C63-83FF-19069C597BDB";
+        $building->getId()->willReturn(new BuildingId($buildingId));
 
         $resourceContextId = "3FA9C84B-F2A7-44D0-8EA3-63DD66D23899";
         $building->getResourceContextId()->willReturn(new ResourceId($resourceContextId));

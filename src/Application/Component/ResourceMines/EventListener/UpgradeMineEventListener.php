@@ -37,7 +37,7 @@ final class UpgradeMineEventListener
 
         $resourceId = new ResourceId($event->getResourceContextId());
         $newMiningSpeed = $this->resourceMinesContext->getMiningSpeed(
-            $event->getLevel(),
+            $event->getUpgradedLevel(),
             $resourceId
         );
 
