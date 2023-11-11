@@ -51,7 +51,7 @@ final class StartUpgradingBuildingCommandHandler
         }
 
         $buildingDuration = $this->buildingBalanceContext->getBuildingDuration(
-            $building->getCurrentLevel(),
+            $building->getCurrentLevel() + 1,
             $building->getType(),
         );
         $buildingFinishDate = new DateTimeImmutable(sprintf("now + %d seconds", $buildingDuration));

@@ -6,7 +6,7 @@ namespace spec\TheGame\Application\Component\BuildingConstruction\Command;
 
 use PhpSpec\ObjectBehavior;
 
-final class CancelConstructingCommandSpec extends ObjectBehavior
+final class StartUpgradingBuildingCommandSpec extends ObjectBehavior
 {
     public function let(): void
     {

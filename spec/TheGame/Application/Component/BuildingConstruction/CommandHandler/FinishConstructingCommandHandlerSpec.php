@@ -8,6 +8,7 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\FinishConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\Factory\BuildingTypeEventFactoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
@@ -15,6 +16,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Exception\Building
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class FinishConstructingCommandHandlerSpec extends ObjectBehavior
 {
@@ -34,15 +36,16 @@ final class FinishConstructingCommandHandlerSpec extends ObjectBehavior
         BuildingRepositoryInterface $buildingRepository,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
+        $buildingId = "ea01f1c2-2f1d-4c0f-832a-b09d442612ae";
 
-        $buildingRepository->findForPlanetByType(new PlanetId($planetId), BuildingType::ResourceStorage)
+        $buildingRepository->findForPlanetById(new PlanetId($planetId), new BuildingId($buildingId))
             ->willReturn(null);
 
         $command = new FinishConstructingCommand(
             $planetId,
-            BuildingType::ResourceStorage->value,
+            $buildingId,
         );
-        $this->shouldThrow(BuildingHasNotBeenBuiltYetFoundException::class)
+        $this->shouldThrow(InconsistentModelException::class)
             ->during('__invoke', [$command]);
     }
 
@@ -63,7 +66,7 @@ final class FinishConstructingCommandHandlerSpec extends ObjectBehavior
         $event = new ResourceStorageConstructionHasBeenFinishedEvent(
             $planetId,
             $resourceId,
-            1
+            1,
         );
         $buildingTypeEventFactory->createConstructingFinishedEvent($building)
             ->willReturn($event);
