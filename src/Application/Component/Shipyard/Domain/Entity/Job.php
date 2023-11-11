@@ -48,7 +48,7 @@ class Job implements ConstructibleInterface
 
     public function getQuantity(): int
     {
-        return $this->constructible->getQuantity() * $this->currentQuantity;
+        return $this->currentQuantity;
     }
 
     public function getDuration(): int
@@ -63,7 +63,7 @@ class Job implements ConstructibleInterface
 
     public function finishPartially(int $elapsedTime): int
     {
-        $finishedQuantity = floor($elapsedTime / $this->constructible->getDuration());
+        $finishedQuantity = (int) floor($elapsedTime / $this->constructible->getDuration());
         if ($finishedQuantity > $this->currentQuantity) {
             $this->finish();
 
@@ -72,7 +72,7 @@ class Job implements ConstructibleInterface
 
         $this->currentQuantity -= $finishedQuantity;
 
-        return (int) $finishedQuantity;
+        return $finishedQuantity;
     }
 
     public function finish(): void
