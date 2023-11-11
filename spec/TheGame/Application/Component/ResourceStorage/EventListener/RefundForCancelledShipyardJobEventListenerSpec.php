@@ -6,11 +6,9 @@ namespace spec\TheGame\Application\Component\ResourceStorage\EventListener;
 
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
-use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\Component\Shipyard\Domain\Event\JobHasBeenCancelledEvent;
 use TheGame\Application\SharedKernel\CommandBusInterface;
-use TheGame\Application\SharedKernel\Domain\BuildingType;
 
 final class RefundForCancelledShipyardJobEventListenerSpec extends ObjectBehavior
 {

@@ -12,7 +12,6 @@ use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructin
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
-use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
@@ -60,7 +59,6 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         $buildingId = "d6949ca7-157d-4019-9267-c7a61af33b01";
         $buildingRepository->findForPlanetById(new PlanetId($planetId), new BuildingId($buildingId))
             ->willReturn($building);
-
 
         $building->getType()->willReturn(BuildingType::ResourceStorage);
 

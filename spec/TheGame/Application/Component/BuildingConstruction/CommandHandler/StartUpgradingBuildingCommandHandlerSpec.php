@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
-use TheGame\Application\Component\BuildingConstruction\Command\StartConstructingNewBuildingCommand;
 use TheGame\Application\Component\BuildingConstruction\Command\StartUpgradingBuildingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;

@@ -22,7 +22,6 @@ use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
-use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class StartConstructingNewBuildingCommandHandlerSpec extends ObjectBehavior
 {
