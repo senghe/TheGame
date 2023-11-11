@@ -34,13 +34,13 @@ final class ConstructShipsCommandHandler
         }
 
         $ship = new Ship(
-            $command->getType(),
-            $this->shipyardBalanceContext->getShipResourceRequirements($command->getType()),
+            $command->getShipType(),
+            $this->shipyardBalanceContext->getShipResourceRequirements($command->getShipType()),
             $this->shipyardBalanceContext->getShipConstructionTime(
-                $command->getType(),
+                $command->getShipType(),
                 $shipyard->getCurrentLevel(),
             ),
-            $this->shipyardBalanceContext->getShipProductionLoad($command->getType()),
+            $this->shipyardBalanceContext->getShipProductionLoad($command->getShipType()),
         );
 
         $planetId = $shipyard->getPlanetId();
@@ -54,7 +54,7 @@ final class ConstructShipsCommandHandler
         $shipyard->queueShips($ship, $command->getQuantity());
 
         $event = new NewShipsHaveBeenQueuedEvent(
-            $command->getType(),
+            $command->getShipType(),
             $command->getQuantity(),
             $shipyard->getPlanetId()->getUuid(),
             $resourceRequirements->toScalarArray(),

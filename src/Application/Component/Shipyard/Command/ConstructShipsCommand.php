@@ -10,7 +10,7 @@ final class ConstructShipsCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $shipyardId,
-        private readonly string $type,
+        private readonly string $shipType,
         private readonly int $quantity,
     ) {
     }
@@ -20,9 +20,9 @@ final class ConstructShipsCommand implements CommandInterface
         return $this->shipyardId;
     }
 
-    public function getType(): string
+    public function getShipType(): string
     {
-        return $this->type;
+        return $this->shipType;
     }
 
     public function getQuantity(): int

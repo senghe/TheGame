@@ -34,13 +34,13 @@ final class ConstructCannonsCommandHandler
         }
 
         $cannon = new Cannon(
-            $command->getType(),
-            $this->shipyardBalanceContext->getCannonResourceRequirements($command->getType()),
+            $command->getCannonType(),
+            $this->shipyardBalanceContext->getCannonResourceRequirements($command->getCannonType()),
             $this->shipyardBalanceContext->getCannonConstructionTime(
-                $command->getType(),
+                $command->getCannonType(),
                 $shipyard->getCurrentLevel(),
             ),
-            $this->shipyardBalanceContext->getCannonProductionLoad($command->getType()),
+            $this->shipyardBalanceContext->getCannonProductionLoad($command->getCannonType()),
         );
 
         $planetId = $shipyard->getPlanetId();
@@ -53,7 +53,7 @@ final class ConstructCannonsCommandHandler
         $shipyard->queueCannons($cannon, $command->getQuantity());
 
         $event = new NewCannonsHaveBeenQueuedEvent(
-            $command->getType(),
+            $command->getCannonType(),
             $command->getQuantity(),
             $shipyard->getPlanetId()->getUuid(),
             $resourceRequirements->toScalarArray(),
