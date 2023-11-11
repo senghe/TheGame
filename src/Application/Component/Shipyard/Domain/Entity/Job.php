@@ -11,11 +11,14 @@ use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 class Job implements ConstructibleInterface
 {
+    private readonly int $initialQuantity;
+
     public function __construct(
         private readonly JobIdInterface $jobId,
         private readonly ConstructibleInterface $constructible,
-        private int $quantity,
+        private int $currentQuantity,
     ) {
+        $this->initialQuantity = $this->currentQuantity;
     }
 
     public function getId(): JobIdInterface
@@ -40,32 +43,40 @@ class Job implements ConstructibleInterface
 
     public function getRequirements(): ResourceRequirementsInterface
     {
-        return $this->constructible->getRequirements()->multipliedBy($this->quantity);
+        return $this->constructible->getRequirements()->multipliedBy($this->currentQuantity);
     }
 
     public function getQuantity(): int
     {
-        return $this->constructible->getQuantity() * $this->quantity;
+        return $this->constructible->getQuantity() * $this->currentQuantity;
     }
 
     public function getDuration(): int
     {
-        return $this->constructible->getDuration() * $this->quantity;
+        return $this->constructible->getDuration() * $this->currentQuantity;
     }
 
     public function getProductionLoad(): int
     {
-        return $this->constructible->getProductionLoad() * $this->quantity;
+        return $this->constructible->getProductionLoad() * $this->currentQuantity;
     }
 
     public function finishPartially(int $elapsedTime): int
     {
-        $finishedQuantity = 0;
+        $finishedQuantity = floor($elapsedTime / $this->constructible->getDuration());
+        if ($finishedQuantity > $this->currentQuantity) {
+            $this->finish();
 
-        return $finishedQuantity;
+            return $this->currentQuantity;
+        }
+
+        $this->currentQuantity -= $finishedQuantity;
+
+        return (int) $finishedQuantity;
     }
 
     public function finish(): void
     {
+        $this->currentQuantity = 0;
     }
 }
