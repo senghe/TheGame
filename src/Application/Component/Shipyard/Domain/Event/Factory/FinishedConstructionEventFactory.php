@@ -8,12 +8,12 @@ use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewUnitsHaveBeenConstructedEvent;
-use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntry;
+use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
 use TheGame\Application\SharedKernel\EventInterface;
 
-final class FinishedConstructionEventFactory
+final class FinishedConstructionEventFactory implements FinishedConstructionEventFactoryInterface
 {
-    public function createEvent(FinishedJobsSummaryEntry $summaryEntry): EventInterface
+    public function createEvent(FinishedJobsSummaryEntryInterface $summaryEntry): EventInterface
     {
         switch ($summaryEntry->getUnit()) {
             case ConstructibleUnit::Cannon: {

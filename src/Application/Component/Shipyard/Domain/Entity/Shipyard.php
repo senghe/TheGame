@@ -11,6 +11,7 @@ use TheGame\Application\Component\Shipyard\Domain\Exception\CantCancelCurrentlyT
 use TheGame\Application\Component\Shipyard\Domain\Exception\ProductionLimitHasBeenReachedException;
 use TheGame\Application\Component\Shipyard\Domain\Exception\ShipyardJobNotFoundException;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummary;
+use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryInterface;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
@@ -112,7 +113,7 @@ class Shipyard
         return $load;
     }
 
-    public function finishJobs(): FinishedJobsSummary
+    public function finishJobs(): FinishedJobsSummaryInterface
     {
         $summary = new FinishedJobsSummary();
         if (count($this->jobQueue) === 0) {

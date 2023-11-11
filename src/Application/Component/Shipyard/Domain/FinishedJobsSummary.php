@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Shipyard\Domain;
 
-final class FinishedJobsSummary
+final class FinishedJobsSummary implements FinishedJobsSummaryInterface
 {
-    /** @var array<string, FinishedJobsSummaryEntry> */
+    /** @var array<string, FinishedJobsSummaryEntryInterface> */
     private array $summary;
 
     public function addEntry(

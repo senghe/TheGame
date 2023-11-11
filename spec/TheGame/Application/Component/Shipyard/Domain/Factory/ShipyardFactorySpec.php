@@ -10,6 +10,5 @@ final class ShipyardFactorySpec extends ObjectBehavior
 {
     public function it_creates_shipyard(): void
     {
-
     }
 }

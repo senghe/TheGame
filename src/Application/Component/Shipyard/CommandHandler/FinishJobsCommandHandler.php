@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\Shipyard\CommandHandler;
 
 use TheGame\Application\Component\Shipyard\Command\FinishJobsCommand;
-use TheGame\Application\Component\Shipyard\Domain\Event\Factory\FinishedConstructionEventFactory;
+use TheGame\Application\Component\Shipyard\Domain\Event\Factory\FinishedConstructionEventFactoryInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
@@ -15,7 +15,7 @@ final class FinishJobsCommandHandler
 {
     public function __construct(
         private readonly ShipyardRepositoryInterface $shipyardRepository,
-        private readonly FinishedConstructionEventFactory $finishedConstructionEventFactory,
+        private readonly FinishedConstructionEventFactoryInterface $finishedConstructionEventFactory,
         private readonly EventBusInterface $eventBus,
     ) {
     }
@@ -29,7 +29,7 @@ final class FinishJobsCommandHandler
         }
 
         $summary = $shipyard->finishJobs();
-        foreach ($summary as $entry) {
+        foreach ($summary->getSummary() as $entry) {
             $event = $this->finishedConstructionEventFactory->createEvent($entry);
             $this->eventBus->dispatch($event);
         }

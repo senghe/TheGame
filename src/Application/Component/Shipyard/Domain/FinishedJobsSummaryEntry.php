@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Shipyard\Domain;
 
-final class FinishedJobsSummaryEntry
+final class FinishedJobsSummaryEntry implements FinishedJobsSummaryEntryInterface
 {
     public function __construct(
         private readonly ConstructibleUnit $unit,
