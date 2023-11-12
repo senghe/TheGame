@@ -8,8 +8,9 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
+use TheGame\Application\Component\BuildingConstruction\Domain\Event\ShipyardConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use Webmozart\Assert\Assert;
 
 final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterface
 {
@@ -18,20 +19,29 @@ final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterfac
         $type = $building->getType();
         switch ($type) {
             case BuildingType::ResourceMine: {
-                /** @var ResourceIdInterface $resourceContextId */
-                $resourceContextId = $building->getResourceContextId();
+                Assert::notNull($building->getResourceContextId());
+
                 return new ResourceMineConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
-                    $resourceContextId->getUuid(),
+                    $building->getId()->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
             case BuildingType::ResourceStorage: {
-                /** @var ResourceIdInterface $resourceContextId */
-                $resourceContextId = $building->getResourceContextId();
+                Assert::notNull($building->getResourceContextId());
+
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
-                    $resourceContextId->getUuid(),
+                    $building->getId()->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
+                    $building->getCurrentLevel(),
+                );
+            }
+            case BuildingType::Shipyard: {
+                return new ShipyardConstructionHasBeenFinishedEvent(
+                    $building->getPlanetId()->getUuid(),
+                    $building->getId()->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
@@ -40,6 +50,7 @@ final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterfac
         return new BuildingConstructionHasBeenFinishedEvent(
             $building->getPlanetId()->getUuid(),
             $type->value,
+            $building->getId()->getUuid(),
             $building->getCurrentLevel(),
         );
     }

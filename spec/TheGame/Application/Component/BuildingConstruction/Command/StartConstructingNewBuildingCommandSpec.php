@@ -7,7 +7,7 @@ namespace spec\TheGame\Application\Component\BuildingConstruction\Command;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 
-final class StartConstructingCommandSpec extends ObjectBehavior
+final class StartConstructingNewBuildingCommandSpec extends ObjectBehavior
 {
     public function let(): void
     {

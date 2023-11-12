@@ -10,7 +10,7 @@ final class FinishConstructingCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $planetId,
-        private readonly string $buildingType,
+        private readonly string $buildingId,
     ) {
     }
 
@@ -19,8 +19,8 @@ final class FinishConstructingCommand implements CommandInterface
         return $this->planetId;
     }
 
-    public function getBuildingType(): string
+    public function getBuildingId(): string
     {
-        return $this->buildingType;
+        return $this->buildingId;
     }
 }

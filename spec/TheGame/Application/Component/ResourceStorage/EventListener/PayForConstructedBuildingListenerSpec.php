@@ -24,6 +24,8 @@ final class PayForConstructedBuildingListenerSpec extends ObjectBehavior
     ): void {
         $planetId = "DF3A7B29-6D32-4EBC-AC9D-7FD3939A6E47";
         $buildingType = BuildingType::ResourceStorage->value;
+        $buildingId = "452D73D7-DE6E-4275-B282-0E9A622A3E59";
+        $newLevel = 10;
 
         $commandBus->dispatch(Argument::type(UseResourceCommand::class))
             ->shouldBeCalled(2);
@@ -35,6 +37,8 @@ final class PayForConstructedBuildingListenerSpec extends ObjectBehavior
         $event = new BuildingConstructionHasBeenStartedEvent(
             $planetId,
             $buildingType,
+            $buildingId,
+            $newLevel,
             $resourceRequirements
         );
         $this->__invoke($event);

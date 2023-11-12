@@ -33,6 +33,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
         ResourceMinesRepositoryInterface $minesRepository,
     ): void {
         $planetId = "7D5C44D6-0617-4F11-A7A3-76F66B4024E2";
+        $buildingId = "94D4C48A-AB93-4189-B71E-44F3571D389B";
         $resourceId = "1065CCFF-8111-43CF-9D66-9880FADE72A7";
 
         $minesRepository->findForPlanet(new PlanetId($planetId))
@@ -40,6 +41,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
 
         $event = new ResourceMineConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceId,
             2
         );
@@ -55,6 +57,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
         MinesCollection $minesCollection,
     ): void {
         $planetId = "7D5C44D6-0617-4F11-A7A3-76F66B4024E2";
+        $buildingId = "94D4C48A-AB93-4189-B71E-44F3571D389B";
         $resourceId = "1065CCFF-8111-43CF-9D66-9880FADE72A7";
 
         $minesRepository->findForPlanet(new PlanetId($planetId))
@@ -71,6 +74,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
 
         $event = new ResourceMineConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceId,
             2
         );
@@ -85,6 +89,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
         Mine $mine,
     ): void {
         $planetId = "7D5C44D6-0617-4F11-A7A3-76F66B4024E2";
+        $buildingId = "94D4C48A-AB93-4189-B71E-44F3571D389B";
         $resourceId = "1065CCFF-8111-43CF-9D66-9880FADE72A7";
 
         $minesRepository->findForPlanet(new PlanetId($planetId))
@@ -107,6 +112,7 @@ final class UpgradeMineEventListenerSpec extends ObjectBehavior
 
         $event = new ResourceMineConstructionHasBeenFinishedEvent(
             $planetId,
+            $buildingId,
             $resourceId,
             2
         );

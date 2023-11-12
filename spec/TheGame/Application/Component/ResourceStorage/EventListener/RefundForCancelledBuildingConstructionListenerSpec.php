@@ -23,6 +23,8 @@ final class RefundForCancelledBuildingConstructionListenerSpec extends ObjectBeh
     ): void {
         $planetId = "DF3A7B29-6D32-4EBC-AC9D-7FD3939A6E47";
         $buildingType = BuildingType::ResourceStorage->value;
+        $buildingId = "E4A23622-6C77-402D-A442-47124E19D190";
+        $cancelledLevel = 50;
 
         $commandBus->dispatch(Argument::type(DispatchResourcesCommand::class))
             ->shouldBeCalled(2);
@@ -34,6 +36,8 @@ final class RefundForCancelledBuildingConstructionListenerSpec extends ObjectBeh
         $event = new BuildingConstructionHasBeenCancelledEvent(
             $planetId,
             $buildingType,
+            $buildingId,
+            $cancelledLevel,
             $resourceRequirements
         );
         $this->__invoke($event);

@@ -37,7 +37,7 @@ final class UpgradeStorageEventListener
 
         $resourceId = new ResourceId($event->getResourceContextId());
         $newLimit = $this->resourceStoragesContext->getLimit(
-            $event->getLevel(),
+            $event->getUpgradedLevel(),
             $resourceId
         );
 

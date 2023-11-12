@@ -13,6 +13,8 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
     public function let(): void
     {
         $planetId = "6B685A5A-E279-4E8D-A9D4-0EEC6E7F0F3D";
+        $buildingId = "6cdc9176-2dfa-4d36-8e8a-264f9cd0d7bb";
+        $newLevel = 50;
         $resourceRequirements = [
             "6842FCCF-9905-41FF-B542-4788579F0847" => 750,
         ];
@@ -20,6 +22,8 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
         $this->beConstructedWith(
             $planetId,
             BuildingType::ResourceStorage->value,
+            $buildingId,
+            $newLevel,
             $resourceRequirements,
         );
     }
@@ -34,6 +38,16 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
         $this->getBuildingType()->shouldReturn(BuildingType::ResourceStorage->value);
     }
 
+    public function it_has_new_level(): void
+    {
+        $this->getNewLevel()->shouldReturn(50);
+    }
+
+    public function it_has_building_id(): void
+    {
+        $this->getBuildingId()->shouldReturn("6cdc9176-2dfa-4d36-8e8a-264f9cd0d7bb");
+    }
+
     public function it_has_resource_requirements(): void
     {
         $this->getResourceRequirements()->shouldReturn([
@@ -45,6 +59,8 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
     {
         $planetId = "6B685A5A-E279-4E8D-A9D4-0EEC6E7F0F3D";
         $buildingType = BuildingType::ResourceStorage->value;
+        $buildingId = "6cdc9176-2dfa-4d36-8e8a-264f9cd0d7bb";
+        $newLevel = 50;
         $resourceRequirements = [
             300 => 750,
         ];
@@ -52,12 +68,14 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
         $this->beConstructedWith(
             $planetId,
             $buildingType,
+            $buildingId,
+            $newLevel,
             $resourceRequirements,
         );
 
         $this->shouldThrow(InvalidArgumentException::class)
             ->during('__construct', [
-                $planetId, $buildingType, $resourceRequirements,
+                $planetId, $buildingType, $buildingId, $newLevel, $resourceRequirements,
             ]);
     }
 
@@ -65,6 +83,8 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
     {
         $planetId = "6B685A5A-E279-4E8D-A9D4-0EEC6E7F0F3D";
         $buildingType = BuildingType::ResourceStorage->value;
+        $buildingId = "6cdc9176-2dfa-4d36-8e8a-264f9cd0d7bb";
+        $newLevel = 50;
         $resourceRequirements = [
             "6842FCCF-9905-41FF-B542-4788579F0847" => "not-int-value",
         ];
@@ -72,12 +92,14 @@ final class BuildingConstructionHasBeenStartedEventSpec extends ObjectBehavior
         $this->beConstructedWith(
             $planetId,
             $buildingType,
+            $buildingId,
+            $newLevel,
             $resourceRequirements,
         );
 
         $this->shouldThrow(InvalidArgumentException::class)
             ->during('__construct', [
-                $planetId, $buildingType, $resourceRequirements,
+                $planetId, $buildingType, $buildingId, $newLevel, $resourceRequirements,
             ]);
     }
 }

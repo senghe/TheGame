@@ -9,13 +9,14 @@ use Prophecy\Argument;
 use TheGame\Application\Component\Balance\Bridge\BuildingContextInterface;
 use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterface;
 use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
+use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
-use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingHasNotBeenBuiltYetFoundException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
 {
@@ -31,18 +32,19 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         );
     }
 
-    public function it_throws_exception_when_cant_find_aggregate(
+    public function it_throws_exception_when_cant_find_building(
         BuildingRepositoryInterface $buildingRepository,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceMine)
+        $buildingId = "d6949ca7-157d-4019-9267-c7a61af33b01";
+        $buildingRepository->findForPlanetById(new PlanetId($planetId), new BuildingId($buildingId))
             ->willReturn(null);
 
         $command = new CancelConstructingCommand(
             $planetId,
-            BuildingType::ResourceMine->value,
+            $buildingId,
         );
-        $this->shouldThrow(BuildingHasNotBeenBuiltYetFoundException::class)
+        $this->shouldThrow(InconsistentModelException::class)
             ->during('__invoke', [$command]);
     }
 
@@ -54,10 +56,13 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         ResourceRequirementsInterface $resourceRequirements,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
-        $buildingRepository->findForPlanet(new PlanetId($planetId), BuildingType::ResourceMine)
+        $buildingId = "d6949ca7-157d-4019-9267-c7a61af33b01";
+        $buildingRepository->findForPlanetById(new PlanetId($planetId), new BuildingId($buildingId))
             ->willReturn($building);
 
-        $buildingBalanceContext->getResourceRequirements(5, BuildingType::ResourceMine)
+        $building->getType()->willReturn(BuildingType::ResourceStorage);
+
+        $buildingBalanceContext->getResourceRequirements(6, BuildingType::ResourceStorage)
             ->willReturn($resourceRequirements);
 
         $building->cancelUpgrading()->shouldBeCalledOnce();
@@ -72,7 +77,7 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
 
         $command = new CancelConstructingCommand(
             $planetId,
-            BuildingType::ResourceMine->value,
+            $buildingId,
         );
         $this->__invoke($command);
     }
