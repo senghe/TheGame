@@ -51,6 +51,11 @@ class Job implements ConstructibleInterface
         return $this->currentQuantity;
     }
 
+    public function getInitialQuantity(): int
+    {
+        return $this->initialQuantity;
+    }
+
     public function getDuration(): int
     {
         return $this->constructible->getDuration() * $this->currentQuantity;

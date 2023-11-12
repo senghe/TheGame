@@ -14,7 +14,7 @@ final class ShipyardConstructionHasBeenFinishedEvent extends BuildingConstructio
         private readonly string $buildingId,
         private readonly int $upgradedLevel,
     ) {
-        return parent::__construct(
+        parent::__construct(
             $this->planetId,
             BuildingType::Shipyard->value,
             $this->buildingId,

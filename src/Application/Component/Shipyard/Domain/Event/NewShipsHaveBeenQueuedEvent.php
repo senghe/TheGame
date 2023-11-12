@@ -9,6 +9,7 @@ use TheGame\Application\SharedKernel\EventInterface;
 
 final class NewShipsHaveBeenQueuedEvent implements EventInterface
 {
+    /** @phpstan-ignore-next-line The validation is done in constructor */
     public function __construct(
         private readonly string $type,
         private readonly int $quantity,
@@ -27,6 +28,7 @@ final class NewShipsHaveBeenQueuedEvent implements EventInterface
         return $this->planetId;
     }
 
+    /** @return array<string, int> */
     public function getResourceRequirements(): array
     {
         return $this->resourceRequirements;

@@ -10,6 +10,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMine
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ShipyardConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
+use Webmozart\Assert\Assert;
 
 final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterface
 {
@@ -18,18 +19,22 @@ final class BuildingTypeEventFactory implements BuildingTypeEventFactoryInterfac
         $type = $building->getType();
         switch ($type) {
             case BuildingType::ResourceMine: {
+                Assert::notNull($building->getResourceContextId());
+
                 return new ResourceMineConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getId()->getUuid(),
-                    $building->getResourceContextId()?->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }
             case BuildingType::ResourceStorage: {
+                Assert::notNull($building->getResourceContextId());
+
                 return new ResourceStorageConstructionHasBeenFinishedEvent(
                     $building->getPlanetId()->getUuid(),
                     $building->getId()->getUuid(),
-                    $building->getResourceContextId()?->getUuid(),
+                    $building->getResourceContextId()->getUuid(),
                     $building->getCurrentLevel(),
                 );
             }

@@ -12,5 +12,6 @@ interface FinishedJobsSummaryInterface
         int $quantity
     ): void;
 
+    /** @return array<int, FinishedJobsSummaryEntryInterface> */
     public function getSummary(): array;
 }

@@ -80,6 +80,14 @@ final class JobSpec extends ObjectBehavior
         $this->getQuantity()->shouldReturn(10);
     }
 
+    public function it_has_initial_quantity_of_units_to_be_constructed(): void
+    {
+        $this->getInitialQuantity()->shouldReturn(10);
+        $this->finishPartially(500);
+
+        $this->getInitialQuantity()->shouldReturn(10);
+    }
+
     public function it_has_time_duration_of_the_current_job(): void
     {
         $this->getDuration()->shouldReturn(5000);

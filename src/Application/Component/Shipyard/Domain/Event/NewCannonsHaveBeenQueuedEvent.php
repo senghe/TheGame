@@ -9,6 +9,7 @@ use TheGame\Application\SharedKernel\EventInterface;
 
 final class NewCannonsHaveBeenQueuedEvent implements EventInterface
 {
+    /** @phpstan-ignore-next-line The validation is done in constructor */
     public function __construct(
         private readonly string $type,
         private readonly int $quantity,
