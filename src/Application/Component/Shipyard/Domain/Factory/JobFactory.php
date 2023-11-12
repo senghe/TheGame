@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Shipyard\Domain\Factory;
 
-use TheGame\Application\Component\Balance\Bridge\ShipyardContextInterface;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Job;
 use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;

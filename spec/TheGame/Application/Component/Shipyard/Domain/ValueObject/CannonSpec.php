@@ -23,7 +23,10 @@ final class CannonSpec extends ObjectBehavior
         ]);
 
         $this->beConstructedWith(
-            $type, $resourceRequirements, $duration, $load
+            $type,
+            $resourceRequirements,
+            $duration,
+            $load
         );
     }
 

@@ -11,11 +11,11 @@ use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
 final class JobSpec extends ObjectBehavior
 {
-    public function let(): void {
+    public function let(): void
+    {
         $jobId = "FF1CDE6A-FBE6-4C46-B2F5-5BD0C20B97F1";
 
         $constructibleType = 'light-fighter';
@@ -24,10 +24,12 @@ final class JobSpec extends ObjectBehavior
 
         $requirements = new ResourceRequirements();
         $requirements->add(new ResourceAmount(
-            new ResourceId("4B8CCD4D-6940-43F5-BFF5-A5FB35836294"), 450,
+            new ResourceId("4B8CCD4D-6940-43F5-BFF5-A5FB35836294"),
+            450,
         ));
         $requirements->add(new ResourceAmount(
-            new ResourceId("A0F8E286-CA29-40FC-B33A-D1DCCEAA72D5"), 220,
+            new ResourceId("A0F8E286-CA29-40FC-B33A-D1DCCEAA72D5"),
+            220,
         ));
         $constructible = new Ship(
             $constructibleType,
@@ -38,7 +40,9 @@ final class JobSpec extends ObjectBehavior
 
         $quantity = 10;
         $this->beConstructedWith(
-            new JobId($jobId), $constructible, $quantity
+            new JobId($jobId),
+            $constructible,
+            $quantity
         );
     }
 

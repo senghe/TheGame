@@ -14,8 +14,6 @@ use TheGame\Application\Component\Shipyard\Domain\Exception\ProductionLimitHasBe
 use TheGame\Application\Component\Shipyard\Domain\Exception\ShipyardJobNotFoundException;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
@@ -82,8 +80,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 5, $job1ResourceRequirements,
-            $job2, $job2Id, 5, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            5,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            5,
+            $job2ResourceRequirements,
         );
 
         $this->queueJob($job1);
@@ -103,8 +107,14 @@ final class ShipyardSpec extends ObjectBehavior
         JobIdInterface $job3Id,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 5, $job1ResourceRequirements,
-            $job2, $job2Id, 5, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            5,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            5,
+            $job2ResourceRequirements,
         );
 
         $this->queueJob($job1);
@@ -125,8 +135,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 5, $job1ResourceRequirements,
-            $job2, $job2Id, 5, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            5,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            5,
+            $job2ResourceRequirements,
         );
 
         $job1->finish()->shouldBeCalledOnce();
@@ -144,7 +160,8 @@ final class ShipyardSpec extends ObjectBehavior
         $this->hasJob($job2Id)->shouldReturn(false);
     }
 
-    public function it_finishes_jobs_when_having_no_job(): void {
+    public function it_finishes_jobs_when_having_no_job(): void
+    {
         $summary = $this->finishJobs();
         $summary->getSummary()->shouldHaveCount(0);
 
@@ -161,8 +178,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 30, $job1ResourceRequirements,
-            $job2, $job2Id, 500, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            30,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            500,
+            $job2ResourceRequirements,
         );
 
         $job1->finish()->shouldBeCalledOnce();
@@ -188,8 +211,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 50, $job1ResourceRequirements,
-            $job2, $job2Id, 5, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            50,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            5,
+            $job2ResourceRequirements,
         );
 
         $job1->finishPartially(30)->shouldBeCalledOnce();
@@ -215,8 +244,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 20, $job1ResourceRequirements,
-            $job2, $job2Id, 50, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            20,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            50,
+            $job2ResourceRequirements,
         );
 
         $job1->finish()->shouldBeCalledOnce();
@@ -243,8 +278,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 10, $job1ResourceRequirements,
-            $job2, $job2Id, 10, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            10,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            10,
+            $job2ResourceRequirements,
         );
 
         $job1->finish()->shouldBeCalledOnce();
@@ -309,8 +350,14 @@ final class ShipyardSpec extends ObjectBehavior
         ResourceRequirementsInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 10, $job1ResourceRequirements,
-            $job2, $job2Id, 10, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            10,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            10,
+            $job2ResourceRequirements,
         );
         $job1Id->getUuid()->willReturn("60446888-CF73-4FD0-8862-E70E56320622");
 
@@ -331,8 +378,14 @@ final class ShipyardSpec extends ObjectBehavior
         JobIdInterface $notQueuedJobId
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 10, $job1ResourceRequirements,
-            $job2, $job2Id, 10, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            10,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            10,
+            $job2ResourceRequirements,
         );
         $job1Id->getUuid()->willReturn("60446888-CF73-4FD0-8862-E70E56320622");
         $notQueuedJobId->getUuid()->willReturn("1F8BC672-41E5-4A24-9D07-044198E01196");
@@ -354,8 +407,14 @@ final class ShipyardSpec extends ObjectBehavior
         JobIdInterface $notQueuedJobId
     ): void {
         $this->stubTwoJobs(
-            $job1, $job1Id, 10, $job1ResourceRequirements,
-            $job2, $job2Id, 10, $job2ResourceRequirements,
+            $job1,
+            $job1Id,
+            10,
+            $job1ResourceRequirements,
+            $job2,
+            $job2Id,
+            10,
+            $job2ResourceRequirements,
         );
 
         $this->queueJob($job1);

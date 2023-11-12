@@ -22,7 +22,9 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         ShipyardContextInterface $shipyardBalanceContext,
     ): void {
         $this->beConstructedWith(
-            $shipyardRepository, $shipyardFactory, $shipyardBalanceContext,
+            $shipyardRepository,
+            $shipyardFactory,
+            $shipyardBalanceContext,
         );
     }
 
@@ -36,7 +38,8 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $upgradedLevel = 5;
 
         $shipyardRepository->findAggregateForBuilding(
-            new PlanetId($planetId), new BuildingId($buildingId),
+            new PlanetId($planetId),
+            new BuildingId($buildingId),
         )->willReturn($shipyard);
 
         $shipyardBalanceContext->getShipyardProductionLimit(5)
@@ -45,7 +48,9 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $shipyard->upgrade(20)->shouldBeCalledOnce();
 
         $event = new ShipyardConstructionHasBeenFinishedEvent(
-            $planetId, $buildingId, $upgradedLevel
+            $planetId,
+            $buildingId,
+            $upgradedLevel
         );
         $this->__invoke($event);
     }
@@ -60,7 +65,8 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $upgradedLevel = 1;
 
         $shipyardFactory->create(
-            new PlanetId($planetId), new BuildingId($buildingId),
+            new PlanetId($planetId),
+            new BuildingId($buildingId),
         )->willReturn($shipyard);
 
         $shipyardBalanceContext->getShipyardProductionLimit(1)
@@ -69,7 +75,9 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $shipyard->upgrade(3)->shouldBeCalledOnce();
 
         $event = new ShipyardConstructionHasBeenFinishedEvent(
-            $planetId, $buildingId, $upgradedLevel
+            $planetId,
+            $buildingId,
+            $upgradedLevel
         );
         $this->__invoke($event);
     }
@@ -82,11 +90,14 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $upgradedLevel = 5;
 
         $shipyardRepository->findAggregateForBuilding(
-            new PlanetId($planetId), new BuildingId($buildingId),
+            new PlanetId($planetId),
+            new BuildingId($buildingId),
         )->willReturn(null);
 
         $event = new ShipyardConstructionHasBeenFinishedEvent(
-            $planetId, $buildingId, $upgradedLevel
+            $planetId,
+            $buildingId,
+            $upgradedLevel
         );
         $this->shouldThrow(ShipyardHasNotBeenFoundException::class)
             ->during('__invoke', [$event]);

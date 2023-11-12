@@ -6,7 +6,6 @@ namespace TheGame\Application\Component\Shipyard\Domain\Entity;
 
 use DateTimeInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
-use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\Exception\CantCancelCurrentlyTakenJobException;
 use TheGame\Application\Component\Shipyard\Domain\Exception\ProductionLimitHasBeenReachedException;
 use TheGame\Application\Component\Shipyard\Domain\Exception\ShipyardJobNotFoundException;
@@ -14,8 +13,6 @@ use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummary;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryInterface;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardIdInterface;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 
@@ -66,7 +63,8 @@ class Shipyard
     {
         if ($this->limitHasBeenReached($job->getProductionLoad(), $job->getQuantity())) {
             throw new ProductionLimitHasBeenReachedException(
-                $this->productionLimit, $job->getQuantity()
+                $this->productionLimit,
+                $job->getQuantity()
             );
         }
 

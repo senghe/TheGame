@@ -79,7 +79,12 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
             ->willReturn($singleCannonResourceRequirements);
 
         $jobFactory->createNewCannonsJob(
-            $cannonType, $quantity, 15, 30, 5, $singleCannonResourceRequirements,
+            $cannonType,
+            $quantity,
+            15,
+            30,
+            5,
+            $singleCannonResourceRequirements,
         )->willReturn($job);
         $job->getRequirements()->willReturn($jobResourceRequirements);
 
@@ -121,7 +126,12 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
             ->willReturn($singleCannonResourceRequirements);
 
         $jobFactory->createNewCannonsJob(
-            $cannonType, $quantity, 15, 30, 5, $singleCannonResourceRequirements,
+            $cannonType,
+            $quantity,
+            15,
+            30,
+            5,
+            $singleCannonResourceRequirements,
         )->willReturn($job);
         $job->getRequirements()->willReturn($jobResourceRequirements);
 

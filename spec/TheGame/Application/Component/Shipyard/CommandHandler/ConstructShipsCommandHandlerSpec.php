@@ -78,7 +78,12 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipyardBalanceContext->getShipResourceRequirements($shipType)->willReturn($singleShipResourceRequirements);
 
         $jobFactory->createNewShipsJob(
-            $shipType, $quantity, 15, 30, 5, $singleShipResourceRequirements,
+            $shipType,
+            $quantity,
+            15,
+            30,
+            5,
+            $singleShipResourceRequirements,
         )->willReturn($job);
 
         $job->getRequirements()->willReturn($jobResourceRequirements);
@@ -120,7 +125,12 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipyardBalanceContext->getShipResourceRequirements($shipType)->willReturn($singleShipResourceRequirements);
 
         $jobFactory->createNewShipsJob(
-            $shipType, $quantity, 15, 30, 5, $singleShipResourceRequirements,
+            $shipType,
+            $quantity,
+            15,
+            30,
+            5,
+            $singleShipResourceRequirements,
         )->willReturn($job);
 
         $job->getRequirements()->willReturn($jobResourceRequirements);

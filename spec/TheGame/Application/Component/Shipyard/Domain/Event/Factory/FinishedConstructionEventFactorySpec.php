@@ -9,8 +9,6 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
-use TheGame\Application\Component\Shipyard\Domain\Event\NewUnitsHaveBeenConstructedEvent;
-use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummary;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
 
 final class FinishedConstructionEventFactorySpec extends ObjectBehavior

@@ -43,7 +43,8 @@ final class ConstructShipsCommandHandler
         $planetId = $shipyard->getPlanetId();
 
         $hasEnoughResources = $this->resourceAvailabilityChecker->check(
-            $planetId, $job->getRequirements(),
+            $planetId,
+            $job->getRequirements(),
         );
         if ($hasEnoughResources === false) {
             throw new InsufficientResourcesException($planetId, $shipType);
