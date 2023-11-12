@@ -61,7 +61,7 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
             ->shouldReturn(true);
     }
 
-    public function it_returns_false_when_has_enough_resources(
+    public function it_returns_false_when_hasnt_enough_resources(
         ResourceStoragesRepositoryInterface $storagesRepository,
         StoragesCollection $aggregate,
     ): void {
