@@ -9,11 +9,12 @@ use Prophecy\Argument;
 use TheGame\Application\Component\Balance\Bridge\ShipyardContextInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\Component\Shipyard\Command\ConstructShipsCommand;
+use TheGame\Application\Component\Shipyard\Domain\Entity\Job;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Shipyard;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenQueuedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Exception\InsufficientResourcesException;
+use TheGame\Application\Component\Shipyard\Domain\Factory\JobFactoryInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
@@ -25,12 +26,14 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
     public function let(
         ShipyardRepositoryInterface $shipyardRepository,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
+        JobFactoryInterface $jobFactory,
         ShipyardContextInterface $shipyardBalanceContext,
         EventBusInterface $eventBus,
     ): void {
         $this->beConstructedWith(
             $shipyardRepository,
             $resourceAvailabilityChecker,
+            $jobFactory,
             $shipyardBalanceContext,
             $eventBus,
         );
@@ -55,6 +58,8 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         ShipyardRepositoryInterface $shipyardRepository,
         Shipyard $shipyard,
         ShipyardContextInterface $shipyardBalanceContext,
+        JobFactoryInterface $jobFactory,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         ResourceRequirementsInterface $singleShipResourceRequirements,
         ResourceRequirementsInterface $jobResourceRequirements,
@@ -66,19 +71,20 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
-        $shipyardBalanceContext->getShipResourceRequirements('light-fighter')
-            ->willReturn($singleShipResourceRequirements);
-
         $shipyard->getCurrentLevel()->willReturn(15);
-        $shipyardBalanceContext->getShipConstructionTime('light-fighter', 15)
-            ->willReturn(500);
-        $shipyardBalanceContext->getShipProductionLoad('light-fighter')
-            ->willReturn(12);
+
+        $shipyardBalanceContext->getShipConstructionTime($shipType, 15)->willReturn(30);
+        $shipyardBalanceContext->getShipProductionLoad($shipType)->willReturn(5);
+        $shipyardBalanceContext->getShipResourceRequirements($shipType)->willReturn($singleShipResourceRequirements);
+
+        $jobFactory->createNewShipsJob(
+            $shipType, $quantity, 15, 30, 5, $singleShipResourceRequirements,
+        )->willReturn($job);
+
+        $job->getRequirements()->willReturn($jobResourceRequirements);
 
         $planetId = "D1D4E4BE-9542-47E6-94A1-EDD1B67C737E";
         $shipyard->getPlanetId()->willReturn(new PlanetId($planetId));
-        $shipyard->calculateResourceRequirements(Argument::type(Ship::class), 500)
-            ->willReturn($jobResourceRequirements);
 
         $resourceAvailabilityChecker->check(
             new PlanetId($planetId),
@@ -93,6 +99,8 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         ShipyardRepositoryInterface $shipyardRepository,
         Shipyard $shipyard,
         ShipyardContextInterface $shipyardBalanceContext,
+        JobFactoryInterface $jobFactory,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         ResourceRequirementsInterface $singleShipResourceRequirements,
         ResourceRequirementsInterface $jobResourceRequirements,
@@ -105,19 +113,20 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
-        $shipyardBalanceContext->getShipResourceRequirements('light-fighter')
-            ->willReturn($singleShipResourceRequirements);
-
         $shipyard->getCurrentLevel()->willReturn(15);
-        $shipyardBalanceContext->getShipConstructionTime('light-fighter', 15)
-            ->willReturn(500);
-        $shipyardBalanceContext->getShipProductionLoad('light-fighter')
-            ->willReturn(12);
+
+        $shipyardBalanceContext->getShipConstructionTime($shipType, 15)->willReturn(30);
+        $shipyardBalanceContext->getShipProductionLoad($shipType)->willReturn(5);
+        $shipyardBalanceContext->getShipResourceRequirements($shipType)->willReturn($singleShipResourceRequirements);
+
+        $jobFactory->createNewShipsJob(
+            $shipType, $quantity, 15, 30, 5, $singleShipResourceRequirements,
+        )->willReturn($job);
+
+        $job->getRequirements()->willReturn($jobResourceRequirements);
 
         $planetId = "D1D4E4BE-9542-47E6-94A1-EDD1B67C737E";
         $shipyard->getPlanetId()->willReturn(new PlanetId($planetId));
-        $shipyard->calculateResourceRequirements(Argument::type(Ship::class), 500)
-            ->willReturn($jobResourceRequirements);
 
         $resourceAvailabilityChecker->check(
             new PlanetId($planetId),
@@ -130,8 +139,7 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
                 "9CF70370-5AA0-46AD-88B5-D177EEDDC947" => 120,
             ]);
 
-        $shipyard->queueShips(Argument::type(Ship::class), 500)
-            ->shouldBeCalledOnce();
+        $shipyard->queueJob($job)->shouldBeCalledOnce();
 
         $eventBus->dispatch(Argument::type(NewShipsHaveBeenQueuedEvent::class))
             ->shouldBeCalledOnce();

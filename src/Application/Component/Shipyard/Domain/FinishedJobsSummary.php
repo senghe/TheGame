@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\Shipyard\Domain;
 final class FinishedJobsSummary implements FinishedJobsSummaryInterface
 {
     /** @var array<string, FinishedJobsSummaryEntryInterface> */
-    private array $summary;
+    private array $summary = [];
 
     public function addEntry(
         ConstructibleUnit $unit,

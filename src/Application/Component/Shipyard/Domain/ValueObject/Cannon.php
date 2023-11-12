@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\Shipyard\Domain\ValueObject;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 
-class Cannon extends AbstractConstructible implements ConstructibleInterface
+final class Cannon extends AbstractConstructible implements ConstructibleInterface
 {
     public function getConstructionUnit(): ConstructibleUnit
     {

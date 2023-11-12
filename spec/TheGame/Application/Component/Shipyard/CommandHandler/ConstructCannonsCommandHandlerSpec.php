@@ -9,11 +9,12 @@ use Prophecy\Argument;
 use TheGame\Application\Component\Balance\Bridge\ShipyardContextInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\Component\Shipyard\Command\ConstructCannonsCommand;
+use TheGame\Application\Component\Shipyard\Domain\Entity\Job;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Shipyard;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenQueuedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Exception\InsufficientResourcesException;
+use TheGame\Application\Component\Shipyard\Domain\Factory\JobFactoryInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
@@ -25,12 +26,14 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
     public function let(
         ShipyardRepositoryInterface $shipyardRepository,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
+        JobFactoryInterface $jobFactory,
         ShipyardContextInterface $shipyardBalanceContext,
         EventBusInterface $eventBus,
     ): void {
         $this->beConstructedWith(
             $shipyardRepository,
             $resourceAvailabilityChecker,
+            $jobFactory,
             $shipyardBalanceContext,
             $eventBus,
         );
@@ -54,7 +57,9 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
     public function it_throws_exception_when_planet_hasnt_sufficient_resources(
         ShipyardRepositoryInterface $shipyardRepository,
         Shipyard $shipyard,
+        JobFactoryInterface $jobFactory,
         ShipyardContextInterface $shipyardBalanceContext,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         ResourceRequirementsInterface $singleCannonResourceRequirements,
         ResourceRequirementsInterface $jobResourceRequirements,
@@ -66,19 +71,20 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
-        $shipyardBalanceContext->getCannonResourceRequirements('laser')
+        $shipyard->getCurrentLevel()->willReturn(15);
+
+        $shipyardBalanceContext->getCannonConstructionTime($cannonType, 15)->willReturn(30);
+        $shipyardBalanceContext->getCannonProductionLoad($cannonType)->willReturn(5);
+        $shipyardBalanceContext->getCannonResourceRequirements($cannonType)
             ->willReturn($singleCannonResourceRequirements);
 
-        $shipyard->getCurrentLevel()->willReturn(15);
-        $shipyardBalanceContext->getCannonConstructionTime('laser', 15)
-            ->willReturn(500);
-        $shipyardBalanceContext->getCannonProductionLoad('laser')
-            ->willReturn(12);
+        $jobFactory->createNewCannonsJob(
+            $cannonType, $quantity, 15, 30, 5, $singleCannonResourceRequirements,
+        )->willReturn($job);
+        $job->getRequirements()->willReturn($jobResourceRequirements);
 
         $planetId = "D1D4E4BE-9542-47E6-94A1-EDD1B67C737E";
         $shipyard->getPlanetId()->willReturn(new PlanetId($planetId));
-        $shipyard->calculateResourceRequirements(Argument::type(Cannon::class), 500)
-            ->willReturn($jobResourceRequirements);
 
         $resourceAvailabilityChecker->check(
             new PlanetId($planetId),
@@ -93,6 +99,8 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         ShipyardRepositoryInterface $shipyardRepository,
         Shipyard $shipyard,
         ShipyardContextInterface $shipyardBalanceContext,
+        JobFactoryInterface $jobFactory,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
         ResourceRequirementsInterface $singleCannonResourceRequirements,
         ResourceRequirementsInterface $jobResourceRequirements,
@@ -105,19 +113,20 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
-        $shipyardBalanceContext->getCannonResourceRequirements('laser')
+        $shipyard->getCurrentLevel()->willReturn(15);
+
+        $shipyardBalanceContext->getCannonConstructionTime($cannonType, 15)->willReturn(30);
+        $shipyardBalanceContext->getCannonProductionLoad($cannonType)->willReturn(5);
+        $shipyardBalanceContext->getCannonResourceRequirements($cannonType)
             ->willReturn($singleCannonResourceRequirements);
 
-        $shipyard->getCurrentLevel()->willReturn(15);
-        $shipyardBalanceContext->getCannonConstructionTime('laser', 15)
-            ->willReturn(500);
-        $shipyardBalanceContext->getCannonProductionLoad('laser')
-            ->willReturn(12);
+        $jobFactory->createNewCannonsJob(
+            $cannonType, $quantity, 15, 30, 5, $singleCannonResourceRequirements,
+        )->willReturn($job);
+        $job->getRequirements()->willReturn($jobResourceRequirements);
 
         $planetId = "D1D4E4BE-9542-47E6-94A1-EDD1B67C737E";
         $shipyard->getPlanetId()->willReturn(new PlanetId($planetId));
-        $shipyard->calculateResourceRequirements(Argument::type(Cannon::class), 500)
-            ->willReturn($jobResourceRequirements);
 
         $resourceAvailabilityChecker->check(
             new PlanetId($planetId),
@@ -130,8 +139,7 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
                 "9CF70370-5AA0-46AD-88B5-D177EEDDC947" => 120,
             ]);
 
-        $shipyard->queueCannons(Argument::type(Cannon::class), 500)
-            ->shouldBeCalledOnce();
+        $shipyard->queueJob($job)->shouldBeCalledOnce();
 
         $eventBus->dispatch(Argument::type(NewCannonsHaveBeenQueuedEvent::class))
             ->shouldBeCalledOnce();

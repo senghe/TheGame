@@ -22,7 +22,7 @@ use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
 class Shipyard
 {
     /** @var array<int, Job> */
-    private array $jobQueue;
+    private array $jobQueue = [];
 
     private int $currentLevel = 0;
 
@@ -50,32 +50,11 @@ class Shipyard
         return $this->buildingId;
     }
 
-    public function queueShips(
-        Ship $ship,
-        int $quantity,
-    ): void {
-        $this->queueJob($ship, $quantity);
-    }
-
-    public function queueCannons(
-        Cannon $cannon,
-        int $quantity,
-    ): void {
-        $this->queueJob($cannon, $quantity);
-    }
-
-    public function calculateResourceRequirements(
-        ConstructibleInterface $constructible,
-        int $quantity,
-    ): ResourceRequirementsInterface {
-        return $constructible->getRequirements()->multipliedBy($quantity);
-    }
-
     public function getResourceRequirements(
         JobIdInterface $jobId,
     ): ResourceRequirementsInterface {
         foreach ($this->jobQueue as $job) {
-            if ($job->getId()->getUuid() === $jobId) {
+            if ($job->getId()->getUuid() === $jobId->getUuid()) {
                 return $job->getRequirements();
             }
         }
@@ -83,22 +62,22 @@ class Shipyard
         throw new ShipyardJobNotFoundException($jobId);
     }
 
-    private function queueJob(
-        ConstructibleInterface $constructible,
-        int $quantity,
-    ): void {
-        if ($this->limitHasBeenReached($constructible, $quantity)) {
-            throw new ProductionLimitHasBeenReachedException($this->productionLimit, $quantity);
+    public function queueJob(Job $job): void
+    {
+        if ($this->limitHasBeenReached($job->getProductionLoad(), $job->getQuantity())) {
+            throw new ProductionLimitHasBeenReachedException(
+                $this->productionLimit, $job->getQuantity()
+            );
         }
 
-        $this->jobQueue[] = $constructible;
+        $this->jobQueue[] = $job;
     }
 
     private function limitHasBeenReached(
-        ConstructibleInterface $constructible,
+        int $productionLoad,
         int $quantity
     ): bool {
-        $jobLoad = $constructible->getProductionLoad() * $quantity;
+        $jobLoad = $productionLoad * $quantity;
 
         return $this->calculateCurrentLoad() + $jobLoad > $this->productionLimit;
     }
@@ -159,16 +138,16 @@ class Shipyard
 
     public function cancelJob(JobIdInterface $jobId): void
     {
-        if (count($this->jobQueue)) {
+        if ($this->isIdle() === true) {
             throw new ShipyardJobNotFoundException($jobId);
         }
 
-        if ($this->jobQueue[0]->getId() === $jobId) {
+        if ($this->jobQueue[0]->getId()->getUuid() === $jobId->getUuid()) {
             throw new CantCancelCurrentlyTakenJobException($jobId);
         }
 
         foreach ($this->jobQueue as $key => $job) {
-            if ($job->getId() === $jobId) {
+            if ($job->getId()->getUuid() === $jobId->getUuid()) {
                 unset($this->jobQueue[$key]);
                 $this->jobQueue = array_values($this->jobQueue);
 
@@ -177,6 +156,27 @@ class Shipyard
         }
 
         throw new ShipyardJobNotFoundException($jobId);
+    }
+
+    public function isIdle(): bool
+    {
+        return count($this->jobQueue) === 0;
+    }
+
+    public function getJobsCount(): int
+    {
+        return count($this->jobQueue);
+    }
+
+    public function hasJob(JobIdInterface $jobId): bool
+    {
+        foreach ($this->jobQueue as $job) {
+            if ($job->getId()->getUuid() === $jobId->getUuid()) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function upgrade(int $newProductionLimit): void

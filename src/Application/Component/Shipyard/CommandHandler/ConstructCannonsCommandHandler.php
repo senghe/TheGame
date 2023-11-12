@@ -7,10 +7,12 @@ namespace TheGame\Application\Component\Shipyard\CommandHandler;
 use TheGame\Application\Component\Balance\Bridge\ShipyardContextInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\Component\Shipyard\Command\ConstructCannonsCommand;
+use TheGame\Application\Component\Shipyard\Domain\Entity\Job;
+use TheGame\Application\Component\Shipyard\Domain\Entity\Shipyard;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenQueuedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Exception\InsufficientResourcesException;
+use TheGame\Application\Component\Shipyard\Domain\Factory\JobFactoryInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
@@ -20,6 +22,7 @@ final class ConstructCannonsCommandHandler
     public function __construct(
         private readonly ShipyardRepositoryInterface $shipyardRepository,
         private readonly ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
+        private readonly JobFactoryInterface $jobFactory,
         private readonly ShipyardContextInterface $shipyardBalanceContext,
         private readonly EventBusInterface $eventBus,
     ) {
@@ -33,31 +36,41 @@ final class ConstructCannonsCommandHandler
             throw new ShipyardHasNotBeenFoundException($shipyardId);
         }
 
-        $cannon = new Cannon(
-            $command->getCannonType(),
-            $this->shipyardBalanceContext->getCannonResourceRequirements($command->getCannonType()),
-            $this->shipyardBalanceContext->getCannonConstructionTime(
-                $command->getCannonType(),
-                $shipyard->getCurrentLevel(),
-            ),
-            $this->shipyardBalanceContext->getCannonProductionLoad($command->getCannonType()),
-        );
+        $cannonType = $command->getCannonType();
+        $quantity = $command->getQuantity();
+        $job = $this->createJob($cannonType, $quantity, $shipyard);
 
         $planetId = $shipyard->getPlanetId();
-        $resourceRequirements = $shipyard->calculateResourceRequirements($cannon, $command->getQuantity());
-        $hasEnoughResources = $this->resourceAvailabilityChecker->check($planetId, $resourceRequirements);
+        $hasEnoughResources = $this->resourceAvailabilityChecker->check(
+            $planetId, $job->getRequirements(),
+        );
         if ($hasEnoughResources === false) {
-            throw new InsufficientResourcesException($planetId, $cannon->getType());
+            throw new InsufficientResourcesException($planetId, $cannonType);
         }
 
-        $shipyard->queueCannons($cannon, $command->getQuantity());
+        $shipyard->queueJob($job);
 
         $event = new NewCannonsHaveBeenQueuedEvent(
-            $command->getCannonType(),
-            $command->getQuantity(),
+            $cannonType,
+            $quantity,
             $shipyard->getPlanetId()->getUuid(),
-            $resourceRequirements->toScalarArray(),
+            $job->getRequirements()->toScalarArray(),
         );
         $this->eventBus->dispatch($event);
+    }
+
+    private function createJob(
+        string $cannonType,
+        int $quantity,
+        Shipyard $shipyard,
+    ): Job {
+        return $this->jobFactory->createNewCannonsJob(
+            $cannonType,
+            $quantity,
+            $shipyard->getCurrentLevel(),
+            $this->shipyardBalanceContext->getCannonConstructionTime($cannonType, $shipyard->getCurrentLevel()),
+            $this->shipyardBalanceContext->getCannonProductionLoad($cannonType),
+            $this->shipyardBalanceContext->getCannonResourceRequirements($cannonType),
+        );
     }
 }
