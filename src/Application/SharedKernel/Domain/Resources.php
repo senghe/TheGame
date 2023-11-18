@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace TheGame\Application\SharedKernel\Domain;
 
-final class ResourceRequirements implements ResourceRequirementsInterface
+final class Resources implements ResourcesInterface
 {
     /** @var array<string, ResourceAmountInterface> */
-    private array $requirements = [];
+    private array $resources = [];
 
     public function add(ResourceAmountInterface $resourceAmount): void
     {
@@ -18,7 +18,7 @@ final class ResourceRequirements implements ResourceRequirementsInterface
             return;
         }
 
-        $this->requirements[$resourceId->getUuid()] = $resourceAmount;
+        $this->resources[$resourceId->getUuid()] = $resourceAmount;
     }
 
     public function getAmount(ResourceIdInterface $resourceId): int
@@ -27,20 +27,20 @@ final class ResourceRequirements implements ResourceRequirementsInterface
             return 0;
         }
 
-        return $this->requirements[$resourceId->getUuid()]->getAmount();
+        return $this->resources[$resourceId->getUuid()]->getAmount();
     }
 
     private function hasResource(ResourceIdInterface $resourceId): bool
     {
-        return isset($this->requirements[$resourceId->getUuid()]);
+        return isset($this->resources[$resourceId->getUuid()]);
     }
 
     private function appendResource(ResourceAmountInterface $incomingResourceAmount): void
     {
         $resourceId = $incomingResourceAmount->getResourceId();
-        $currentResourceAmount = $this->requirements[$resourceId->getUuid()];
+        $currentResourceAmount = $this->resources[$resourceId->getUuid()];
 
-        $this->requirements[$resourceId->getUuid()] = new ResourceAmount(
+        $this->resources[$resourceId->getUuid()] = new ResourceAmount(
             $resourceId,
             $currentResourceAmount->getAmount() + $incomingResourceAmount->getAmount(),
         );
@@ -50,7 +50,7 @@ final class ResourceRequirements implements ResourceRequirementsInterface
     public function toScalarArray(): array
     {
         $retVal = [];
-        foreach ($this->requirements as $resourceUuid => $resourceAmount) {
+        foreach ($this->resources as $resourceUuid => $resourceAmount) {
             $retVal[$resourceUuid] = $resourceAmount->getAmount();
         }
 
@@ -60,20 +60,25 @@ final class ResourceRequirements implements ResourceRequirementsInterface
     /** @return array<int, ResourceAmountInterface> */
     public function getAll(): array
     {
-        return array_values($this->requirements);
+        return array_values($this->resources);
     }
 
-    public function multipliedBy(int $quantity): ResourceRequirementsInterface
+    public function multipliedBy(int $quantity): ResourcesInterface
     {
-        $newRequirements = new self();
-        foreach ($this->requirements as $resourceAmount) {
+        $newResources = new self();
+        foreach ($this->resources as $resourceAmount) {
             $newAmount = new ResourceAmount(
                 $resourceAmount->getResourceId(),
                 $resourceAmount->getAmount() * $quantity,
             );
-            $newRequirements->add($newAmount);
+            $newResources->add($newAmount);
         }
 
-        return $newRequirements;
+        return $newResources;
+    }
+
+    public function clear(): void
+    {
+        $this->resources = [];
     }
 }

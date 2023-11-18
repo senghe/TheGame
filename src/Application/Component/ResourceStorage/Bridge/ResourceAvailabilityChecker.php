@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\ResourceStorage\Bridge;
 
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class ResourceAvailabilityChecker
@@ -18,7 +18,7 @@ final class ResourceAvailabilityChecker
 
     public function check(
         PlanetIdInterface $planetId,
-        ResourceRequirementsInterface $requirements
+        ResourcesInterface $requirements
     ): bool {
         $aggregate = $this->storagesRepository->findForPlanet($planetId);
         if ($aggregate === null) {

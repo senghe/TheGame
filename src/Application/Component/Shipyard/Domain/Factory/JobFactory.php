@@ -8,7 +8,7 @@ use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Job;
 use TheGame\Application\Component\Shipyard\Domain\ValueObject\Cannon;
 use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class JobFactory implements JobFactoryInterface
@@ -19,12 +19,12 @@ final class JobFactory implements JobFactoryInterface
     }
 
     public function createNewCannonsJob(
-        string $cannonType,
-        int $quantity,
-        int $shipyardLevel,
-        int $cannonConstructionTime,
-        int $cannonProductionLoad,
-        ResourceRequirementsInterface $cannonResourceRequirements,
+        string             $cannonType,
+        int                $quantity,
+        int                $shipyardLevel,
+        int                $cannonConstructionTime,
+        int                $cannonProductionLoad,
+        ResourcesInterface $cannonResourceRequirements,
     ): Job {
         $cannon = new Cannon(
             $cannonType,
@@ -37,12 +37,12 @@ final class JobFactory implements JobFactoryInterface
     }
 
     public function createNewShipsJob(
-        string $shipType,
-        int $quantity,
-        int $shipyardLevel,
-        int $shipConstructionTime,
-        int $shipProductionLoad,
-        ResourceRequirementsInterface $shipResourceRequirements,
+        string             $shipType,
+        int                $quantity,
+        int                $shipyardLevel,
+        int                $shipConstructionTime,
+        int                $shipProductionLoad,
+        ResourcesInterface $shipResourceRequirements,
     ): Job {
         $ship = new Ship(
             $shipType,

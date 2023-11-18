@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Shipyard\Domain;
 
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 interface ConstructibleInterface
 {
@@ -12,7 +12,7 @@ interface ConstructibleInterface
 
     public function getType(): string;
 
-    public function getRequirements(): ResourceRequirementsInterface;
+    public function getRequirements(): ResourcesInterface;
 
     public function getDuration(): int;
 

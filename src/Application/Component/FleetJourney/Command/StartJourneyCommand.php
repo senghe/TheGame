@@ -9,18 +9,19 @@ use TheGame\Application\SharedKernel\CommandInterface;
 final class StartJourneyCommand implements CommandInterface
 {
     public function __construct(
-        private readonly string $fleetId,
+        private readonly string $planetId,
         private readonly int $targetGalaxy,
         private readonly int $targetSolarSystem,
         private readonly int $targetPlanet,
         private readonly string $missionType,
+        private readonly array $shipsTakingJourney,
     ) {
 
     }
 
-    public function getFleetId(): string
+    public function getPlanetId(): string
     {
-        return $this->fleetId;
+        return $this->planetId;
     }
 
     public function getTargetGalaxy(): int
@@ -41,5 +42,12 @@ final class StartJourneyCommand implements CommandInterface
     public function getMissionType(): string
     {
         return $this->missionType;
+    }
+
+
+    /** @return array<string, int> $shipsTakingJourney */
+    public function getShipsTakingJourney(): array
+    {
+        return $this->shipsTakingJourney;
     }
 }

@@ -10,5 +10,9 @@ interface FleetJourneyContextInterface
 
     public function getShipCapacityLoad(string $type): int;
 
-    public function getJourneyDuration(int $speed, int $galaxy, int $solarSystem, int $planet): int;
+    public function getJourneyDuration(
+        int $speed,
+        int $fromGalaxy, int $fromSolarSystem, int $fromPlanet,
+        int $toGalaxy, int $toSolarSystem, int $toPlanet,
+    ): int;
 }

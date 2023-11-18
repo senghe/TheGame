@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\Shipyard\Domain\Entity;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class Job implements ConstructibleInterface
 {
@@ -41,7 +41,7 @@ class Job implements ConstructibleInterface
         return $this->getType();
     }
 
-    public function getRequirements(): ResourceRequirementsInterface
+    public function getRequirements(): ResourcesInterface
     {
         return $this->constructible->getRequirements()->multipliedBy($this->currentQuantity);
     }

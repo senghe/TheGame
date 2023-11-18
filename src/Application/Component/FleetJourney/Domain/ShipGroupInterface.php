@@ -10,15 +10,21 @@ interface ShipGroupInterface
 
     public function getQuantity(): int;
 
-    public function canBeMerged(ShipGroupInterface $shipGroup): bool;
+    public function hasType(string $type): bool;
 
     public function merge(ShipGroupInterface $shipGroup): void;
 
-    public function canBeSplit(ShipGroupInterface $shipGroup): bool;
+    public function split(int $quantity): ShipGroupInterface;
+
+    public function hasMoreShipsThan(int $quantity): bool;
+
+    public function hasEnoughShips(int $quantity): bool;
+
+    public function getSpeed(): int;
+
+    public function getUnitLoadCapacity(): int;
 
     public function setEmpty(): void;
 
-    public function getSpeed(): string;
-
-    public function getUnitLoadCapacity(): string;
+    public function isEmpty(): bool;
 }

@@ -7,7 +7,7 @@ namespace spec\TheGame\Application\Component\Shipyard\Domain\Factory;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class JobFactorySpec extends ObjectBehavior
@@ -19,9 +19,9 @@ final class JobFactorySpec extends ObjectBehavior
     }
 
     public function it_creates_cannons_job(
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface     $resourceRequirements,
         UuidGeneratorInterface $uuidGenerator,
-        JobIdInterface $jobId,
+        JobIdInterface         $jobId,
     ): void {
         $cannonType = 'laser';
         $quantity = 50;
@@ -50,9 +50,9 @@ final class JobFactorySpec extends ObjectBehavior
     }
 
     public function it_creates_ships_job(
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface     $resourceRequirements,
         UuidGeneratorInterface $uuidGenerator,
-        JobIdInterface $jobId,
+        JobIdInterface         $jobId,
     ): void {
         $shipType = 'light-fighter';
         $quantity = 50;

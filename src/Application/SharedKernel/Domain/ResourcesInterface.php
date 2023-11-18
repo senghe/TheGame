@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\SharedKernel\Domain;
 
-interface ResourceRequirementsInterface
+interface ResourcesInterface
 {
     public function add(ResourceAmountInterface $resourceAmount): void;
 
@@ -16,5 +16,7 @@ interface ResourceRequirementsInterface
     /** @return array<int, ResourceAmountInterface> */
     public function getAll(): array;
 
-    public function multipliedBy(int $quantity): ResourceRequirementsInterface;
+    public function multipliedBy(int $quantity): ResourcesInterface;
+
+    public function clear(): void;
 }

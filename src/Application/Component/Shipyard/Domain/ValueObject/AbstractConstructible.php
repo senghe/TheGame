@@ -6,15 +6,15 @@ namespace TheGame\Application\Component\Shipyard\Domain\ValueObject;
 
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleInterface;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 abstract class AbstractConstructible implements ConstructibleInterface
 {
     public function __construct(
-        private readonly string $type,
-        private readonly ResourceRequirementsInterface $requirements,
-        private readonly int $duration,
-        private readonly int $productionLoad,
+        private readonly string             $type,
+        private readonly ResourcesInterface $requirements,
+        private readonly int                $duration,
+        private readonly int                $productionLoad,
     ) {
     }
 
@@ -25,7 +25,7 @@ abstract class AbstractConstructible implements ConstructibleInterface
         return $this->type;
     }
 
-    public function getRequirements(): ResourceRequirementsInterface
+    public function getRequirements(): ResourcesInterface
     {
         return $this->requirements;
     }

@@ -17,7 +17,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Exception\Insuffic
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
@@ -54,11 +54,11 @@ final class StartUpgradingBuildingCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_throws_exception_when_storage_hasnt_enough_resources(
-        BuildingRepositoryInterface $buildingRepository,
-        Building $building,
-        BuildingContextInterface $buildingBalanceContext,
+        BuildingRepositoryInterface          $buildingRepository,
+        Building                             $building,
+        BuildingContextInterface             $buildingBalanceContext,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface                   $resourceRequirements,
     ): void {
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $buildingId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";
@@ -85,12 +85,12 @@ final class StartUpgradingBuildingCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_starts_upgrading_the_building(
-        BuildingRepositoryInterface $buildingRepository,
-        Building $building,
-        BuildingContextInterface $buildingBalanceContext,
+        BuildingRepositoryInterface          $buildingRepository,
+        Building                             $building,
+        BuildingContextInterface             $buildingBalanceContext,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $resourceRequirements,
-        EventBusInterface $eventBus,
+        ResourcesInterface                   $resourceRequirements,
+        EventBusInterface                    $eventBus,
     ): void {
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $buildingId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";

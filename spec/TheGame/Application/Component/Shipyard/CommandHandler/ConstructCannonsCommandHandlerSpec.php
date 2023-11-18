@@ -18,7 +18,7 @@ use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
@@ -55,14 +55,14 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_throws_exception_when_planet_hasnt_sufficient_resources(
-        ShipyardRepositoryInterface $shipyardRepository,
-        Shipyard $shipyard,
-        JobFactoryInterface $jobFactory,
-        ShipyardContextInterface $shipyardBalanceContext,
-        Job $job,
+        ShipyardRepositoryInterface          $shipyardRepository,
+        Shipyard                             $shipyard,
+        JobFactoryInterface                  $jobFactory,
+        ShipyardContextInterface             $shipyardBalanceContext,
+        Job                                  $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $singleCannonResourceRequirements,
-        ResourceRequirementsInterface $jobResourceRequirements,
+        ResourcesInterface                   $singleCannonResourceRequirements,
+        ResourcesInterface                   $jobResourceRequirements,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $cannonType = 'laser';
@@ -101,15 +101,15 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_queues_cannons_in_shipyard(
-        ShipyardRepositoryInterface $shipyardRepository,
-        Shipyard $shipyard,
-        ShipyardContextInterface $shipyardBalanceContext,
-        JobFactoryInterface $jobFactory,
-        Job $job,
+        ShipyardRepositoryInterface          $shipyardRepository,
+        Shipyard                             $shipyard,
+        ShipyardContextInterface             $shipyardBalanceContext,
+        JobFactoryInterface                  $jobFactory,
+        Job                                  $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $singleCannonResourceRequirements,
-        ResourceRequirementsInterface $jobResourceRequirements,
-        EventBusInterface $eventBus,
+        ResourcesInterface                   $singleCannonResourceRequirements,
+        ResourcesInterface                   $jobResourceRequirements,
+        EventBusInterface                    $eventBus,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $cannonType = 'laser';

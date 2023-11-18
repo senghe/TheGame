@@ -11,4 +11,6 @@ enum MissionType: string
     case Transport = 'transport';
 
     case Attack = 'attack';
+
+    case FlyBack = 'fly-back';
 }

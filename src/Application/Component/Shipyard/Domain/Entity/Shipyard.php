@@ -14,7 +14,7 @@ use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryInterface;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardIdInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class Shipyard
 {
@@ -49,7 +49,7 @@ class Shipyard
 
     public function getResourceRequirements(
         JobIdInterface $jobId,
-    ): ResourceRequirementsInterface {
+    ): ResourcesInterface {
         foreach ($this->jobQueue as $job) {
             if ($job->getId()->getUuid() === $jobId->getUuid()) {
                 return $job->getRequirements();

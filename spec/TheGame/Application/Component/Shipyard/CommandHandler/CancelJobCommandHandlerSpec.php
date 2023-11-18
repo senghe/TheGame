@@ -14,7 +14,7 @@ use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class CancelJobCommandHandlerSpec extends ObjectBehavior
@@ -42,9 +42,9 @@ final class CancelJobCommandHandlerSpec extends ObjectBehavior
 
     public function it_cancels_job(
         ShipyardRepositoryInterface $shipyardRepository,
-        Shipyard $shipyard,
-        ResourceRequirementsInterface $resourceRequirements,
-        EventBusInterface $eventBus,
+        Shipyard                    $shipyard,
+        ResourcesInterface          $resourceRequirements,
+        EventBusInterface           $eventBus,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $jobId = "C4743117-1F59-449C-A023-7E0B00E670A4";

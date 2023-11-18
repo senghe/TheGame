@@ -14,7 +14,7 @@ use TheGame\Application\Component\ResourceStorage\Domain\StoragesCollectionIdInt
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class StoragesCollection
 {
@@ -50,7 +50,7 @@ class StoragesCollection
         return false;
     }
 
-    public function hasEnough(ResourceRequirementsInterface $requirements): bool
+    public function hasEnough(ResourcesInterface $requirements): bool
     {
         $requirementsArray = $requirements->getAll();
         foreach ($this->storages as $storage) {

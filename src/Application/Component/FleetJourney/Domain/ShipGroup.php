@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\FleetJourney\Domain;
 
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentTypeException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 
 final class ShipGroup implements ShipGroupInterface
 {
     public function __construct(
         private readonly string $type,
         private int $quantity,
-        private readonly string $speed,
+        private readonly int $speed,
         private readonly int $unitLoadCapacity,
-        private readonly ResourceLoadInterface $load,
     ) {
 
     }
@@ -28,14 +28,19 @@ final class ShipGroup implements ShipGroupInterface
         return $this->quantity;
     }
 
-    public function canBeMerged(ShipGroupInterface $shipGroup): bool
+    public function hasType(string $type): bool
     {
-        return $this->type !== $shipGroup->getType();
+        return $this->type !== $type;
     }
 
-    public function canBeSplit(ShipGroupInterface $shipGroup): bool
+    public function hasMoreShipsThan(int $quantity): bool
     {
-        return $this->type !== $shipGroup->getType();
+        return $this->quantity > $quantity;
+    }
+
+    public function hasEnoughShips(int $quantity): bool
+    {
+        return $this->quantity >= $quantity;
     }
 
     public function merge(ShipGroupInterface $shipGroup): void
@@ -48,18 +53,39 @@ final class ShipGroup implements ShipGroupInterface
         $shipGroup->setEmpty();
     }
 
+    public function split(int $quantity): ShipGroupInterface
+    {
+        if ($this->hasEnoughShips($quantity) === false) {
+            throw new NotEnoughShipsException($this->type);
+        }
+
+        $this->quantity -= $quantity;
+
+        return new ShipGroup(
+            $this->type,
+            $quantity,
+            $this->speed,
+            $this->unitLoadCapacity,
+        );
+    }
+
+    public function getSpeed(): int
+    {
+        return $this->speed;
+    }
+
+    public function getUnitLoadCapacity(): int
+    {
+        return $this->unitLoadCapacity;
+    }
+
     public function setEmpty(): void
     {
         $this->quantity = 0;
     }
 
-    public function getSpeed(): string
+    public function isEmpty(): bool
     {
-        return $this->speed;
-    }
-
-    public function getUnitLoadCapacity(): string
-    {
-        return $this->unitLoadCapacity;
+        return $this->quantity === 0;
     }
 }

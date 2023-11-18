@@ -10,7 +10,7 @@ use TheGame\Application\Component\Shipyard\Domain\JobId;
 use TheGame\Application\Component\Shipyard\Domain\ValueObject\Ship;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
+use TheGame\Application\SharedKernel\Domain\Resources;
 
 final class JobSpec extends ObjectBehavior
 {
@@ -22,7 +22,7 @@ final class JobSpec extends ObjectBehavior
         $constructibleDuration = 500;
         $productionLoad = 75;
 
-        $requirements = new ResourceRequirements();
+        $requirements = new Resources();
         $requirements->add(new ResourceAmount(
             new ResourceId("4B8CCD4D-6940-43F5-BFF5-A5FB35836294"),
             450,
