@@ -46,6 +46,19 @@ final class Resources implements ResourcesInterface
         );
     }
 
+    public static function fromScalarArray(array $scalarArray): self
+    {
+        $resources = new self();
+
+        foreach ($scalarArray as $resourceId => $quantity) {
+            $resources->add(new ResourceAmount(
+                new ResourceId($resourceId), $quantity,
+            ));
+        }
+
+        return $resources;
+    }
+
     /** @return array<string, int> */
     public function toScalarArray(): array
     {

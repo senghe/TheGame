@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\FleetJourney\Domain;
 
-interface ShipGroupInterface
+interface ShipsGroupInterface
 {
     public function getType(): string;
 
@@ -12,15 +12,17 @@ interface ShipGroupInterface
 
     public function hasType(string $type): bool;
 
-    public function merge(ShipGroupInterface $shipGroup): void;
+    public function merge(ShipsGroupInterface $shipGroup): void;
 
-    public function split(int $quantity): ShipGroupInterface;
+    public function split(int $quantity): ShipsGroupInterface;
 
     public function hasMoreShipsThan(int $quantity): bool;
 
     public function hasEnoughShips(int $quantity): bool;
 
     public function getSpeed(): int;
+
+    public function getLoadCapacity(): int;
 
     public function getUnitLoadCapacity(): int;
 

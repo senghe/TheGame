@@ -6,8 +6,8 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use TheGame\Application\Component\FleetJourney\Domain\GalaxyPointInterface;
 use TheGame\Application\Component\FleetJourney\Domain\MissionType;
+use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 
 class Journey
 {
@@ -27,7 +27,7 @@ class Journey
         );
     }
 
-    public function getTargetPoint(): GalaxyPointInterface
+    public function getTargetGalaxyPoint(): GalaxyPointInterface
     {
         return $this->targetPoint;
     }

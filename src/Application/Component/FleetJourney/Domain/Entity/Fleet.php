@@ -8,15 +8,15 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJo
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
-use TheGame\Application\Component\FleetJourney\Domain\GalaxyPointInterface;
-use TheGame\Application\Component\FleetJourney\Domain\ShipGroupInterface;
+use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
+use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class Fleet
 {
     private ?Journey $currentJourney = null;
 
-    /** @var array<ShipGroupInterface> $ships */
+    /** @var array<ShipsGroupInterface> $ships */
     private array $ships;
 
     public function __construct(
@@ -32,12 +32,12 @@ class Fleet
         return $this->fleetId;
     }
 
-    public function getStationingPoint(): GalaxyPointInterface
+    public function getStationingGalaxyPoint(): GalaxyPointInterface
     {
         return $this->stationingPoint;
     }
 
-    /** @var array<ShipGroupInterface> $ships */
+    /** @var array<ShipsGroupInterface> $ships */
     public function addShips(array $ships): void
     {
         if ($this->currentJourney === null) {
@@ -169,7 +169,7 @@ class Fleet
         }
 
         if ($this->currentJourney->doesPlanToStationOnTarget()) {
-            $this->stationingPoint = $this->currentJourney->getTargetPoint();
+            $this->stationingPoint = $this->currentJourney->getTargetGalaxyPoint();
             $this->currentJourney = null;
 
             return;
@@ -189,6 +189,16 @@ class Fleet
         }
 
         $this->currentJourney->cancel();
+    }
+
+    public function getLoadCapacity(): int
+    {
+        $capacity = 0;
+        foreach ($this->ships as $shipGroup) {
+            $capacity += $shipGroup->getLoadCapacity();
+        }
+
+        return $capacity;
     }
 
     public function unload(): ResourcesInterface

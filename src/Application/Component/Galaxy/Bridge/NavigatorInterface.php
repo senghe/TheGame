@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Galaxy\Bridge;
 
+use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
+use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+
 interface NavigatorInterface
 {
-    public function isWithinBoundaries(int $galaxy, int $solarSystem, int $planet): bool;
+    public function getPlanetPoint(PlanetIdInterface $planetId): GalaxyPointInterface;
+    
+    public function isWithinBoundaries(GalaxyPointInterface $galaxyPoint): bool;
 
-    public function isColonized(int $galaxy, int $solarSystem, int $planet): bool;
+    public function isColonized(GalaxyPointInterface $galaxyPoint): bool;
 }

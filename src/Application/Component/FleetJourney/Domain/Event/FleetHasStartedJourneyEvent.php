@@ -11,13 +11,8 @@ final class FleetHasStartedJourneyEvent implements EventInterface
     /** @var array<string, int> $fuelRequirements */
     public function __construct(
         private readonly string $fleetId,
-        private readonly int $fromGalaxy,
-        private readonly int $fromSolarSystem,
-        private readonly int $fromPlanet,
-        private readonly int $toGalaxy,
-        private readonly int $toSolarSystem,
-        private readonly int $toPlanet,
-        private readonly int $journeyDuration,
+        private readonly string $fromGalaxyPoint,
+        private readonly string $targetGalaxyPoint,
         private readonly array $fuelRequirements,
         private readonly array $resourcesLoad,
     ) {
@@ -29,40 +24,16 @@ final class FleetHasStartedJourneyEvent implements EventInterface
         return $this->fleetId;
     }
 
-    public function getFromGalaxy(): int
+    public function getFromGalaxyPoint(): string
     {
-        return $this->fromGalaxy;
+        return $this->fromGalaxyPoint;
     }
 
-    public function getFromSolarSystem(): int
+    public function getTargetGalaxyPoint(): string
     {
-        return $this->fromSolarSystem;
+        return $this->targetGalaxyPoint;
     }
 
-    public function getFromPlanet(): int
-    {
-        return $this->fromPlanet;
-    }
-
-    public function getToGalaxy(): int
-    {
-        return $this->toGalaxy;
-    }
-
-    public function getToSolarSystem(): int
-    {
-        return $this->toSolarSystem;
-    }
-
-    public function getToPlanet(): int
-    {
-        return $this->toPlanet;
-    }
-
-    public function getJourneyDuration(): int
-    {
-        return $this->journeyDuration;
-    }
 
     public function getFuelRequirements(): array
     {

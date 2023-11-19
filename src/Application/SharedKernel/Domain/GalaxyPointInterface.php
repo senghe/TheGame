@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\FleetJourney\Domain;
+namespace TheGame\Application\SharedKernel\Domain;
 
 interface GalaxyPointInterface
 {
@@ -11,6 +11,8 @@ interface GalaxyPointInterface
     public function getSolarSystem(): int;
 
     public function getPlanet(): int;
+
+    public function format(): string;
 
     /** @return int[] */
     public function toArray(): array;

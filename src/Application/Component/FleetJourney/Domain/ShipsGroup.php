@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\FleetJourney\Domain;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentTypeException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 
-final class ShipGroup implements ShipGroupInterface
+final class ShipsGroup implements ShipsGroupInterface
 {
     public function __construct(
         private readonly string $type,
@@ -43,7 +43,7 @@ final class ShipGroup implements ShipGroupInterface
         return $this->quantity >= $quantity;
     }
 
-    public function merge(ShipGroupInterface $shipGroup): void
+    public function merge(ShipsGroupInterface $shipGroup): void
     {
         if ($this->type !== $shipGroup->getType()) {
             throw new CannotMergeShipGroupsOfDifferentTypeException($this->type, $shipGroup->getType());
@@ -53,7 +53,7 @@ final class ShipGroup implements ShipGroupInterface
         $shipGroup->setEmpty();
     }
 
-    public function split(int $quantity): ShipGroupInterface
+    public function split(int $quantity): ShipsGroupInterface
     {
         if ($this->hasEnoughShips($quantity) === false) {
             throw new NotEnoughShipsException($this->type);
@@ -61,7 +61,7 @@ final class ShipGroup implements ShipGroupInterface
 
         $this->quantity -= $quantity;
 
-        return new ShipGroup(
+        return new ShipsGroup(
             $this->type,
             $quantity,
             $this->speed,
@@ -72,6 +72,11 @@ final class ShipGroup implements ShipGroupInterface
     public function getSpeed(): int
     {
         return $this->speed;
+    }
+
+    public function getLoadCapacity(): int
+    {
+        return $this->getUnitLoadCapacity() * $this->quantity;
     }
 
     public function getUnitLoadCapacity(): int

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\Component\FleetJourney\Domain;
+namespace TheGame\Application\SharedKernel\Domain;
 
 final class GalaxyPoint implements GalaxyPointInterface
 {
@@ -12,6 +12,11 @@ final class GalaxyPoint implements GalaxyPointInterface
         private readonly int $planet,
     ) {
 
+    }
+
+    public static function fromString(string $value): self
+    {
+        return new self(...explode(':', $value));
     }
 
     public function getGalaxy(): int
@@ -27,6 +32,16 @@ final class GalaxyPoint implements GalaxyPointInterface
     public function getPlanet(): int
     {
         return $this->planet;
+    }
+
+    public function format(): string
+    {
+        return sprintf(
+            '%d:%d:%d',
+            $this->galaxy,
+            $this->solarSystem,
+            $this->planet
+        );
     }
 
     /** @return int[] */

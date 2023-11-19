@@ -10,9 +10,7 @@ final class StartJourneyCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $planetId,
-        private readonly int $targetGalaxy,
-        private readonly int $targetSolarSystem,
-        private readonly int $targetPlanet,
+        private readonly string $targetGalaxyPoint,
         private readonly string $missionType,
         private readonly array $shipsTakingJourney,
         private readonly array $resourcesLoad,
@@ -25,19 +23,9 @@ final class StartJourneyCommand implements CommandInterface
         return $this->planetId;
     }
 
-    public function getTargetGalaxy(): int
+    public function getTargetGalaxyPoint(): string
     {
-        return $this->targetGalaxy;
-    }
-
-    public function getTargetSolarSystem(): int
-    {
-        return $this->targetSolarSystem;
-    }
-
-    public function getTargetPlanet(): int
-    {
-        return $this->targetPlanet;
+        return $this->targetGalaxyPoint;
     }
 
     public function getMissionType(): string
