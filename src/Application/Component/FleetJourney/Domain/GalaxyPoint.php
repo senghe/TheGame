@@ -28,4 +28,14 @@ final class GalaxyPoint implements GalaxyPointInterface
     {
         return $this->planet;
     }
+
+    /** @return int[] */
+    public function toArray(): array
+    {
+        return [
+            $this->galaxy,
+            $this->solarSystem,
+            $this->planet,
+        ];
+    }
 }

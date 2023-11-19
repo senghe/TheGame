@@ -11,4 +11,7 @@ interface GalaxyPointInterface
     public function getSolarSystem(): int;
 
     public function getPlanet(): int;
+
+    /** @return int[] */
+    public function toArray(): array;
 }

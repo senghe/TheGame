@@ -77,6 +77,17 @@ final class Resources implements ResourcesInterface
         return $newResources;
     }
 
+    public function sum(): int
+    {
+        $sum = 0;
+
+        foreach ($this->resources as $resourceAmount) {
+            $sum += $resourceAmount->getAmount();
+        }
+
+        return $sum;
+    }
+
     public function clear(): void
     {
         $this->resources = [];

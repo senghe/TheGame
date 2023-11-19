@@ -18,5 +18,7 @@ interface ResourcesInterface
 
     public function multipliedBy(int $quantity): ResourcesInterface;
 
+    public function sum(): int;
+
     public function clear(): void;
 }
