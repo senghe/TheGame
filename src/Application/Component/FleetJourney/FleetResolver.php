@@ -10,16 +10,17 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\NoFleetStationin
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFuelOnPlanetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
+use TheGame\Application\Component\FleetJourney\Domain\Factory\FleetFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class FleetResolver implements FleetResolverInterface
 {
     public function __construct(
         private readonly FleetRepositoryInterface $fleetRepository,
+        private readonly FleetFactoryInterface $fleetFactory,
         private readonly FleetJourneyContextInterface $journeyContext,
         private readonly ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
     ) {
@@ -28,7 +29,6 @@ final class FleetResolver implements FleetResolverInterface
 
     /**
      * @param array<string, int> $shipsTakingJourney
-     * @param array<string, int> $resourcesLoad
      */
     public function resolveFromPlanet(
         PlanetIdInterface $planetId,
@@ -54,13 +54,13 @@ final class FleetResolver implements FleetResolverInterface
         if ($stationingFleet->hasMoreShipsThan($shipsTakingJourney)) {
             $shipsTakingJourney = $stationingFleet->split($shipsTakingJourney);
             $resolvedFleet = $this->fleetFactory->create(
-                $stationingFleet->getStationingGalaxyPoint(),
                 $shipsTakingJourney,
+                $stationingFleet->getStationingGalaxyPoint(),
                 $resourcesLoad,
             );
         }
 
-        $resourcesLoadTotal = $this->calculateResourcesLoadTotal($resourcesLoad);
+        $resourcesLoadTotal = $resourcesLoad->sum();
         $fuelRequirementsTotal = $fuelRequirements->sum();
         $currentCapacity = $resolvedFleet->getLoadCapacity();
         $capacityNeeded = $resourcesLoadTotal + $fuelRequirementsTotal;
@@ -90,16 +90,5 @@ final class FleetResolver implements FleetResolverInterface
         }
 
         return $fuelRequirements;
-    }
-
-    /** @param array<string, int> $resources */
-    private function calculateResourcesLoadTotal(array $resources): int
-    {
-        $total = 0;
-        foreach ($resources as $quantity) {
-            $total += $quantity;
-        }
-
-        return $total;
     }
 }

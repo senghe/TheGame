@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace TheGame\Application\SharedKernel\Domain;
 
+use InvalidArgumentException;
+
 final class GalaxyPoint implements GalaxyPointInterface
 {
     public function __construct(
@@ -16,7 +18,13 @@ final class GalaxyPoint implements GalaxyPointInterface
 
     public static function fromString(string $value): self
     {
-        return new self(...explode(':', $value));
+        $withoutBrackets = substr($value, 1, strlen($value)-2);
+        $exploded = explode(':', $withoutBrackets);
+        if (count($exploded) != 3) {
+            throw new InvalidArgumentException(sprintf('Cannot parse galaxy point %s', $value));
+        }
+
+        return new self(...$exploded);
     }
 
     public function getGalaxy(): int
@@ -37,7 +45,7 @@ final class GalaxyPoint implements GalaxyPointInterface
     public function format(): string
     {
         return sprintf(
-            '%d:%d:%d',
+            '[%d:%d:%d]',
             $this->galaxy,
             $this->solarSystem,
             $this->planet

@@ -6,6 +6,7 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
 use DateTimeImmutable;
 use DateTimeInterface;
+use TheGame\Application\Component\FleetJourney\Domain\JourneyIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 
@@ -16,6 +17,7 @@ class Journey
     private DateTimeInterface $finishesAt;
 
     public function __construct(
+        private readonly JourneyIdInterface $journeyId,
         private MissionType $missionType,
         private GalaxyPointInterface $startPoint,
         private GalaxyPointInterface $targetPoint,
@@ -25,6 +27,11 @@ class Journey
         $this->finishesAt = new DateTimeImmutable(
             sprintf('+ %d seconds', $this->duration),
         );
+    }
+
+    public function getId(): JourneyIdInterface
+    {
+        return $this->journeyId;
     }
 
     public function getTargetGalaxyPoint(): GalaxyPointInterface
