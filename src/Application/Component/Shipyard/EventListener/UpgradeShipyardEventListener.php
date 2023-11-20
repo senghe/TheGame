@@ -28,7 +28,7 @@ final class UpgradeShipyardEventListener
 
         $shipyard = $event->getUpgradedLevel() === 1
             ? $this->shipyardFactory->create($planetId, $buildingId)
-            : $this->shipyardRepository->findAggregateForBuilding($planetId, $buildingId);
+            : $this->shipyardRepository->findForBuilding($planetId, $buildingId);
 
         if ($shipyard === null) {
             throw new ShipyardHasNotBeenFoundException($buildingId);

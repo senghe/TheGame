@@ -36,7 +36,7 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn(null);
 
         $command = new FinishJobsCommand($shipyardId);
@@ -55,7 +55,7 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
         $shipyard->finishJobs()->willReturn($summary);

@@ -46,7 +46,7 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipType = 'light-fighter';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn(null);
 
         $command = new ConstructShipsCommand($shipyardId, $shipType, $quantity);
@@ -68,7 +68,7 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipType = 'light-fighter';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
         $shipyard->getCurrentLevel()->willReturn(15);
@@ -115,7 +115,7 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
         $shipType = 'light-fighter';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
         $shipyard->getCurrentLevel()->willReturn(15);
