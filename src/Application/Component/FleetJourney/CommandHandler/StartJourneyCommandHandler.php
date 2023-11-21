@@ -45,6 +45,7 @@ final class StartJourneyCommandHandler
 
         $startGalaxyPoint = $fleetTakingJourney->getStationingGalaxyPoint();
         $journey = $this->journeyFactory->createJourney(
+            $fleetTakingJourney->getId(),
             MissionType::from($command->getMissionType()),
             $startGalaxyPoint,
             $targetGalaxyPoint,

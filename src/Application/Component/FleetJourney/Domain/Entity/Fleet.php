@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
-use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnComeBackException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyLoadedException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
@@ -23,7 +25,7 @@ class Fleet
     public function __construct(
         private readonly FleetIdInterface $fleetId,
         private GalaxyPointInterface $stationingPoint,
-        private ResourcesInterface $load,
+        private ResourcesInterface $resourcesLoad,
     ) {
 
     }
@@ -122,7 +124,7 @@ class Fleet
         return true;
     }
 
-    /** @var array<string, int> $shipsToCompare */
+    /** @var array<string, int> $shipsToSplit */
     public function split(
         array $shipsToSplit,
     ): array {
@@ -147,7 +149,15 @@ class Fleet
 
     public function isDuringJourney(): bool
     {
-        return $this->currentJourney !== null;
+        if ($this->currentJourney === null) {
+            return false;
+        }
+
+        if ($this->currentJourney->didReachTargetPoint() === false && $this->currentJourney->didReachReturnPoint() === false) {
+            return true;
+        }
+
+        return false;
     }
 
     public function startJourney(Journey $journey): void
@@ -159,38 +169,89 @@ class Fleet
         $this->currentJourney = $journey;
     }
 
-    public function reachJourneyTarget(): void
+    public function getJourneyStartPoint(): GalaxyPointInterface
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        if ($this->currentJourney->isFinished() === false) {
+        return $this->currentJourney->getStartPoint();
+    }
+
+    public function getJourneyTargetPoint(): GalaxyPointInterface
+    {
+        if ($this->isDuringJourney() === false) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        return $this->currentJourney->getTargetPoint();
+    }
+
+    public function didReachJourneyTargetPoint(): bool
+    {
+        if ($this->currentJourney === null) {
+            return false;
+        }
+
+        return $this->currentJourney->didReachTargetPoint();
+    }
+
+    public function reachJourneyTargetPoint(): void
+    {
+        if ($this->isDuringJourney() === false) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        if ($this->currentJourney->didReachTargetPoint() === false) {
             return;
         }
 
         if ($this->currentJourney->doesPlanToStationOnTarget()) {
-            $this->stationingPoint = $this->currentJourney->getTargetGalaxyPoint();
-            $this->currentJourney = null;
+            $this->stationingPoint = $this->currentJourney->getTargetPoint();
 
             return;
-        } else if ($this->currentJourney->doesComeBack()) {
-            $this->currentJourney = null;
-
+        } else if ($this->currentJourney->doesFlyBack()) {
             return;
         }
 
-        $this->currentJourney->comeBack();
+        $this->currentJourney->reachTargetPoint();
+    }
+
+    public function reachJourneyReturnPoint(): void
+    {
+        if ($this->isDuringJourney() === false) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        if ($this->currentJourney->didReachReturnPoint() === false) {
+            return;
+        }
+
+        $this->currentJourney->reachReturnPoint();
+    }
+
+    public function didReturnFromJourney(): bool
+    {
+        if ($this->currentJourney === null) {
+            return false;
+        }
+
+        return $this->currentJourney->didReachReturnPoint();
+    }
+
+    public function doesFlyBack(): bool
+    {
+        if ($this->currentJourney === null) {
+            return false;
+        }
+
+        return $this->currentJourney->doesFlyBack();
     }
 
     public function cancelJourney(): void
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);
-        }
-
-        if ($this->currentJourney->doesComeBack() === true) {
-            throw new CannotCancelFleetJourneyOnComeBackException($this->fleetId);
         }
 
         $this->currentJourney->cancel();
@@ -206,10 +267,33 @@ class Fleet
         return $capacity;
     }
 
+    public function getResourcesLoad(): array
+    {
+        return $this->resourcesLoad->toScalarArray();
+    }
+
+    public function load(
+        ResourcesInterface $resourcesLoad,
+        ResourcesInterface $fuel,
+    ): void {
+        $loadTotal = $resourcesLoad->sum() + $fuel->sum();
+        if ($loadTotal > $this->getLoadCapacity()) {
+            throw new NotEnoughFleetLoadCapacityException(
+                $this->fleetId, $this->getLoadCapacity(), $loadTotal,
+            );
+        }
+
+        if ($this->resourcesLoad !== null) {
+            throw new FleetAlreadyLoadedException($this->fleetId);
+        }
+
+        $this->resourcesLoad = $resourcesLoad;
+    }
+
     public function unload(): ResourcesInterface
     {
-        $load = clone $this->load;
-        $this->load->clear();
+        $load = clone $this->resourcesLoad;
+        $this->resourcesLoad->clear();
 
         return $load;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\FleetJourney\CommandHandler;
 
 use TheGame\Application\Component\FleetJourney\Command\CancelJourneyCommand;
+use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasCancelledJourneyEvent;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
@@ -33,8 +34,8 @@ final class CancelJourneyCommandHandler
         $this->eventBus->dispatch(
             new FleetHasCancelledJourneyEvent(
                 $command->getFleetId(),
-                $fleet->getJourneyTargetGalaxyPoint()->format(),
-                $fleet->getResourcesLoad()->toScalarArray(),
+                $fleet->getJourneyTargetPoint()->format(),
+                $fleet->getResourcesLoad(),
             ),
         );
     }

@@ -7,13 +7,14 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Exception;
 use DomainException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 
-final class CannotCancelFleetJourneyOnComeBackException extends DomainException
+final class FleetHasNotYetReachedTheTargetPointException extends DomainException
 {
-    public function __construct(FleetIdInterface $fleetId)
+    public function __construct(FleetIdInterface $fleetId, int $timeLeft)
     {
         $message = sprintf(
-            'Cannot cancel fleet % journey (it\'s comming back)',
+            'Fleet % has not yet reached the target (%s seconds left)',
             $fleetId->getUuid(),
+            $timeLeft,
         );
 
         parent::__construct($message);

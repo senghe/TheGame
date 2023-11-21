@@ -41,16 +41,11 @@ final class FleetResolver implements FleetResolverInterface
             throw new NoFleetStationingOnPlanetException($planetId);
         }
 
-        $startGalaxyPoint = $stationingFleet->getStationingGalaxyPoint();
-        $fuelRequirements = $this->resolveFuelOnPlanet(
-            $planetId, $startGalaxyPoint, $targetGalaxyPoint, $shipsTakingJourney
-        );
-
-        $resolvedFleet = $stationingFleet;
         if ($stationingFleet->hasEnoughShips($shipsTakingJourney) === false) {
             throw new NotEnoughShipsException($planetId);
         }
 
+        $resolvedFleet = $stationingFleet;
         if ($stationingFleet->hasMoreShipsThan($shipsTakingJourney)) {
             $shipsTakingJourney = $stationingFleet->split($shipsTakingJourney);
             $resolvedFleet = $this->fleetFactory->create(
@@ -60,15 +55,11 @@ final class FleetResolver implements FleetResolverInterface
             );
         }
 
-        $resourcesLoadTotal = $resourcesLoad->sum();
-        $fuelRequirementsTotal = $fuelRequirements->sum();
-        $currentCapacity = $resolvedFleet->getLoadCapacity();
-        $capacityNeeded = $resourcesLoadTotal + $fuelRequirementsTotal;
-        if ($capacityNeeded > $currentCapacity) {
-            throw new NotEnoughFleetLoadCapacityException(
-                $resolvedFleet->getId(), $currentCapacity, $capacityNeeded
-            );
-        }
+        $startGalaxyPoint = $stationingFleet->getStationingGalaxyPoint();
+        $fuelRequirements = $this->resolveFuelOnPlanet(
+            $planetId, $startGalaxyPoint, $targetGalaxyPoint, $shipsTakingJourney
+        );
+        $this->loadResources($resolvedFleet, $resourcesLoad, $fuelRequirements);
 
         return $resolvedFleet;
     }
@@ -90,5 +81,23 @@ final class FleetResolver implements FleetResolverInterface
         }
 
         return $fuelRequirements;
+    }
+
+    private function loadResources(
+        Fleet $resolvedFleet,
+        ResourcesInterface $resourcesLoad,
+        ResourcesInterface $fuelRequirements,
+    ): void {
+        $resourcesLoadTotal = $resourcesLoad->sum();
+        $fuelRequirementsTotal = $fuelRequirements->sum();
+        $currentCapacity = $resolvedFleet->getLoadCapacity();
+        $capacityNeeded = $resourcesLoadTotal + $fuelRequirementsTotal;
+        if ($capacityNeeded > $currentCapacity) {
+            throw new NotEnoughFleetLoadCapacityException(
+                $resolvedFleet->getId(), $currentCapacity, $capacityNeeded
+            );
+        }
+
+        $resolvedFleet->load($resourcesLoad, $fuelRequirements);
     }
 }

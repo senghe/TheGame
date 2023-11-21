@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\FleetJourney\Command;
 
 use TheGame\Application\SharedKernel\CommandInterface;
 
-final class FinishJourneysCommand implements CommandInterface
+final class TargetJourneysCommand implements CommandInterface
 {
     public function __construct(
         private readonly string $userId,
