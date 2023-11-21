@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
+use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnComeBackException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
@@ -186,6 +187,10 @@ class Fleet
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        if ($this->currentJourney->doesComeBack() === true) {
+            throw new CannotCancelFleetJourneyOnComeBackException($this->fleetId);
         }
 
         $this->currentJourney->cancel();
