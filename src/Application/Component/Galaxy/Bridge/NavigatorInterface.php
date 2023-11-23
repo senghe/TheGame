@@ -10,8 +10,14 @@ use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 interface NavigatorInterface
 {
     public function getPlanetPoint(PlanetIdInterface $planetId): GalaxyPointInterface;
-    
+
     public function isWithinBoundaries(GalaxyPointInterface $galaxyPoint): bool;
 
     public function isColonized(GalaxyPointInterface $galaxyPoint): bool;
+
+    public function isMissionEligible(
+        string $missionType,
+        GalaxyPointInterface $planetFrom,
+        GalaxyPointInterface $planetTo,
+    ): bool;
 }
