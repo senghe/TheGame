@@ -189,11 +189,8 @@ class Fleet
 
     public function didReachJourneyTargetPoint(): bool
     {
-        if ($this->currentJourney === null) {
-            return false;
-        }
-
-        return $this->currentJourney->didReachTargetPoint();
+        return $this->currentJourney !== null
+            && $this->currentJourney->didReachTargetPoint();
     }
 
     public function reachJourneyTargetPoint(): void
@@ -232,11 +229,8 @@ class Fleet
 
     public function didReturnFromJourney(): bool
     {
-        if ($this->currentJourney === null) {
-            return false;
-        }
-
-        return $this->currentJourney->didReachReturnPoint();
+        return $this->currentJourney !== null
+            && $this->currentJourney->didReachReturnPoint();
     }
 
     public function doesFlyBack(): bool
