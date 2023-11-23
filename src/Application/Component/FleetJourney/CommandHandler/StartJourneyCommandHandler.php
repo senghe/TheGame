@@ -27,7 +27,6 @@ final class StartJourneyCommandHandler
         private readonly FleetJourneyContextInterface $journeyContext,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(StartJourneyCommand $command): void
@@ -61,7 +60,9 @@ final class StartJourneyCommandHandler
             $startGalaxyPoint,
             $targetGalaxyPoint,
             $this->journeyContext->calculateJourneyDuration(
-                $fleetTakingJourney->getSpeed(), $startGalaxyPoint, $targetGalaxyPoint,
+                $fleetTakingJourney->getSpeed(),
+                $startGalaxyPoint,
+                $targetGalaxyPoint,
             ),
         );
         $fleetTakingJourney->startJourney($journey);

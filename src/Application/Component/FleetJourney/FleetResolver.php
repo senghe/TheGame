@@ -24,7 +24,6 @@ final class FleetResolver implements FleetResolverInterface
         private readonly FleetJourneyContextInterface $journeyContext,
         private readonly ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
     ) {
-
     }
 
     /**
@@ -57,7 +56,10 @@ final class FleetResolver implements FleetResolverInterface
 
         $startGalaxyPoint = $stationingFleet->getStationingGalaxyPoint();
         $fuelRequirements = $this->resolveFuelOnPlanet(
-            $planetId, $startGalaxyPoint, $targetGalaxyPoint, $shipsTakingJourney
+            $planetId,
+            $startGalaxyPoint,
+            $targetGalaxyPoint,
+            $shipsTakingJourney
         );
         $this->loadResources($resolvedFleet, $resourcesLoad, $fuelRequirements);
 
@@ -94,7 +96,9 @@ final class FleetResolver implements FleetResolverInterface
         $capacityNeeded = $resourcesLoadTotal + $fuelRequirementsTotal;
         if ($capacityNeeded > $currentCapacity) {
             throw new NotEnoughFleetLoadCapacityException(
-                $resolvedFleet->getId(), $currentCapacity, $capacityNeeded
+                $resolvedFleet->getId(),
+                $currentCapacity,
+                $capacityNeeded
             );
         }
 

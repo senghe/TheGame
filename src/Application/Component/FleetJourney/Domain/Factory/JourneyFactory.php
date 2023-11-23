@@ -15,7 +15,6 @@ final class JourneyFactory implements JourneyFactoryInterface
     public function __construct(
         private readonly UuidGeneratorInterface $uuidGenerator,
     ) {
-
     }
 
     public function createJourney(

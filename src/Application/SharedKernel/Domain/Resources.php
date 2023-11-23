@@ -52,7 +52,8 @@ final class Resources implements ResourcesInterface
 
         foreach ($scalarArray as $resourceId => $quantity) {
             $resources->add(new ResourceAmount(
-                new ResourceId($resourceId), $quantity,
+                new ResourceId($resourceId),
+                $quantity,
             ));
         }
 

@@ -15,7 +15,6 @@ final class FleetHasReachedJourneyReturnPointEvent implements EventInterface
         private readonly string $targetGalaxyPoint,
         private readonly array $resourcesLoad,
     ) {
-
     }
 
     public function getFleetId(): string

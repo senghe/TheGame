@@ -6,5 +6,4 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Factory;
 
 interface JourneyFactoryInterface
 {
-
 }

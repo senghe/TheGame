@@ -16,7 +16,6 @@ final class FleetHasStartedJourneyEvent implements EventInterface
         private readonly array $fuelRequirements,
         private readonly array $resourcesLoad,
     ) {
-
     }
 
     public function getFleetId(): string
@@ -33,7 +32,6 @@ final class FleetHasStartedJourneyEvent implements EventInterface
     {
         return $this->targetGalaxyPoint;
     }
-
 
     public function getFuelRequirements(): array
     {

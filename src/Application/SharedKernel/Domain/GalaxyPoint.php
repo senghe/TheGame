@@ -13,12 +13,11 @@ final class GalaxyPoint implements GalaxyPointInterface
         private readonly int $solarSystem,
         private readonly int $planet,
     ) {
-
     }
 
     public static function fromString(string $value): self
     {
-        $withoutBrackets = substr($value, 1, strlen($value)-2);
+        $withoutBrackets = substr($value, 1, strlen($value) - 2);
         $exploded = explode(':', $withoutBrackets);
         if (count($exploded) != 3) {
             throw new InvalidArgumentException(sprintf('Cannot parse galaxy point %s', $value));

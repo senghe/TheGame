@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
-use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyLoadedException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
@@ -27,7 +26,6 @@ class Fleet
         private GalaxyPointInterface $stationingPoint,
         private ResourcesInterface $resourcesLoad,
     ) {
-
     }
 
     public function getId(): FleetIdInterface
@@ -207,7 +205,7 @@ class Fleet
             $this->stationingPoint = $this->currentJourney->getTargetPoint();
 
             return;
-        } else if ($this->currentJourney->doesFlyBack()) {
+        } elseif ($this->currentJourney->doesFlyBack()) {
             return;
         }
 
@@ -273,7 +271,9 @@ class Fleet
         $loadTotal = $resourcesLoad->sum() + $fuel->sum();
         if ($loadTotal > $this->getLoadCapacity()) {
             throw new NotEnoughFleetLoadCapacityException(
-                $this->fleetId, $this->getLoadCapacity(), $loadTotal,
+                $this->fleetId,
+                $this->getLoadCapacity(),
+                $loadTotal,
             );
         }
 

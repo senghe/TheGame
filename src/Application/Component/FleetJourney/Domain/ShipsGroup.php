@@ -15,7 +15,6 @@ final class ShipsGroup implements ShipsGroupInterface
         private readonly int $speed,
         private readonly int $unitLoadCapacity,
     ) {
-
     }
 
     public function getType(): string

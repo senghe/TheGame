@@ -16,7 +16,6 @@ final class ReturnJourneysCommandHandler
         private readonly FleetRepositoryInterface $fleetRepository,
         private readonly EventBusInterface $eventBus,
     ) {
-
     }
 
     public function __invoke(ReturnJourneysCommand $command): void

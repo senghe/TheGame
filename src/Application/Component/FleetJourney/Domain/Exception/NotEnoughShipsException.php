@@ -18,7 +18,7 @@ final class NotEnoughShipsException extends DomainException
                 'Not enough ships stationing on planet %s',
                 $argument->getUuid(),
             );
-        } else if ($argument instanceof FleetIdInterface) {
+        } elseif ($argument instanceof FleetIdInterface) {
             $message = sprintf(
                 'Not enough ships on fleet %s',
                 $argument->getUuid(),

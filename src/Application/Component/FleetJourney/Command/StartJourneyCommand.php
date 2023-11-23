@@ -15,7 +15,6 @@ final class StartJourneyCommand implements CommandInterface
         private readonly array $shipsTakingJourney,
         private readonly array $resourcesLoad,
     ) {
-
     }
 
     public function getPlanetId(): string
@@ -32,7 +31,6 @@ final class StartJourneyCommand implements CommandInterface
     {
         return $this->missionType;
     }
-
 
     /** @return array<string, int> $shipsTakingJourney */
     public function getShipsTakingJourney(): array

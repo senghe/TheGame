@@ -11,7 +11,6 @@ final class CancelJourneyCommand implements CommandInterface
     public function __construct(
         private readonly string $fleetId,
     ) {
-
     }
 
     public function getFleetId(): string

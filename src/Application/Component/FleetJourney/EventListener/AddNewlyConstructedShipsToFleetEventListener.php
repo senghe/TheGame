@@ -10,6 +10,5 @@ final class AddNewlyConstructedShipsToFleetEventListener
 {
     public function __invoke(NewShipsHaveBeenConstructedEvent $event): void
     {
-
     }
 }
