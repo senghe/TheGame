@@ -23,7 +23,7 @@ final class ReturnJourneysCommandHandler
         $userId = new UserId($command->getUserId());
         $fleets = $this->fleetRepository->findFlyingBackFromJourneyForUser($userId);
         foreach ($fleets as $fleet) {
-            $fleet->reachJourneyReturnPoint();
+            $fleet->tryToReachJourneyReturnPoint();
             if ($fleet->didReturnFromJourney() === false) {
                 continue;
             }

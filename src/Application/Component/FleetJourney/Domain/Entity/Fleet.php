@@ -46,15 +46,7 @@ class Fleet
 
     public function merge(Fleet $fleet): void
     {
-        foreach ($fleet->ships as $shipsGroupToMerge) {
-            foreach ($this->ships as $currentShipsGroup) {
-                if ($currentShipsGroup->hasType($shipsGroupToMerge->getType())) {
-                    $currentShipsGroup->merge($shipsGroupToMerge);
-
-                    continue 2;
-                }
-            }
-        }
+        $this->addShips($fleet->ships);
     }
 
     /** @var array<ShipsGroupInterface> $ships */
@@ -94,29 +86,6 @@ class Fleet
     }
 
     /** @var array<string, int> $shipsToCompare */
-    public function hasMoreShipsThan(
-        array $shipsToCompare,
-    ): bool {
-        if ($this->hasEnoughShips($shipsToCompare) === false) {
-            return false;
-        }
-
-        foreach ($shipsToCompare as $shipType => $quantity) {
-            foreach ($this->ships as $shipGroup) {
-                if ($shipGroup->hasType($shipType) === false) {
-                    continue;
-                }
-
-                if ($shipGroup->hasMoreShipsThan($quantity) === true) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /** @var array<string, int> $shipsToCompare */
     public function hasEnoughShips(
         array $shipsToCompare,
     ): bool {
@@ -141,6 +110,33 @@ class Fleet
         return true;
     }
 
+    /** @var array<string, int> $shipsToCompare */
+    public function hasMoreShipsThan(
+        array $shipsToCompare,
+    ): bool {
+        if (count($shipsToCompare) === 0 && count($this->ships) > 0) {
+            return true;
+        }
+
+        if ($this->hasEnoughShips($shipsToCompare) === false) {
+            return false;
+        }
+
+        foreach ($shipsToCompare as $shipType => $quantity) {
+            foreach ($this->ships as $shipGroup) {
+                if ($shipGroup->hasType($shipType) === false) {
+                    continue;
+                }
+
+                if ($shipGroup->hasMoreShipsThan($quantity) === true) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     /** @var array<string, int> $shipsToSplit */
     public function split(
         array $shipsToSplit,
@@ -154,6 +150,10 @@ class Fleet
         foreach ($shipsToSplit as $shipType => $quantity) {
             foreach ($this->ships as $shipGroup) {
                 if ($shipGroup->hasType($shipType) === false) {
+                    continue;
+                }
+
+                if ($quantity <= 0) {
                     continue;
                 }
 
@@ -219,7 +219,7 @@ class Fleet
             && $this->currentJourney->didReachTargetPoint();
     }
 
-    public function reachJourneyTargetPoint(): void
+    public function tryToReachJourneyTargetPoint(): void
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);
@@ -240,7 +240,7 @@ class Fleet
         $this->currentJourney->reachTargetPoint();
     }
 
-    public function reachJourneyReturnPoint(): void
+    public function tryToReachJourneyReturnPoint(): void
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);

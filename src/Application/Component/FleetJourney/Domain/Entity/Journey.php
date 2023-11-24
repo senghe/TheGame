@@ -171,6 +171,7 @@ class Journey
         }
 
         $this->returnsAt = $now;
+        $this->doesFlyBack = false;
     }
 
     public function isCancelled(): bool

@@ -19,7 +19,7 @@ final class GalaxyPoint implements GalaxyPointInterface
     {
         $withoutBrackets = substr($value, 1, strlen($value) - 2);
         $exploded = explode(':', $withoutBrackets);
-        if (count($exploded) != 3) {
+        if (count($exploded) !== 3) {
             throw new InvalidArgumentException(sprintf('Cannot parse galaxy point %s', $value));
         }
 
