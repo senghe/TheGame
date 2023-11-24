@@ -9,21 +9,27 @@ use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstr
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewUnitsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
+use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\EventInterface;
 
 final class FinishedConstructionEventFactory implements FinishedConstructionEventFactoryInterface
 {
-    public function createEvent(FinishedJobsSummaryEntryInterface $summaryEntry): EventInterface
+    public function createEvent(
+        FinishedJobsSummaryEntryInterface $summaryEntry,
+        PlanetIdInterface $planetId,
+    ): EventInterface
     {
         switch ($summaryEntry->getUnit()) {
             case ConstructibleUnit::Cannon: {
                 return new NewCannonsHaveBeenConstructedEvent(
+                    $planetId->getUuid(),
                     $summaryEntry->getType(),
                     $summaryEntry->getQuantity(),
                 );
             }
             case ConstructibleUnit::Ship: {
                 return new NewShipsHaveBeenConstructedEvent(
+                    $planetId->getUuid(),
                     $summaryEntry->getType(),
                     $summaryEntry->getQuantity(),
                 );
@@ -31,6 +37,7 @@ final class FinishedConstructionEventFactory implements FinishedConstructionEven
         }
 
         return new NewUnitsHaveBeenConstructedEvent(
+            $planetId->getUuid(),
             $summaryEntry->getUnit()->value,
             $summaryEntry->getType(),
             $summaryEntry->getQuantity(),

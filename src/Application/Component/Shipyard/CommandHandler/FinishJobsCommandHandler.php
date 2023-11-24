@@ -30,7 +30,7 @@ final class FinishJobsCommandHandler
 
         $summary = $shipyard->finishJobs();
         foreach ($summary->getSummary() as $entry) {
-            $event = $this->finishedConstructionEventFactory->createEvent($entry);
+            $event = $this->finishedConstructionEventFactory->createEvent($entry, $shipyard->getPlanetId());
             $this->eventBus->dispatch($event);
         }
     }

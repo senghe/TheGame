@@ -59,6 +59,11 @@ class Journey
         return $this->journeyId;
     }
 
+    public function getMissionType(): MissionType
+    {
+        return $this->missionType;
+    }
+
     public function getStartPoint(): GalaxyPointInterface
     {
         return $this->startPoint;

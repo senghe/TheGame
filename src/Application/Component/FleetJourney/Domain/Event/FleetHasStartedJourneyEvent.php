@@ -10,12 +10,18 @@ final class FleetHasStartedJourneyEvent implements EventInterface
 {
     /** @var array<string, int> $fuelRequirements */
     public function __construct(
+        private readonly string $planetId,
         private readonly string $fleetId,
         private readonly string $fromGalaxyPoint,
         private readonly string $targetGalaxyPoint,
         private readonly array $fuelRequirements,
         private readonly array $resourcesLoad,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
     }
 
     public function getFleetId(): string

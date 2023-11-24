@@ -10,6 +10,7 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourne
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
+use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
@@ -36,6 +37,24 @@ class Fleet
     public function getStationingGalaxyPoint(): GalaxyPointInterface
     {
         return $this->stationingPoint;
+    }
+
+    public function landOnPlanet(GalaxyPointInterface $newStationingPoint): void
+    {
+        $this->stationingPoint = $newStationingPoint;
+    }
+
+    public function merge(Fleet $fleet): void
+    {
+        foreach ($fleet->ships as $shipsGroupToMerge) {
+            foreach ($this->ships as $currentShipsGroup) {
+                if ($currentShipsGroup->hasType($shipsGroupToMerge->getType())) {
+                    $currentShipsGroup->merge($shipsGroupToMerge);
+
+                    continue 2;
+                }
+            }
+        }
     }
 
     /** @var array<ShipsGroupInterface> $ships */
@@ -165,6 +184,15 @@ class Fleet
         }
 
         $this->currentJourney = $journey;
+    }
+
+    public function getJourneyMissionType(): MissionType
+    {
+        if ($this->isDuringJourney() === false) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        return $this->currentJourney->getMissionType();
     }
 
     public function getJourneyStartPoint(): GalaxyPointInterface

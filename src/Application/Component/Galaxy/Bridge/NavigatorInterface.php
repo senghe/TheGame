@@ -9,6 +9,8 @@ use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 
 interface NavigatorInterface
 {
+    public function getPlanetId(GalaxyPointInterface $galaxyPoint): ?PlanetIdInterface;
+
     public function getPlanetPoint(PlanetIdInterface $planetId): GalaxyPointInterface;
 
     public function isWithinBoundaries(GalaxyPointInterface $galaxyPoint): bool;

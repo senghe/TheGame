@@ -10,10 +10,16 @@ final class FleetHasReachedJourneyTargetPointEvent implements EventInterface
 {
     /** @var array<string, int> $resourcesLoad */
     public function __construct(
+        private readonly string $mission,
         private readonly string $fleetId,
         private readonly string $targetGalaxyPoint,
         private readonly array $resourcesLoad,
     ) {
+    }
+
+    public function getMission(): string
+    {
+        return $this->mission;
     }
 
     public function getFleetId(): string

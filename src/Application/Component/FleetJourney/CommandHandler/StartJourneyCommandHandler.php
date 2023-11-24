@@ -75,6 +75,7 @@ final class StartJourneyCommandHandler
 
         $this->eventBus->dispatch(
             new FleetHasStartedJourneyEvent(
+                $command->getPlanetId(),
                 $fleetTakingJourney->getId()->getUuid(),
                 $startGalaxyPoint->format(),
                 $command->getTargetGalaxyPoint(),
