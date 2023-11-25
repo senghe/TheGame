@@ -10,6 +10,5 @@ final class TargetJourneysCommandSpec extends ObjectBehavior
 {
     public function it_has_user_id(): void
     {
-
     }
 }

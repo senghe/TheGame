@@ -55,14 +55,14 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_throws_exception_when_planet_hasnt_sufficient_resources(
-        ShipyardRepositoryInterface          $shipyardRepository,
-        Shipyard                             $shipyard,
-        ShipyardContextInterface             $shipyardBalanceContext,
-        JobFactoryInterface                  $jobFactory,
-        Job                                  $job,
+        ShipyardRepositoryInterface $shipyardRepository,
+        Shipyard $shipyard,
+        ShipyardContextInterface $shipyardBalanceContext,
+        JobFactoryInterface $jobFactory,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourcesInterface                   $singleShipResourceRequirements,
-        ResourcesInterface                   $jobResourceRequirements,
+        ResourcesInterface $singleShipResourceRequirements,
+        ResourcesInterface $jobResourceRequirements,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $shipType = 'light-fighter';
@@ -101,15 +101,15 @@ final class ConstructShipsCommandHandlerSpec extends ObjectBehavior
     }
 
     public function it_queues_ships_in_shipyard(
-        ShipyardRepositoryInterface          $shipyardRepository,
-        Shipyard                             $shipyard,
-        ShipyardContextInterface             $shipyardBalanceContext,
-        JobFactoryInterface                  $jobFactory,
-        Job                                  $job,
+        ShipyardRepositoryInterface $shipyardRepository,
+        Shipyard $shipyard,
+        ShipyardContextInterface $shipyardBalanceContext,
+        JobFactoryInterface $jobFactory,
+        Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourcesInterface                   $singleShipResourceRequirements,
-        ResourcesInterface                   $jobResourceRequirements,
-        EventBusInterface                    $eventBus,
+        ResourcesInterface $singleShipResourceRequirements,
+        ResourcesInterface $jobResourceRequirements,
+        EventBusInterface $eventBus,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $shipType = 'light-fighter';

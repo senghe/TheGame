@@ -21,7 +21,6 @@ final class AddNewlyConstructedShipsToFleetEventListener
         private readonly NavigatorInterface $navigator,
         private readonly FleetJourneyContextInterface $fleetJourneyContext,
     ) {
-
     }
 
     public function __invoke(NewShipsHaveBeenConstructedEvent $event): void

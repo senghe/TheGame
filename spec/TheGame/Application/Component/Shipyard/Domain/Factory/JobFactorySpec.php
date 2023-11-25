@@ -19,9 +19,9 @@ final class JobFactorySpec extends ObjectBehavior
     }
 
     public function it_creates_cannons_job(
-        ResourcesInterface     $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
         UuidGeneratorInterface $uuidGenerator,
-        JobIdInterface         $jobId,
+        JobIdInterface $jobId,
     ): void {
         $cannonType = 'laser';
         $quantity = 50;
@@ -50,9 +50,9 @@ final class JobFactorySpec extends ObjectBehavior
     }
 
     public function it_creates_ships_job(
-        ResourcesInterface     $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
         UuidGeneratorInterface $uuidGenerator,
-        JobIdInterface         $jobId,
+        JobIdInterface $jobId,
     ): void {
         $shipType = 'light-fighter';
         $quantity = 50;

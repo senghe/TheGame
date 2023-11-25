@@ -11,10 +11,10 @@ use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 abstract class AbstractConstructible implements ConstructibleInterface
 {
     public function __construct(
-        private readonly string             $type,
+        private readonly string $type,
         private readonly ResourcesInterface $requirements,
-        private readonly int                $duration,
-        private readonly int                $productionLoad,
+        private readonly int $duration,
+        private readonly int $productionLoad,
     ) {
     }
 

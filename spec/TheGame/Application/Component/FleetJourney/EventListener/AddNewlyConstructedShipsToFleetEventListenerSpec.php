@@ -10,11 +10,9 @@ final class AddNewlyConstructedShipsToFleetEventListenerSpec extends ObjectBehav
 {
     public function it_adds_group_of_ships_to_the_fleet(): void
     {
-
     }
 
     public function it_creates_a_fleet_and_adds_group_of_ships_to_them(): void
     {
-
     }
 }

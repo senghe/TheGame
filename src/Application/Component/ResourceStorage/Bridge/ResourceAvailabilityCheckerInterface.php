@@ -10,7 +10,7 @@ use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 interface ResourceAvailabilityCheckerInterface
 {
     public function check(
-        PlanetIdInterface  $planetId,
+        PlanetIdInterface $planetId,
         ResourcesInterface $requirements,
     ): bool;
 }

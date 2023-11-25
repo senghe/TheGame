@@ -70,9 +70,9 @@ final class StoragesCollectionSpec extends ObjectBehavior
     }
 
     public function it_has_enough_resources_for_supported_resources(
-        Storage                 $storage,
+        Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourcesInterface      $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 
@@ -91,9 +91,9 @@ final class StoragesCollectionSpec extends ObjectBehavior
     }
 
     public function it_hasnt_enough_resources_for_supported_resource(
-        Storage                 $storage,
+        Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourcesInterface      $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 
@@ -112,9 +112,9 @@ final class StoragesCollectionSpec extends ObjectBehavior
     }
 
     public function it_hasnt_enough_resources_because_of_not_supported_resource(
-        Storage                 $storage,
+        Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourcesInterface      $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 

@@ -19,11 +19,11 @@ final class JobFactory implements JobFactoryInterface
     }
 
     public function createNewCannonsJob(
-        string             $cannonType,
-        int                $quantity,
-        int                $shipyardLevel,
-        int                $cannonConstructionTime,
-        int                $cannonProductionLoad,
+        string $cannonType,
+        int $quantity,
+        int $shipyardLevel,
+        int $cannonConstructionTime,
+        int $cannonProductionLoad,
         ResourcesInterface $cannonResourceRequirements,
     ): Job {
         $cannon = new Cannon(
@@ -37,11 +37,11 @@ final class JobFactory implements JobFactoryInterface
     }
 
     public function createNewShipsJob(
-        string             $shipType,
-        int                $quantity,
-        int                $shipyardLevel,
-        int                $shipConstructionTime,
-        int                $shipProductionLoad,
+        string $shipType,
+        int $quantity,
+        int $shipyardLevel,
+        int $shipConstructionTime,
+        int $shipProductionLoad,
         ResourcesInterface $shipResourceRequirements,
     ): Job {
         $ship = new Ship(

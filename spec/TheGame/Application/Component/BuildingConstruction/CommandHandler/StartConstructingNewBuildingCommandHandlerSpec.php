@@ -42,13 +42,13 @@ final class StartConstructingNewBuildingCommandHandlerSpec extends ObjectBehavio
     }
 
     public function it_creates_building_when_building_for_the_specified_type_is_not_found(
-        BuildingRepositoryInterface          $buildingRepository,
-        BuildingFactoryInterface             $buildingFactory,
-        Building                             $building,
-        BuildingContextInterface             $buildingBalanceContext,
+        BuildingRepositoryInterface $buildingRepository,
+        BuildingFactoryInterface $buildingFactory,
+        Building $building,
+        BuildingContextInterface $buildingBalanceContext,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourcesInterface                   $resourceRequirements,
-        EventBusInterface                    $eventBus,
+        ResourcesInterface $resourceRequirements,
+        EventBusInterface $eventBus,
     ): void {
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $resourceContextId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";
@@ -96,12 +96,12 @@ final class StartConstructingNewBuildingCommandHandlerSpec extends ObjectBehavio
     }
 
     public function it_throws_exception_when_storage_hasnt_enough_resources(
-        BuildingRepositoryInterface          $buildingRepository,
-        BuildingFactoryInterface             $buildingFactory,
-        Building                             $building,
-        BuildingContextInterface             $buildingBalanceContext,
+        BuildingRepositoryInterface $buildingRepository,
+        BuildingFactoryInterface $buildingFactory,
+        Building $building,
+        BuildingContextInterface $buildingBalanceContext,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourcesInterface                   $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $planetId = "E7AF94C7-488C-46E4-8C44-DCD8F62B2A45";
         $resourceContextId = "52B4E60C-5CCE-4483-968E-D23D9240A18A";

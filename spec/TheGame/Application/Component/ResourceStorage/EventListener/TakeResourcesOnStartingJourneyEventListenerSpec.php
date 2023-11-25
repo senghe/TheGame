@@ -10,6 +10,5 @@ final class TakeResourcesOnStartingJourneyEventListenerSpec extends ObjectBehavi
 {
     public function it_takes_resources_load_and_fuel_from_the_storage(): void
     {
-
     }
 }

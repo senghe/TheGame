@@ -17,8 +17,7 @@ final class FinishedConstructionEventFactory implements FinishedConstructionEven
     public function createEvent(
         FinishedJobsSummaryEntryInterface $summaryEntry,
         PlanetIdInterface $planetId,
-    ): EventInterface
-    {
+    ): EventInterface {
         switch ($summaryEntry->getUnit()) {
             case ConstructibleUnit::Cannon: {
                 return new NewCannonsHaveBeenConstructedEvent(

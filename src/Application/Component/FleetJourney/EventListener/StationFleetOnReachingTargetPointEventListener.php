@@ -18,7 +18,6 @@ final class StationFleetOnReachingTargetPointEventListener
         private readonly FleetRepositoryInterface $fleetRepository,
         private readonly NavigatorInterface $navigator,
     ) {
-
     }
 
     public function __invoke(FleetHasReachedJourneyTargetPointEvent $event): void

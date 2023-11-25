@@ -50,10 +50,10 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
 
     public function it_cancels_constructing(
         BuildingRepositoryInterface $buildingRepository,
-        BuildingContextInterface    $buildingBalanceContext,
-        EventBusInterface           $eventBus,
-        Building                    $building,
-        ResourcesInterface          $resourceRequirements,
+        BuildingContextInterface $buildingBalanceContext,
+        EventBusInterface $eventBus,
+        Building $building,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
         $buildingId = "d6949ca7-157d-4019-9267-c7a61af33b01";

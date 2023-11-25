@@ -10,6 +10,5 @@ final class CancelJourneyCommandSpec extends ObjectBehavior
 {
     public function it_has_fleet_id(): void
     {
-
     }
 }

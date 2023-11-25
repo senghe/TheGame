@@ -10,6 +10,5 @@ final class JourneyFactorySpec extends ObjectBehavior
 {
     public function it_needs_being_implemented(): void
     {
-
     }
 }

@@ -10,6 +10,5 @@ final class ShipsGroupSpec extends ObjectBehavior
 {
     public function it_needs_being_implemented(): void
     {
-
     }
 }

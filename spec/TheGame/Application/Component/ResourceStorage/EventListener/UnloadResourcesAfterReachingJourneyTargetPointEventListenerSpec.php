@@ -10,6 +10,5 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec exte
 {
     public function it_dispatches_resources_from_fleet_reaching_target_point_to_the_storages(): void
     {
-
     }
 }
