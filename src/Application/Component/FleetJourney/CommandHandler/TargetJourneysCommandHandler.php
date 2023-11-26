@@ -23,12 +23,12 @@ final class TargetJourneysCommandHandler
         $userId = new UserId($command->getUserId());
         $fleets = $this->fleetRepository->findInJourneyForUser($userId);
         foreach ($fleets as $fleet) {
-            $mission = $fleet->getJourneyMissionType();
             $fleet->tryToReachJourneyTargetPoint();
             if ($fleet->didReachJourneyTargetPoint() === false) {
                 continue;
             }
 
+            $mission = $fleet->getJourneyMissionType();
             $this->eventBus->dispatch(
                 new FleetHasReachedJourneyTargetPointEvent(
                     $mission->value,
