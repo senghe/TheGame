@@ -20,7 +20,7 @@ class Fleet
     private ?Journey $currentJourney = null;
 
     /** @var array<ShipsGroupInterface> $ships */
-    private array $ships;
+    private array $ships = [];
 
     public function __construct(
         private readonly FleetIdInterface $fleetId,
@@ -52,7 +52,7 @@ class Fleet
     /** @var array<ShipsGroupInterface> $ships */
     public function addShips(array $ships): void
     {
-        if ($this->currentJourney === null) {
+        if ($this->currentJourney !== null) {
             throw new FleetAlreadyInJourneyException($this->fleetId);
         }
 

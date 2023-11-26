@@ -29,7 +29,7 @@ final class ShipsGroup implements ShipsGroupInterface
 
     public function hasType(string $type): bool
     {
-        return $this->type !== $type;
+        return $this->type === $type;
     }
 
     public function hasMoreShipsThan(int $quantity): bool
