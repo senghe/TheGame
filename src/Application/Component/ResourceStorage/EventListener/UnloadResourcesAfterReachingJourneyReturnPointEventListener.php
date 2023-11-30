@@ -9,6 +9,7 @@ use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
+use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UnloadResourcesAfterReachingJourneyReturnPointEventListener
 {
@@ -20,8 +21,11 @@ final class UnloadResourcesAfterReachingJourneyReturnPointEventListener
 
     public function __invoke(FleetHasReachedJourneyReturnPointEvent $event): void
     {
-        $returnGalaxyPoint = GalaxyPoint::fromString($event->getStartGalaxyPoint());
+        $returnGalaxyPoint = GalaxyPoint::fromString($event->getReturnGalaxyPoint());
         $planetId = $this->navigator->getPlanetId($returnGalaxyPoint);
+        if ($planetId === null) {
+            throw new InconsistentModelException(sprintf("Planet %s has not been found", $planetId));
+        }
 
         foreach ($event->getResourcesLoad() as $resourceId => $amount) {
             $command = new DispatchResourcesCommand(

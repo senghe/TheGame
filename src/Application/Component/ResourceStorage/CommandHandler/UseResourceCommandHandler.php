@@ -35,7 +35,7 @@ final class UseResourceCommandHandler
 
         $resourceAmount = new ResourceAmount($resourceId, $command->getAmount());
         $requirements = new Resources();
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         if ($storages->hasEnough($requirements) === false) {
             throw new InsufficientResourcesException(

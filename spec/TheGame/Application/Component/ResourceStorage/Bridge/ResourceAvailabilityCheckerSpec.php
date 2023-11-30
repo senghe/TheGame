@@ -32,7 +32,7 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
 
         $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $this->shouldThrow(InconsistentModelException::class)
             ->during('check', [
@@ -53,7 +53,7 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
 
         $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $aggregate->hasEnough($requirements)->willReturn(true);
 
@@ -73,7 +73,7 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
 
         $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $aggregate->hasEnough($requirements)->willReturn(false);
 

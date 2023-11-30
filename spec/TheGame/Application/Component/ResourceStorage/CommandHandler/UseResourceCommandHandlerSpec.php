@@ -41,7 +41,7 @@ final class UseResourceCommandHandlerSpec extends ObjectBehavior
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
         $resourceRequirements = new Resources();
-        $resourceRequirements->add($resourceAmount);
+        $resourceRequirements->addResource($resourceAmount);
 
         $storagesCollection->supports($resourceAmount)
             ->willReturn(true);
@@ -75,7 +75,7 @@ final class UseResourceCommandHandlerSpec extends ObjectBehavior
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
         $resourcesRequirements = new Resources();
-        $resourcesRequirements->add($resourceAmount);
+        $resourcesRequirements->addResource($resourceAmount);
 
         $storagesCollection->hasEnough($resourcesRequirements)
             ->willReturn(false);

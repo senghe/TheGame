@@ -8,7 +8,7 @@ use TheGame\Application\Component\Balance\Bridge\FleetJourneyContextInterface;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NoFleetStationingOnPlanetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
-use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFuelOnPlanetException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughResourcesOnPlanetForFleetLoadException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\FleetFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
@@ -55,45 +55,28 @@ final class FleetResolver implements FleetResolverInterface
         }
 
         $startGalaxyPoint = $stationingFleet->getStationingGalaxyPoint();
-        $fuelRequirements = $this->resolveFuelOnPlanet(
-            $planetId,
-            $startGalaxyPoint,
-            $targetGalaxyPoint,
-            $shipsTakingJourney
-        );
-        $this->loadResources($resolvedFleet, $resourcesLoad, $fuelRequirements);
-
-        return $resolvedFleet;
-    }
-
-    private function resolveFuelOnPlanet(
-        PlanetIdInterface $planetId,
-        GalaxyPointInterface $startGalaxyPoint,
-        GalaxyPointInterface $targetGalaxyPoint,
-        array $shipsTakingJourney,
-    ): ResourcesInterface {
         $fuelRequirements = $this->journeyContext->calculateFuelRequirements(
             $startGalaxyPoint,
             $targetGalaxyPoint,
             $shipsTakingJourney,
         );
-        $hasEnoughFuelOnPlanet = $this->resourceAvailabilityChecker->check($planetId, $fuelRequirements);
-        if ($hasEnoughFuelOnPlanet === false) {
-            throw new NotEnoughFuelOnPlanetException($planetId);
-        }
 
-        return $fuelRequirements;
+        $resourcesLoad->add($fuelRequirements);
+        $hasEnoughResources = $this->resourceAvailabilityChecker->check($planetId, $resourcesLoad);
+        if ($hasEnoughResources === false) {
+            throw new NotEnoughResourcesOnPlanetForFleetLoadException($planetId);
+        }
+        $this->loadResources($resolvedFleet, $resourcesLoad);
+
+        return $resolvedFleet;
     }
 
     private function loadResources(
         Fleet $resolvedFleet,
         ResourcesInterface $resourcesLoad,
-        ResourcesInterface $fuelRequirements,
     ): void {
-        $resourcesLoadTotal = $resourcesLoad->sum();
-        $fuelRequirementsTotal = $fuelRequirements->sum();
+        $capacityNeeded = $resourcesLoad->sum();
         $currentCapacity = $resolvedFleet->getLoadCapacity();
-        $capacityNeeded = $resourcesLoadTotal + $fuelRequirementsTotal;
         if ($capacityNeeded > $currentCapacity) {
             throw new NotEnoughFleetLoadCapacityException(
                 $resolvedFleet->getId(),
@@ -102,6 +85,6 @@ final class FleetResolver implements FleetResolverInterface
             );
         }
 
-        $resolvedFleet->load($resourcesLoad, $fuelRequirements);
+        $resolvedFleet->load($resourcesLoad);
     }
 }

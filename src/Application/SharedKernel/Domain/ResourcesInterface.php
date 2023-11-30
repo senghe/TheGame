@@ -6,7 +6,9 @@ namespace TheGame\Application\SharedKernel\Domain;
 
 interface ResourcesInterface
 {
-    public function add(ResourceAmountInterface $resourceAmount): void;
+    public function add(ResourcesInterface $resources): void;
+
+    public function addResource(ResourceAmountInterface $resourceAmount): void;
 
     public function getAmount(ResourceIdInterface $resourceId): int;
 

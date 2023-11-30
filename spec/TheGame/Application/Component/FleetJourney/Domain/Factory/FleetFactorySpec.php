@@ -34,7 +34,7 @@ final class FleetFactorySpec extends ObjectBehavior
         )];
         $stationingGalaxyPoint = new GalaxyPoint(1, 2, 3);
         $resourcesLoad = new Resources();
-        $resourcesLoad->add(
+        $resourcesLoad->addResource(
             new ResourceAmount(new ResourceId("8ddf9a4b-380d-4051-a1d7-9370ca4d7b3e"), 100),
         );
 

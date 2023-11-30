@@ -14,6 +14,7 @@ final class FleetHasReachedJourneyReturnPointEvent implements EventInterface
         private readonly string $fleetId,
         private readonly string $startGalaxyPoint,
         private readonly string $targetGalaxyPoint,
+        private readonly string $returnGalaxyPoint,
         private readonly array $resourcesLoad,
     ) {
         foreach ($this->resourcesLoad as $key => $value) {
@@ -36,6 +37,11 @@ final class FleetHasReachedJourneyReturnPointEvent implements EventInterface
     public function getTargetGalaxyPoint(): string
     {
         return $this->targetGalaxyPoint;
+    }
+
+    public function getReturnGalaxyPoint(): string
+    {
+        return $this->returnGalaxyPoint;
     }
 
     public function getResourcesLoad(): array

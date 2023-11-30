@@ -45,6 +45,7 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet1->getId()->willReturn(new FleetId("78131199-faa2-456f-9419-10d77ac92e13"));
         $fleet1->getJourneyStartPoint()->willReturn(new GalaxyPoint(1, 2, 3));
         $fleet1->getJourneyTargetPoint()->willReturn(new GalaxyPoint(2, 3, 4));
+        $fleet1->getJourneyReturnPoint()->willReturn(new GalaxyPoint(7,8, 9));
         $fleet1->getResourcesLoad()->willReturn([
             "8de65203-ad4c-4ce7-bced-cfeda9107b5d" => 300,
             "42bb40d7-1d8c-4a88-86db-c10ffd68570e" => 200,
@@ -55,6 +56,7 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet2->getId()->willReturn(new FleetId("a63c152f-86d5-4ed6-8eb0-c7beb05ee517"));
         $fleet2->getJourneyStartPoint()->willReturn(new GalaxyPoint(3, 4, 5));
         $fleet2->getJourneyTargetPoint()->willReturn(new GalaxyPoint(4,5, 6));
+        $fleet2->getJourneyReturnPoint()->willReturn(new GalaxyPoint(7,8, 9));
         $fleet2->getResourcesLoad()->willReturn([]);
 
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyReturnPointEvent::class))
@@ -85,6 +87,7 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet2->getId()->willReturn(new FleetId("a63c152f-86d5-4ed6-8eb0-c7beb05ee517"));
         $fleet2->getJourneyStartPoint()->willReturn(new GalaxyPoint(3, 4, 5));
         $fleet2->getJourneyTargetPoint()->willReturn(new GalaxyPoint(4,5, 6));
+        $fleet2->getJourneyReturnPoint()->willReturn(new GalaxyPoint(7,8, 9));
         $fleet2->getResourcesLoad()->willReturn([]);
 
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyReturnPointEvent::class))

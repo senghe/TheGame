@@ -33,6 +33,7 @@ final class ReturnJourneysCommandHandler
                     $fleet->getId()->getUuid(),
                     $fleet->getJourneyStartPoint()->format(),
                     $fleet->getJourneyTargetPoint()->format(),
+                    $fleet->getJourneyReturnPoint()->format(),
                     $fleet->getResourcesLoad(),
                 ),
             );

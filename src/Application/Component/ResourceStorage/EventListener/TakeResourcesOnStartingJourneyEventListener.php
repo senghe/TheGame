@@ -17,16 +17,12 @@ final class TakeResourcesOnStartingJourneyEventListener
 
     public function __invoke(FleetHasStartedJourneyEvent $event): void
     {
+        $resourcesPivot = [];
         foreach ($event->getResourcesLoad() as $resourceId => $amount) {
-            $command = new UseResourceCommand(
-                $event->getPlanetId(),
-                $resourceId,
-                $amount,
-            );
-            $this->commandBus->dispatch($command);
+            $resourcesPivot[$resourceId] = ($resourcesPivot[$resourceId] ?? 0) + $amount;
         }
 
-        foreach ($event->getFuelRequirements() as $resourceId => $amount) {
+        foreach ($resourcesPivot as $resourceId => $amount) {
             $command = new UseResourceCommand(
                 $event->getPlanetId(),
                 $resourceId,

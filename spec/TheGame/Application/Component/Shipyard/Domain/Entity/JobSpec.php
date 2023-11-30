@@ -23,11 +23,11 @@ final class JobSpec extends ObjectBehavior
         $productionLoad = 75;
 
         $requirements = new Resources();
-        $requirements->add(new ResourceAmount(
+        $requirements->addResource(new ResourceAmount(
             new ResourceId("4B8CCD4D-6940-43F5-BFF5-A5FB35836294"),
             450,
         ));
-        $requirements->add(new ResourceAmount(
+        $requirements->addResource(new ResourceAmount(
             new ResourceId("A0F8E286-CA29-40FC-B33A-D1DCCEAA72D5"),
             220,
         ));

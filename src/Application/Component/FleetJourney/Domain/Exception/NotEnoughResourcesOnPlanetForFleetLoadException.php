@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Exception;
 use DomainException;
 use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 
-final class NotEnoughFuelOnPlanetException extends DomainException
+final class NotEnoughResourcesOnPlanetForFleetLoadException extends DomainException
 {
     public function __construct(PlanetIdInterface $planetId)
     {

@@ -213,6 +213,15 @@ class Fleet
         return $this->currentJourney->getTargetPoint();
     }
 
+    public function getJourneyReturnPoint(): GalaxyPointInterface
+    {
+        if ($this->isDuringJourney() === false) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        return $this->currentJourney->getReturnPoint();
+    }
+
     public function didReachJourneyTargetPoint(): bool
     {
         return $this->currentJourney !== null
@@ -294,9 +303,8 @@ class Fleet
 
     public function load(
         ResourcesInterface $resourcesLoad,
-        ResourcesInterface $fuel,
     ): void {
-        $loadTotal = $resourcesLoad->sum() + $fuel->sum();
+        $loadTotal = $resourcesLoad->sum();
         if ($loadTotal > $this->getLoadCapacity()) {
             throw new NotEnoughFleetLoadCapacityException(
                 $this->fleetId,

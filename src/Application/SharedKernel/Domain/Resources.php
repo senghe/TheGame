@@ -9,7 +9,16 @@ final class Resources implements ResourcesInterface
     /** @var array<string, ResourceAmountInterface> */
     private array $resources = [];
 
-    public function add(ResourceAmountInterface $resourceAmount): void
+    public function add(ResourcesInterface $resources): void
+    {
+        foreach ($resources->toScalarArray() as $resourceId => $amount) {
+            $this->addResource(new ResourceAmount(
+                new ResourceId($resourceId), $amount
+            ));
+        }
+    }
+
+    public function addResource(ResourceAmountInterface $resourceAmount): void
     {
         $resourceId = $resourceAmount->getResourceId();
         if ($this->hasResource($resourceId)) {
@@ -51,7 +60,7 @@ final class Resources implements ResourcesInterface
         $resources = new self();
 
         foreach ($scalarArray as $resourceId => $quantity) {
-            $resources->add(new ResourceAmount(
+            $resources->addResource(new ResourceAmount(
                 new ResourceId($resourceId),
                 $quantity,
             ));
@@ -85,7 +94,7 @@ final class Resources implements ResourcesInterface
                 $resourceAmount->getResourceId(),
                 $resourceAmount->getAmount() * $quantity,
             );
-            $newResources->add($newAmount);
+            $newResources->addResource($newAmount);
         }
 
         return $newResources;

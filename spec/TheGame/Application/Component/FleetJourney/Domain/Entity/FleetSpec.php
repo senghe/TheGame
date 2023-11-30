@@ -136,6 +136,14 @@ final class FleetSpec extends ObjectBehavior
     {
     }
 
+    public function it_throws_exception_on_returning_journey_return_point_not_being_in_journey(): void
+    {
+    }
+
+    public function it_returns_journey_return_point(): void
+    {
+    }
+
     public function it_didnt_reach_journey_target_point_when_journey_is_null(): void
     {
     }

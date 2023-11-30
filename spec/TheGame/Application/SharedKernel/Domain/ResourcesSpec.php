@@ -17,7 +17,7 @@ final class ResourcesSpec extends ObjectBehavior
         $resourceId = new ResourceId("cbd7c53e-6e9c-426e-9298-6509316cdf2f");
         $resourceAmount = new ResourceAmount($resourceId, 500);
 
-        $this->add($resourceAmount);
+        $this->addResource($resourceAmount);
 
         $this->getAmount($resourceId)->shouldReturn(500);
     }
@@ -27,10 +27,10 @@ final class ResourcesSpec extends ObjectBehavior
         $resourceId = new ResourceId("cbd7c53e-6e9c-426e-9298-6509316cdf2f");
         $resourceAmount = new ResourceAmount($resourceId, 500);
 
-        $this->add($resourceAmount);
+        $this->addResource($resourceAmount);
 
         $nextResourceAmount = new ResourceAmount($resourceId, 750);
-        $this->add($nextResourceAmount);
+        $this->addResource($nextResourceAmount);
 
         $this->getAmount($resourceId)->shouldReturn(1250);
     }
@@ -85,8 +85,8 @@ final class ResourcesSpec extends ObjectBehavior
         $resourceId2 = new ResourceId("f2732560-69d9-4b9f-91ec-68d0e0462ec6");
         $resourceAmount2 = new ResourceAmount($resourceId2, 300);
 
-        $this->add($resourceAmount1);
-        $this->add($resourceAmount2);
+        $this->addResource($resourceAmount1);
+        $this->addResource($resourceAmount2);
 
         return [$resourceAmount1, $resourceAmount2];
     }
@@ -96,7 +96,7 @@ final class ResourcesSpec extends ObjectBehavior
         $resourceId = new ResourceId("cbd7c53e-6e9c-426e-9298-6509316cdf2f");
         $resourceAmount = new ResourceAmount($resourceId, 500);
 
-        $this->add($resourceAmount);
+        $this->addResource($resourceAmount);
         $this->clear();
 
         $this->getAmount($resourceId)->shouldReturn(0);
