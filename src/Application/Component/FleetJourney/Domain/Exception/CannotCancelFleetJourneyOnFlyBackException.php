@@ -12,7 +12,7 @@ final class CannotCancelFleetJourneyOnFlyBackException extends DomainException
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Cannot cancel fleet % journey (it\'s comming back)',
+            'Cannot cancel fleet %s journey (it\'s comming back)',
             $fleetId->getUuid(),
         );
 

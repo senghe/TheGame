@@ -12,6 +12,7 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFlee
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheReturnPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheTargetPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotOnFlyBackException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\JourneyIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\MissionType;
@@ -130,13 +131,17 @@ class Journey
     {
         $now = new DateTimeImmutable();
 
-        return $now >= $this->reachesTargetAt;
+        return $now->getTimestamp() >= $this->reachesTargetAt->getTimestamp();
     }
 
     public function reachTargetPoint(): void
     {
+        if ($this->doesFlyBack()) {
+            throw new FleetOnFlyBackException($this->fleetId);
+        }
+
         $now = new DateTimeImmutable();
-        if ($this->didReachTargetPoint()) {
+        if ($this->didReachTargetPoint() === false) {
             $timeLeft = $this->reachesTargetAt->getTimestamp() - $now->getTimestamp();
 
             throw new FleetHasNotYetReachedTheTargetPointException($this->fleetId, $timeLeft);
@@ -156,7 +161,7 @@ class Journey
     {
         $now = new DateTimeImmutable();
 
-        return $now >= $this->returnsAt;
+        return $now->getTimestamp() >= $this->returnsAt->getTimestamp();
     }
 
     public function reachReturnPoint(): void

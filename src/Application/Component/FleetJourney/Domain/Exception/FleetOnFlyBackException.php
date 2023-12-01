@@ -7,14 +7,13 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Exception;
 use DomainException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 
-final class FleetHasNotYetReachedTheReturnPointException extends DomainException
+final class FleetOnFlyBackException extends DomainException
 {
-    public function __construct(FleetIdInterface $fleetId, int $timeLeft)
+    public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Fleet %s has not yet reached the return point (%d seconds left)',
+            'Fleet is on flyback',
             $fleetId->getUuid(),
-            $timeLeft,
         );
 
         parent::__construct($message);
