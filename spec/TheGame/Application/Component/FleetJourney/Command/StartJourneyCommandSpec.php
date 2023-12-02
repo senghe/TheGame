@@ -22,7 +22,11 @@ final class StartJourneyCommandSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $targetGalaxyPoint, $mission, $shipsTakingJourney, $resourcesLoad
+            $planetId,
+            $targetGalaxyPoint,
+            $mission,
+            $shipsTakingJourney,
+            $resourcesLoad
         );
     }
 
@@ -61,7 +65,11 @@ final class StartJourneyCommandSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $targetGalaxyPoint, $mission, $shipsTakingJourney, $resourcesLoad
+            $planetId,
+            $targetGalaxyPoint,
+            $mission,
+            $shipsTakingJourney,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
@@ -82,7 +90,11 @@ final class StartJourneyCommandSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $targetGalaxyPoint, $mission, $shipsTakingJourney, $resourcesLoad
+            $planetId,
+            $targetGalaxyPoint,
+            $mission,
+            $shipsTakingJourney,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
@@ -110,7 +122,11 @@ final class StartJourneyCommandSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $targetGalaxyPoint, $mission, $shipsTakingJourney, $resourcesLoad
+            $planetId,
+            $targetGalaxyPoint,
+            $mission,
+            $shipsTakingJourney,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
@@ -131,7 +147,11 @@ final class StartJourneyCommandSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $targetGalaxyPoint, $mission, $shipsTakingJourney, $resourcesLoad
+            $planetId,
+            $targetGalaxyPoint,
+            $mission,
+            $shipsTakingJourney,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [

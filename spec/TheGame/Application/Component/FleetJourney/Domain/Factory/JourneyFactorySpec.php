@@ -8,7 +8,6 @@ use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Journey;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
-use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\JourneyId;
 use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
@@ -34,14 +33,18 @@ final class JourneyFactorySpec extends ObjectBehavior
         $journeyDuration = 500;
 
         $createdJourney = $this->createJourney(
-            $fleetId, MissionType::Transport, $startGalaxyPoint, $targetGalaxyPoint, $journeyDuration,
+            $fleetId,
+            MissionType::Transport,
+            $startGalaxyPoint,
+            $targetGalaxyPoint,
+            $journeyDuration,
         );
         $createdJourney->shouldBeAnInstanceOf(Journey::class);
         $createdJourney->getStartPoint()->shouldReturn($startGalaxyPoint);
         $createdJourney->getTargetPoint()->shouldReturn($targetGalaxyPoint);
 
         $now = new DateTimeImmutable();
-        $createdJourney->getPlannedReachTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp()+500);
-        $createdJourney->getPlannedReturnAt()->getTimestamp()->shouldReturn($now->getTimestamp()+1000);
+        $createdJourney->getPlannedReachTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 500);
+        $createdJourney->getPlannedReturnAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 1000);
     }
 }

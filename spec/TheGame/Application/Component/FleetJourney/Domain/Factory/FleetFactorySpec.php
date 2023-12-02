@@ -28,9 +28,15 @@ final class FleetFactorySpec extends ObjectBehavior
         $uuidGenerator->generateNewFleetId()->willReturn($fleetId);
 
         $shipsTakingJourney = [new ShipsGroup(
-            'light-fighter', 10, 50, 200,
+            'light-fighter',
+            10,
+            50,
+            200,
         ), new ShipsGroup(
-            'warship', 100, 20, 5000,
+            'warship',
+            100,
+            20,
+            5000,
         )];
         $stationingGalaxyPoint = new GalaxyPoint(1, 2, 3);
         $resourcesLoad = new Resources();
@@ -39,7 +45,9 @@ final class FleetFactorySpec extends ObjectBehavior
         );
 
         $createdFleet = $this->create(
-            $shipsTakingJourney, $stationingGalaxyPoint, $resourcesLoad,
+            $shipsTakingJourney,
+            $stationingGalaxyPoint,
+            $resourcesLoad,
         );
         $createdFleet->shouldBeAnInstanceOf(Fleet::class);
         $createdFleet->getId()->shouldReturn($fleetId);

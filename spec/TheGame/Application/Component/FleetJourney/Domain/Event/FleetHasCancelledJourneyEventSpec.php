@@ -46,7 +46,9 @@ final class FleetHasCancelledJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $fleetId, $targetGalaxyPoint, $resourcesLoad
+            $fleetId,
+            $targetGalaxyPoint,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
@@ -63,7 +65,9 @@ final class FleetHasCancelledJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $fleetId, $targetGalaxyPoint, $resourcesLoad
+            $fleetId,
+            $targetGalaxyPoint,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [

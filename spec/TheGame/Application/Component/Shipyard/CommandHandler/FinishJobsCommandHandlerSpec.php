@@ -16,7 +16,6 @@ use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class FinishJobsCommandHandlerSpec extends ObjectBehavior
@@ -59,7 +58,6 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
 
         $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
-
 
         $shipyardPlanetId = new PlanetId("fab9bf85-9eb7-49d6-9e97-0f1e1c0cef44");
         $shipyard->getPlanetId()->willReturn($shipyardPlanetId);

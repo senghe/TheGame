@@ -24,7 +24,7 @@ final class GalaxyPoint implements GalaxyPointInterface
         }
 
         foreach ($exploded as $key => $value) {
-            $exploded[$key] = (int)$value;
+            $exploded[$key] = (int) $value;
         }
 
         return new self(...$exploded);

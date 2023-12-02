@@ -23,7 +23,12 @@ final class FleetHasStartedJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad
         );
     }
 
@@ -68,11 +73,16 @@ final class FleetHasStartedJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad,
         ]);
     }
 
@@ -90,11 +100,16 @@ final class FleetHasStartedJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad,
         ]);
     }
 
@@ -119,11 +134,16 @@ final class FleetHasStartedJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad,
         ]);
     }
 
@@ -141,11 +161,16 @@ final class FleetHasStartedJourneyEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad
+            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad,
         ]);
     }
 }

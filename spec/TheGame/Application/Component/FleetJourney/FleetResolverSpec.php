@@ -29,7 +29,10 @@ final class FleetResolverSpec extends ObjectBehavior
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
     ): void {
         $this->beConstructedWith(
-            $fleetRepository, $fleetFactory, $journeyContext, $resourceAvailabilityChecker,
+            $fleetRepository,
+            $fleetFactory,
+            $journeyContext,
+            $resourceAvailabilityChecker,
         );
     }
 
@@ -48,7 +51,8 @@ final class FleetResolverSpec extends ObjectBehavior
             ->willReturn(null);
 
         $this->shouldThrow(NoFleetStationingOnPlanetException::class)->during(
-            'resolveFromPlanet', [new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
+            'resolveFromPlanet',
+            [new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
         );
     }
 
@@ -71,7 +75,8 @@ final class FleetResolverSpec extends ObjectBehavior
             ->willReturn(false);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during(
-            'resolveFromPlanet', [new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
+            'resolveFromPlanet',
+            [new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
         );
     }
 
@@ -231,7 +236,7 @@ final class FleetResolverSpec extends ObjectBehavior
 
         $this->shouldThrow(NotEnoughResourcesOnPlanetForFleetLoadException::class)
             ->during('resolveFromPlanet', [
-                new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint
+                new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint,
             ]);
     }
 
@@ -281,8 +286,10 @@ final class FleetResolverSpec extends ObjectBehavior
         $stationingFleet->getId()->willReturn(new FleetId($fleetId));
 
         $this->shouldThrow(NotEnoughFleetLoadCapacityException::class)
-            ->during('resolveFromPlanet', [
-                new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
+            ->during(
+                'resolveFromPlanet',
+                [
+                    new PlanetId($planetId), $shipsTakingJourney, $resourcesLoad, $targetGalaxyPoint]
             );
     }
 }

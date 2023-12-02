@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\SharedKernel\Domain;
 
 use PhpSpec\ObjectBehavior;
-use PhpSpec\Wrapper\Subject;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\Resources;
 
 final class ResourcesSpec extends ObjectBehavior
 {
@@ -57,7 +55,7 @@ final class ResourcesSpec extends ObjectBehavior
         [$resourceAmount1, $resourceAmount2] = $this->addTwoResources();
 
         $this->getAll()->shouldReturn([
-            $resourceAmount1, $resourceAmount2
+            $resourceAmount1, $resourceAmount2,
         ]);
     }
 

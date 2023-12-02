@@ -234,7 +234,7 @@ class Fleet
     public function tryToReachJourneyTargetPoint(): void
     {
         $hasStartedJourney = $this->currentJourney !== null;
-        if (!$hasStartedJourney) {
+        if (! $hasStartedJourney) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
@@ -263,7 +263,7 @@ class Fleet
     {
         $hasStartedJourney = $this->currentJourney !== null;
 
-        if (!$hasStartedJourney) {
+        if (! $hasStartedJourney) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 

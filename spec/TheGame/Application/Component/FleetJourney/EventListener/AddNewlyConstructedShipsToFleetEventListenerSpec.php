@@ -25,7 +25,10 @@ final class AddNewlyConstructedShipsToFleetEventListenerSpec extends ObjectBehav
         FleetJourneyContextInterface $fleetJourneyContext,
     ): void {
         $this->beConstructedWith(
-            $fleetRepository, $fleetFactory, $navigator, $fleetJourneyContext,
+            $fleetRepository,
+            $fleetFactory,
+            $navigator,
+            $fleetJourneyContext,
         );
     }
 
@@ -72,7 +75,9 @@ final class AddNewlyConstructedShipsToFleetEventListenerSpec extends ObjectBehav
             ->willReturn($planetGalaxyPoint);
 
         $fleetFactory->create(
-            [], $planetGalaxyPoint, new Resources(),
+            [],
+            $planetGalaxyPoint,
+            new Resources(),
         )->willReturn($fleet);
 
         $shipBaseSpeed = 10;

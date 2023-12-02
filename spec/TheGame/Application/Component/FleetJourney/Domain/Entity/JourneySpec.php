@@ -10,7 +10,6 @@ use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotCancelFleetJourneyOnReachingTargetPointException;
-use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheReturnPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheTargetPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetOnFlyBackException;
@@ -21,7 +20,8 @@ use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
 
 final class JourneySpec extends ObjectBehavior
 {
-    public function let(): void {
+    public function let(): void
+    {
         $this->initialize(MissionType::Transport, 50);
     }
 
@@ -76,25 +76,25 @@ final class JourneySpec extends ObjectBehavior
     public function it_knows_when_planned_to_reach_the_target_point(): void
     {
         $now = new DateTime();
-        $this->getReachesTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp()+50);
+        $this->getReachesTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 50);
     }
 
     public function it_knows_the_default_value_of_real_time_for_reaching_the_target_point(): void
     {
         $now = new DateTime();
-        $this->getPlannedReachTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp()+50);
+        $this->getPlannedReachTargetAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 50);
     }
 
     public function it_knows_when_planned_to_reach_the_return_point(): void
     {
         $now = new DateTime();
-        $this->getPlannedReturnAt()->getTimestamp()->shouldReturn($now->getTimestamp()+100);
+        $this->getPlannedReturnAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 100);
     }
 
     public function it_knows_the_default_value_of_real_time_for_reaching_the_return_point(): void
     {
         $now = new DateTime();
-        $this->getReturnsAt()->getTimestamp()->shouldReturn($now->getTimestamp()+100);
+        $this->getReturnsAt()->getTimestamp()->shouldReturn($now->getTimestamp() + 100);
     }
 
     public function it_does_plan_to_station_on_the_target_point(): void

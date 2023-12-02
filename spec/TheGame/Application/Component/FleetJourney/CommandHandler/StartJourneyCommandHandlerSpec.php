@@ -33,7 +33,11 @@ final class StartJourneyCommandHandlerSpec extends ObjectBehavior
         EventBusInterface $eventBus,
     ): void {
         $this->beConstructedWith(
-            $galaxyNavigator, $fleetResolver, $journeyFactory, $journeyContext, $eventBus,
+            $galaxyNavigator,
+            $fleetResolver,
+            $journeyFactory,
+            $journeyContext,
+            $eventBus,
         );
     }
 

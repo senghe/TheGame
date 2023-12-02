@@ -12,7 +12,6 @@ use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasCancelledJou
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

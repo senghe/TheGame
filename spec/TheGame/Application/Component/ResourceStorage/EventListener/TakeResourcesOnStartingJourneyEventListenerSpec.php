@@ -33,7 +33,12 @@ final class TakeResourcesOnStartingJourneyEventListenerSpec extends ObjectBehavi
             ->shouldBeCalledTimes(2);
 
         $event = new FleetHasStartedJourneyEvent(
-            $planetId, $fleetId, $fromGalaxyPoint, $toGalaxyPoint, $fuelRequirements, $resourcesLoad,
+            $planetId,
+            $fleetId,
+            $fromGalaxyPoint,
+            $toGalaxyPoint,
+            $fuelRequirements,
+            $resourcesLoad,
         );
         $this->__invoke($event);
     }

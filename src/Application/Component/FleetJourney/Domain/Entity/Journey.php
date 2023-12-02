@@ -49,7 +49,7 @@ class Journey
             sprintf('+ %d seconds', $this->duration),
         );
         $this->plannedReturnAt = new DateTimeImmutable(
-            sprintf('+ %d seconds', $this->duration*2),
+            sprintf('+ %d seconds', $this->duration * 2),
         );
         $this->reachesTargetAt = $this->plannedReachTargetAt;
         $this->returnsAt = $this->plannedReturnAt;

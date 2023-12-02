@@ -21,7 +21,8 @@ final class UnloadResourcesAfterReachingJourneyReturnPointEventListenerSpec exte
         CommandBusInterface $commandBus,
     ): void {
         $this->beConstructedWith(
-            $navigator, $commandBus,
+            $navigator,
+            $commandBus,
         );
     }
 
@@ -48,7 +49,11 @@ final class UnloadResourcesAfterReachingJourneyReturnPointEventListenerSpec exte
             ->shouldBeCalledTimes(2);
 
         $event = new FleetHasReachedJourneyReturnPointEvent(
-            $fleetId, $startCoordinates, $targetCoordinates, $returnCoordinates, $resourcesLoad
+            $fleetId,
+            $startCoordinates,
+            $targetCoordinates,
+            $returnCoordinates,
+            $resourcesLoad
         );
         $this->__invoke($event);
     }
@@ -68,7 +73,11 @@ final class UnloadResourcesAfterReachingJourneyReturnPointEventListenerSpec exte
             ->willReturn(null);
 
         $event = new FleetHasReachedJourneyReturnPointEvent(
-            $fleetId, $startCoordinates, $targetCoordinates, $returnCoordinates, $resourcesLoad
+            $fleetId,
+            $startCoordinates,
+            $targetCoordinates,
+            $returnCoordinates,
+            $resourcesLoad
         );
         $this->shouldThrow(InconsistentModelException::class)->during('__invoke', [$event]);
     }

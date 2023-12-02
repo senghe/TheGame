@@ -9,7 +9,6 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Journey;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyLoadedException;
-use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNoLoadException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheTargetPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
@@ -38,12 +37,14 @@ final class FleetSpec extends ObjectBehavior
 
         $resourcesLoad = new Resources();
         $resourceAmount1 = new ResourceAmount(
-            new ResourceId("7dbe6a5c-e12c-4325-a38a-f2165873c263"), 500,
+            new ResourceId("7dbe6a5c-e12c-4325-a38a-f2165873c263"),
+            500,
         );
         $resourcesLoad->addResource($resourceAmount1);
 
         $resourceAmount2 = new ResourceAmount(
-            new ResourceId("e2a1295c-9390-47b9-99c6-dd5f0798954d"), 350,
+            new ResourceId("e2a1295c-9390-47b9-99c6-dd5f0798954d"),
+            350,
         );
         $resourcesLoad->addResource($resourceAmount2);
 
@@ -107,7 +108,9 @@ final class FleetSpec extends ObjectBehavior
             $destroyerShipsGroup,
         ]);
 
-        $this->hasEnoughShips([$destroyerType => 10])
+        $this->hasEnoughShips([
+            $destroyerType => 10,
+        ])
             ->shouldReturn(true);
     }
 
@@ -342,7 +345,9 @@ final class FleetSpec extends ObjectBehavior
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(false);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
-            [$lightFighterType => 15],
+            [
+                $lightFighterType => 15,
+            ],
         ]);
     }
 
@@ -351,7 +356,7 @@ final class FleetSpec extends ObjectBehavior
         ShipsGroupInterface $splitLightFighterShipsGroup,
     ): void {
         $this->initialize([
-            $lightFighterShipsGroup
+            $lightFighterShipsGroup,
         ]);
 
         $lightFighterType = 'light-fighter';
@@ -362,7 +367,9 @@ final class FleetSpec extends ObjectBehavior
         $splitLightFighterShipsGroup->getType()->willReturn($lightFighterType);
         $splitLightFighterShipsGroup->getQuantity()->willReturn(15);
 
-        $splitResult = $this->split([$lightFighterType => 15]);
+        $splitResult = $this->split([
+            $lightFighterType => 15,
+        ]);
         $splitResult->shouldBeArray();
         $splitResult->shouldHaveCount(1);
         $splitResult[0]->shouldImplement(ShipsGroupInterface::class);
@@ -377,7 +384,9 @@ final class FleetSpec extends ObjectBehavior
         $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
-            [$lightFighterType => 0],
+            [
+                $lightFighterType => 0,
+            ],
         ]);
     }
 
@@ -388,7 +397,9 @@ final class FleetSpec extends ObjectBehavior
         $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
-            [$lightFighterType => -15],
+            [
+                $lightFighterType => -15,
+            ],
         ]);
     }
 
@@ -830,7 +841,8 @@ final class FleetSpec extends ObjectBehavior
         $this->load($resourcesLoad);
     }
 
-    public function it_returns_unloaded_resources(): void {
+    public function it_returns_unloaded_resources(): void
+    {
         $load = $this->unload();
 
         $load->getAmount(
@@ -841,7 +853,8 @@ final class FleetSpec extends ObjectBehavior
         )->shouldReturn(350);
     }
 
-    public function it_clears_on_unload(): void {
+    public function it_clears_on_unload(): void
+    {
         $this->unload();
 
         $this->getResourcesLoad()->shouldReturn([]);

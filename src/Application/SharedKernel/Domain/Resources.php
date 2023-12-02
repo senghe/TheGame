@@ -13,7 +13,8 @@ final class Resources implements ResourcesInterface
     {
         foreach ($resources->toScalarArray() as $resourceId => $amount) {
             $this->addResource(new ResourceAmount(
-                new ResourceId($resourceId), $amount
+                new ResourceId($resourceId),
+                $amount
             ));
         }
     }

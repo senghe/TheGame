@@ -60,7 +60,11 @@ final class FleetHasReachedJourneyReturnPointEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $fleetId, $startGalaxyPoint, $targetGalaxyPoint, $returnGalaxyPoint, $resourcesLoad
+            $fleetId,
+            $startGalaxyPoint,
+            $targetGalaxyPoint,
+            $returnGalaxyPoint,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [
@@ -79,7 +83,11 @@ final class FleetHasReachedJourneyReturnPointEventSpec extends ObjectBehavior
         ];
 
         $this->beConstructedWith(
-            $fleetId, $startGalaxyPoint, $targetGalaxyPoint, $returnGalaxyPoint, $resourcesLoad
+            $fleetId,
+            $startGalaxyPoint,
+            $targetGalaxyPoint,
+            $returnGalaxyPoint,
+            $resourcesLoad
         );
 
         $this->shouldThrow(InvalidArgumentException::class)->during('__construct', [

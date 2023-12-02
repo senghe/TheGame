@@ -37,7 +37,7 @@ final class GalaxyPointSpec extends ObjectBehavior
     public function it_returns_array_of_coordinates(): void
     {
         $this->toArray()->shouldReturn([
-            1, 2, 3
+            1, 2, 3,
         ]);
     }
 
