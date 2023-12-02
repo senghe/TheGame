@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Balance\Bridge;
 
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 interface ShipyardContextInterface
 {
@@ -14,11 +14,11 @@ interface ShipyardContextInterface
 
     public function getCannonProductionLoad(string $type): int;
 
-    public function getCannonResourceRequirements(string $type): ResourceRequirementsInterface;
+    public function getCannonResourceRequirements(string $type): ResourcesInterface;
 
     public function getShipConstructionTime(string $type, int $shipyardLevel): int;
 
     public function getShipProductionLoad(string $type): int;
 
-    public function getShipResourceRequirements(string $type): ResourceRequirementsInterface;
+    public function getShipResourceRequirements(string $type): ResourcesInterface;
 }

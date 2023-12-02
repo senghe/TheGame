@@ -10,10 +10,16 @@ final class NewShipsHaveBeenConstructedEventSpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $cannonType = 'light-fighter';
+        $planetId = "d7a1a33e-2669-485e-8867-6e129761359c";
+        $shipType = 'light-fighter';
         $quantity = 500;
 
-        $this->beConstructedWith($cannonType, $quantity);
+        $this->beConstructedWith($planetId, $shipType, $quantity);
+    }
+
+    public function it_has_planet_id(): void
+    {
+        $this->getPlanetId()->shouldReturn("d7a1a33e-2669-485e-8867-6e129761359c");
     }
 
     public function it_has_ship_type(): void

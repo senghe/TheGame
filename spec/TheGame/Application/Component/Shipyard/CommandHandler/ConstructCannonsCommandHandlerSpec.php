@@ -18,7 +18,7 @@ use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
@@ -46,7 +46,7 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         $cannonType = 'laser';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn(null);
 
         $command = new ConstructCannonsCommand($shipyardId, $cannonType, $quantity);
@@ -61,14 +61,14 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         ShipyardContextInterface $shipyardBalanceContext,
         Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $singleCannonResourceRequirements,
-        ResourceRequirementsInterface $jobResourceRequirements,
+        ResourcesInterface $singleCannonResourceRequirements,
+        ResourcesInterface $jobResourceRequirements,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $cannonType = 'laser';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
         $shipyard->getCurrentLevel()->willReturn(15);
@@ -107,15 +107,15 @@ final class ConstructCannonsCommandHandlerSpec extends ObjectBehavior
         JobFactoryInterface $jobFactory,
         Job $job,
         ResourceAvailabilityCheckerInterface $resourceAvailabilityChecker,
-        ResourceRequirementsInterface $singleCannonResourceRequirements,
-        ResourceRequirementsInterface $jobResourceRequirements,
+        ResourcesInterface $singleCannonResourceRequirements,
+        ResourcesInterface $jobResourceRequirements,
         EventBusInterface $eventBus,
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
         $cannonType = 'laser';
         $quantity = 500;
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
         $shipyard->getCurrentLevel()->willReturn(15);

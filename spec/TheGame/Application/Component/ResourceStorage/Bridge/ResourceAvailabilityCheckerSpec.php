@@ -10,7 +10,7 @@ use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInte
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
+use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
@@ -30,9 +30,9 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
         $storagesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn(null);
 
-        $requirements = new ResourceRequirements();
+        $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $this->shouldThrow(InconsistentModelException::class)
             ->during('check', [
@@ -51,9 +51,9 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
         $storagesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn($aggregate);
 
-        $requirements = new ResourceRequirements();
+        $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $aggregate->hasEnough($requirements)->willReturn(true);
 
@@ -71,9 +71,9 @@ final class ResourceAvailabilityCheckerSpec extends ObjectBehavior
         $storagesRepository->findForPlanet(new PlanetId($planetId))
             ->willReturn($aggregate);
 
-        $requirements = new ResourceRequirements();
+        $requirements = new Resources();
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), 5);
-        $requirements->add($resourceAmount);
+        $requirements->addResource($resourceAmount);
 
         $aggregate->hasEnough($requirements)->willReturn(false);
 

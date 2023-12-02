@@ -9,9 +9,15 @@ use TheGame\Application\SharedKernel\EventInterface;
 final class NewShipsHaveBeenConstructedEvent implements EventInterface
 {
     public function __construct(
+        private readonly string $planetId,
         private readonly string $type,
         private readonly int $quantity,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
     }
 
     public function getType(): string

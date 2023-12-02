@@ -15,7 +15,7 @@ use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class StoragesCollectionSpec extends ObjectBehavior
 {
@@ -72,7 +72,7 @@ final class StoragesCollectionSpec extends ObjectBehavior
     public function it_has_enough_resources_for_supported_resources(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 
@@ -93,7 +93,7 @@ final class StoragesCollectionSpec extends ObjectBehavior
     public function it_hasnt_enough_resources_for_supported_resource(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 
@@ -114,7 +114,7 @@ final class StoragesCollectionSpec extends ObjectBehavior
     public function it_hasnt_enough_resources_because_of_not_supported_resource(
         Storage $storage,
         ResourceAmountInterface $resourceAmount,
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $this->add($storage);
 

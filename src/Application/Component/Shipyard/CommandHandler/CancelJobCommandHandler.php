@@ -23,7 +23,7 @@ final class CancelJobCommandHandler
     public function __invoke(CancelJobCommand $command): void
     {
         $shipyardId = new ShipyardId($command->getShipyardId());
-        $shipyard = $this->shipyardRepository->findAggregate($shipyardId);
+        $shipyard = $this->shipyardRepository->find($shipyardId);
         if ($shipyard === null) {
             throw new ShipyardHasNotBeenFoundException($shipyardId);
         }

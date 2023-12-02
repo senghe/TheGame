@@ -23,14 +23,14 @@ final class FinishJobsCommandHandler
     public function __invoke(FinishJobsCommand $command): void
     {
         $shipyardId = new ShipyardId($command->getShipyardId());
-        $shipyard = $this->shipyardRepository->findAggregate($shipyardId);
+        $shipyard = $this->shipyardRepository->find($shipyardId);
         if ($shipyard === null) {
             throw new ShipyardHasNotBeenFoundException($shipyardId);
         }
 
         $summary = $shipyard->finishJobs();
         foreach ($summary->getSummary() as $entry) {
-            $event = $this->finishedConstructionEventFactory->createEvent($entry);
+            $event = $this->finishedConstructionEventFactory->createEvent($entry, $shipyard->getPlanetId());
             $this->eventBus->dispatch($event);
         }
     }

@@ -9,10 +9,16 @@ use TheGame\Application\SharedKernel\EventInterface;
 final class NewUnitsHaveBeenConstructedEvent implements EventInterface
 {
     public function __construct(
+        private readonly string $planetId,
         private readonly string $unit,
         private readonly string $type,
         private readonly int $quantity,
     ) {
+    }
+
+    public function getPlanetId(): string
+    {
+        return $this->planetId;
     }
 
     public function getUnit(): string

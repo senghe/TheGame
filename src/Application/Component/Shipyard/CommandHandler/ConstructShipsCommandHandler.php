@@ -31,7 +31,7 @@ final class ConstructShipsCommandHandler
     public function __invoke(ConstructShipsCommand $command): void
     {
         $shipyardId = new ShipyardId($command->getShipyardId());
-        $shipyard = $this->shipyardRepository->findAggregate($shipyardId);
+        $shipyard = $this->shipyardRepository->find($shipyardId);
         if ($shipyard === null) {
             throw new ShipyardHasNotBeenFoundException($shipyardId);
         }

@@ -3,7 +3,8 @@
 declare(strict_types=1);
 
 use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
-use \PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagNormalizerFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocInlineTagNormalizerFixer;
+use PhpCsFixer\Fixer\Whitespace\TypeDeclarationSpacesFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Set\SetList;
 
@@ -20,6 +21,7 @@ return function (ECSConfig $ecsConfig): void {
     $ecsConfig->rules([
         NoUnusedImportsFixer::class,
         PhpdocInlineTagNormalizerFixer::class,
+        TypeDeclarationSpacesFixer::class,
     ]);
 
     // this way you can add sets - group of rules

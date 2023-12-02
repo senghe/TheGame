@@ -10,6 +10,7 @@ use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
+use TheGame\Application\SharedKernel\Domain\PlanetId;
 
 final class FinishedConstructionEventFactorySpec extends ObjectBehavior
 {
@@ -20,7 +21,8 @@ final class FinishedConstructionEventFactorySpec extends ObjectBehavior
         $summaryEntry->getType()->willReturn('light-fighter');
         $summaryEntry->getQuantity()->willReturn(50);
 
-        $this->createEvent($summaryEntry)
+        $planetId = new PlanetId("acc9c2b5-9f50-46db-b9ba-c30707da2b3e");
+        $this->createEvent($summaryEntry, $planetId)
             ->shouldReturnAnInstanceOf(NewShipsHaveBeenConstructedEvent::class);
     }
 
@@ -31,7 +33,8 @@ final class FinishedConstructionEventFactorySpec extends ObjectBehavior
         $summaryEntry->getType()->willReturn('laser');
         $summaryEntry->getQuantity()->willReturn(50);
 
-        $this->createEvent($summaryEntry)
+        $planetId = new PlanetId("acc9c2b5-9f50-46db-b9ba-c30707da2b3e");
+        $this->createEvent($summaryEntry, $planetId)
             ->shouldReturnAnInstanceOf(NewCannonsHaveBeenConstructedEvent::class);
     }
 

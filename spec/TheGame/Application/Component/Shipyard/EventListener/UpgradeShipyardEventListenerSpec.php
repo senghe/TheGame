@@ -37,7 +37,7 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $buildingId = "576FAA85-E3BD-4095-8B76-C7C1769488A5";
         $upgradedLevel = 5;
 
-        $shipyardRepository->findAggregateForBuilding(
+        $shipyardRepository->findForBuilding(
             new PlanetId($planetId),
             new BuildingId($buildingId),
         )->willReturn($shipyard);
@@ -89,7 +89,7 @@ final class UpgradeShipyardEventListenerSpec extends ObjectBehavior
         $buildingId = "576FAA85-E3BD-4095-8B76-C7C1769488A5";
         $upgradedLevel = 5;
 
-        $shipyardRepository->findAggregateForBuilding(
+        $shipyardRepository->findForBuilding(
             new PlanetId($planetId),
             new BuildingId($buildingId),
         )->willReturn(null);

@@ -15,7 +15,7 @@ use TheGame\Application\Component\Shipyard\Domain\Exception\ShipyardJobNotFoundE
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class ShipyardSpec extends ObjectBehavior
 {
@@ -74,10 +74,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_returns_job_resource_requirements(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -100,10 +100,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_throws_exception_when_getting_resource_requirements_of_job_which_is_not_found(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
         JobIdInterface $job3Id,
     ): void {
         $this->stubTwoJobs(
@@ -129,10 +129,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_finishes_all_jobs(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -172,10 +172,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_finishes_only_first_job_fully(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -205,10 +205,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_finishes_only_first_job_partially(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -238,10 +238,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_finishes_first_job_fully_and_second_job_partially(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -272,10 +272,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_finishes_both_first_and_second_jobs_fully(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -307,11 +307,11 @@ final class ShipyardSpec extends ObjectBehavior
         Job $job1,
         JobIdInterface $job1Id,
         int $duration1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         Job $job2,
         JobIdInterface $job2Id,
         int $duration2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $job1Id->getUuid()->willReturn("CF224D29-FEAE-45C1-9C69-D6D8D92110BC");
         $job1->getId()->willReturn($job1Id);
@@ -344,10 +344,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_throws_exception_when_trying_to_cancel_already_taken_job(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
     ): void {
         $this->stubTwoJobs(
             $job1,
@@ -371,10 +371,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_throws_exception_when_trying_to_cancel_not_queued_job(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
         JobIdInterface $notQueuedJobId
     ): void {
         $this->stubTwoJobs(
@@ -400,10 +400,10 @@ final class ShipyardSpec extends ObjectBehavior
     public function it_cancels_job(
         JobIdInterface $job1Id,
         Job $job1,
-        ResourceRequirementsInterface $job1ResourceRequirements,
+        ResourcesInterface $job1ResourceRequirements,
         JobIdInterface $job2Id,
         Job $job2,
-        ResourceRequirementsInterface $job2ResourceRequirements,
+        ResourcesInterface $job2ResourceRequirements,
         JobIdInterface $notQueuedJobId
     ): void {
         $this->stubTwoJobs(

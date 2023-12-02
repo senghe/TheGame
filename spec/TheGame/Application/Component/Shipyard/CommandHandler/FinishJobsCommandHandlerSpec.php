@@ -15,6 +15,7 @@ use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
+use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class FinishJobsCommandHandlerSpec extends ObjectBehavior
@@ -36,7 +37,7 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn(null);
 
         $command = new FinishJobsCommand($shipyardId);
@@ -55,9 +56,11 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
     ): void {
         $shipyardId = "3E303BDF-976A-4509-8611-A30D33781085";
 
-        $shipyardRepository->findAggregate(new ShipyardId($shipyardId))
+        $shipyardRepository->find(new ShipyardId($shipyardId))
             ->willReturn($shipyard);
 
+        $shipyardPlanetId = new PlanetId("fab9bf85-9eb7-49d6-9e97-0f1e1c0cef44");
+        $shipyard->getPlanetId()->willReturn($shipyardPlanetId);
         $shipyard->finishJobs()->willReturn($summary);
 
         $summary->getSummary()->willReturn([
@@ -65,12 +68,12 @@ final class FinishJobsCommandHandlerSpec extends ObjectBehavior
             $summaryEntry2->getWrappedObject(),
         ]);
 
-        $event1 = new NewCannonsHaveBeenConstructedEvent('laser', 12);
-        $finishedConstructionEventFactory->createEvent($summaryEntry1)
+        $event1 = new NewCannonsHaveBeenConstructedEvent($shipyardPlanetId->getUuid(), 'laser', 12);
+        $finishedConstructionEventFactory->createEvent($summaryEntry1, $shipyardPlanetId)
             ->willReturn($event1);
 
-        $event2 = new NewShipsHaveBeenConstructedEvent('light-fighter', 5);
-        $finishedConstructionEventFactory->createEvent($summaryEntry2)
+        $event2 = new NewShipsHaveBeenConstructedEvent($shipyardPlanetId->getUuid(), 'light-fighter', 5);
+        $finishedConstructionEventFactory->createEvent($summaryEntry2, $shipyardPlanetId)
             ->willReturn($event2);
 
         $eventBus->dispatch($event1)->shouldBeCalledOnce();

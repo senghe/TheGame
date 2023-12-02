@@ -14,7 +14,7 @@ use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInte
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
+use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
@@ -40,8 +40,8 @@ final class UseResourceCommandHandlerSpec extends ObjectBehavior
             ->willReturn($storagesCollection);
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
-        $resourceRequirements = new ResourceRequirements();
-        $resourceRequirements->add($resourceAmount);
+        $resourceRequirements = new Resources();
+        $resourceRequirements->addResource($resourceAmount);
 
         $storagesCollection->supports($resourceAmount)
             ->willReturn(true);
@@ -74,8 +74,8 @@ final class UseResourceCommandHandlerSpec extends ObjectBehavior
             ->willReturn($storagesCollection);
 
         $resourceAmount = new ResourceAmount(new ResourceId($resourceId), $amount);
-        $resourcesRequirements = new ResourceRequirements();
-        $resourcesRequirements->add($resourceAmount);
+        $resourcesRequirements = new Resources();
+        $resourcesRequirements->addResource($resourceAmount);
 
         $storagesCollection->hasEnough($resourcesRequirements)
             ->willReturn(false);

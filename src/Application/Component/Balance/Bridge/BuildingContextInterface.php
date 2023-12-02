@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\Balance\Bridge;
 
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 interface BuildingContextInterface
 {
@@ -17,5 +17,5 @@ interface BuildingContextInterface
     public function getResourceRequirements(
         int $level,
         BuildingType $buildingType
-    ): ResourceRequirementsInterface;
+    ): ResourcesInterface;
 }

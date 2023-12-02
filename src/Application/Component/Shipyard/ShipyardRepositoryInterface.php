@@ -11,11 +11,11 @@ use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 
 interface ShipyardRepositoryInterface
 {
-    public function findAggregate(
+    public function find(
         ShipyardIdInterface $shipyardId
     ): ?Shipyard;
 
-    public function findAggregateForBuilding(
+    public function findForBuilding(
         PlanetIdInterface $planetId,
         BuildingIdInterface $buildingId
     ): ?Shipyard;

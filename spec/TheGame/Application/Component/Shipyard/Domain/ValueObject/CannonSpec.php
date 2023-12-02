@@ -6,12 +6,12 @@ namespace spec\TheGame\Application\Component\Shipyard\Domain\ValueObject;
 
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class CannonSpec extends ObjectBehavior
 {
     public function let(
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $type = 'laser';
         $duration = 500;

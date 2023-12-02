@@ -11,7 +11,7 @@ use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInte
 use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirements;
+use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
@@ -34,8 +34,8 @@ final class UseResourceCommandHandler
         $resourceId = new ResourceId($command->getResourceId());
 
         $resourceAmount = new ResourceAmount($resourceId, $command->getAmount());
-        $requirements = new ResourceRequirements();
-        $requirements->add($resourceAmount);
+        $requirements = new Resources();
+        $requirements->addResource($resourceAmount);
 
         if ($storages->hasEnough($requirements) === false) {
             throw new InsufficientResourcesException(

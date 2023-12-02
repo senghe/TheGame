@@ -14,7 +14,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
 use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceRequirementsInterface;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
@@ -53,7 +53,7 @@ final class CancelConstructingCommandHandlerSpec extends ObjectBehavior
         BuildingContextInterface $buildingBalanceContext,
         EventBusInterface $eventBus,
         Building $building,
-        ResourceRequirementsInterface $resourceRequirements,
+        ResourcesInterface $resourceRequirements,
     ): void {
         $planetId = "1D632422-951F-4181-A48D-5AD654260B2B";
         $buildingId = "d6949ca7-157d-4019-9267-c7a61af33b01";
