@@ -75,7 +75,7 @@ final class ShipsGroup implements ShipsGroupInterface
 
     public function getLoadCapacity(): int
     {
-        return $this->getUnitLoadCapacity() * $this->quantity;
+        return $this->getUnitLoadCapacity() * $this->getQuantity();
     }
 
     public function getUnitLoadCapacity(): int

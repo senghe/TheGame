@@ -6,6 +6,7 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Entity;
 
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyLoadedException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheTargetPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
@@ -232,7 +233,13 @@ class Fleet
 
     public function tryToReachJourneyTargetPoint(): void
     {
-        if ($this->isDuringJourney() === false) {
+        $hasStartedJourney = $this->currentJourney !== null;
+        if (!$hasStartedJourney) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        $hasFinishedJourney = $this->currentJourney->didReachReturnPoint() === true;
+        if ($hasFinishedJourney) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
@@ -242,6 +249,7 @@ class Fleet
 
         if ($this->currentJourney->doesPlanToStationOnTarget()) {
             $this->stationingPoint = $this->currentJourney->getTargetPoint();
+            $this->currentJourney->reachTargetPoint();
 
             return;
         } elseif ($this->currentJourney->doesFlyBack()) {
@@ -253,8 +261,14 @@ class Fleet
 
     public function tryToReachJourneyReturnPoint(): void
     {
-        if ($this->isDuringJourney() === false) {
+        $hasStartedJourney = $this->currentJourney !== null;
+
+        if (!$hasStartedJourney) {
             throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        if ($this->currentJourney->didReachTargetPoint() === false) {
+            throw new FleetHasNotYetReachedTheTargetPointException($this->fleetId);
         }
 
         if ($this->currentJourney->didReachReturnPoint() === false) {
@@ -281,7 +295,7 @@ class Fleet
 
     public function cancelJourney(): void
     {
-        if ($this->isDuringJourney() === false) {
+        if ($this->currentJourney !== null && $this->currentJourney->didReachTargetPoint()) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
@@ -315,7 +329,7 @@ class Fleet
             );
         }
 
-        if ($this->resourcesLoad !== null) {
+        if ($this->resourcesLoad->sum() > 0) {
             throw new FleetAlreadyLoadedException($this->fleetId);
         }
 

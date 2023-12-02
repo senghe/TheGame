@@ -8,7 +8,11 @@ use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Journey;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyInJourneyException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetAlreadyLoadedException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNoLoadException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetHasNotYetReachedTheTargetPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourneyYetException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\Domain\MissionType;
@@ -18,6 +22,7 @@ use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
 use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\Resources;
+use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class FleetSpec extends ObjectBehavior
 {
@@ -580,6 +585,16 @@ final class FleetSpec extends ObjectBehavior
         $this->shouldThrow(FleetNotInJourneyYetException::class)->during('tryToReachJourneyTargetPoint');
     }
 
+    public function it_throws_exception_trying_to_reach_journey_target_point_when_fleet_has_finished_the_journey(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->didReachReturnPoint()->willReturn(true);
+
+        $this->shouldThrow(FleetNotInJourneyYetException::class)->during('tryToReachJourneyTargetPoint');
+    }
+
     public function it_returns_early_when_trying_to_reach_journey_target_point_but_not_reached_it_yet(
         Journey $journey,
     ): void {
@@ -597,6 +612,7 @@ final class FleetSpec extends ObjectBehavior
     ): void {
         $this->startJourney($journey);
 
+        $journey->didReachReturnPoint()->willReturn(false);
         $journey->didReachTargetPoint()->willReturn(true);
         $journey->doesPlanToStationOnTarget()->willReturn(true);
         $journey->getTargetPoint()->willReturn($journeyTargetPoint);
@@ -607,12 +623,34 @@ final class FleetSpec extends ObjectBehavior
         $this->getStationingGalaxyPoint()->shouldReturn($journeyTargetPoint);
     }
 
-    public function it_reached_journey_target_point_and_currently_flies_back(): void
-    {
+    public function it_does_nothing_when_trying_to_reach_journey_target_point_but_currently_flies_back(
+        Journey $journey,
+        GalaxyPointInterface $journeyTargetPoint,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->didReachReturnPoint()->willReturn(false);
+        $journey->didReachTargetPoint()->willReturn(true);
+        $journey->doesPlanToStationOnTarget()->willReturn(false);
+        $journey->getTargetPoint()->willReturn($journeyTargetPoint);
+        $journey->doesFlyBack()->willReturn(true);
+
+        $this->tryToReachJourneyTargetPoint();
     }
 
-    public function it_reaches_journey_target_point_but_doesnt_fly_back(): void
-    {
+    public function it_tries_to_reach_journey_target_point_but_doesnt_fly_back_yet(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->didReachReturnPoint()->willReturn(false);
+        $journey->didReachTargetPoint()->willReturn(true);
+        $journey->doesPlanToStationOnTarget()->willReturn(false);
+        $journey->doesFlyBack()->willReturn(false);
+
+        $journey->reachTargetPoint();
+
+        $this->tryToReachJourneyTargetPoint();
     }
 
     public function it_throws_exception_trying_to_reach_journey_return_point_when_fleet_is_not_in_the_journey_yet(): void
@@ -620,77 +658,192 @@ final class FleetSpec extends ObjectBehavior
         $this->shouldThrow(FleetNotInJourneyYetException::class)->during('tryToReachJourneyReturnPoint');
     }
 
+    public function it_throws_exception_trying_to_reach_journey_return_point_when_fleet_did_not_reach_target_point_yet(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->didReachTargetPoint()->willReturn(false);
+
+        $this->shouldThrow(FleetHasNotYetReachedTheTargetPointException::class)->during('tryToReachJourneyReturnPoint');
+    }
+
     public function it_returns_early_when_trying_to_reach_journey_return_point_but_not_reached_it_yet(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->didReachTargetPoint()->willReturn(true);
+        $journey->didReachReturnPoint()->willReturn(false);
+
+        $this->tryToReachJourneyReturnPoint();
+    }
+
+    public function it_didnt_return_from_journey_when_journey_is_null(): void
+    {
+        $this->didReturnFromJourney()->shouldReturn(false);
+    }
+
+    public function it_didnt_return_from_journey_when_journey_says_that(
         Journey $journey,
     ): void {
         $this->startJourney($journey);
 
         $journey->didReachReturnPoint()->willReturn(false);
 
-        $this->tryToReachJourneyReturnPoint();
+        $this->didReturnFromJourney()->shouldReturn(false);
     }
 
-    public function it_reaches_journey_return_point(): void
-    {
-    }
+    public function it_did_return_from_journey_when_journey_says_that(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
 
-    public function it_didnt_return_from_journey_when_journey_is_null(): void
-    {
-    }
+        $journey->didReachReturnPoint()->willReturn(true);
 
-    public function it_didnt_return_from_journey_when_journey_says_that(): void
-    {
-    }
-
-    public function it_did_return_from_journey_when_journey_says_that(): void
-    {
+        $this->didReturnFromJourney()->shouldReturn(true);
     }
 
     public function it_does_no_flyback_when_journey_is_null(): void
     {
+        $this->doesFlyBack()->shouldReturn(false);
     }
 
-    public function it_does_no_flyback_when_journey_tells_that(): void
-    {
+    public function it_does_no_flyback_when_journey_tells_that(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->doesFlyBack()->willReturn(false);
+
+        $this->doesFlyBack()->shouldReturn(false);
     }
 
-    public function it_does_the_flyback_when_journey_tells_that(): void
-    {
+    public function it_does_the_flyback_when_journey_tells_that(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+
+        $journey->doesFlyBack()->willReturn(true);
+
+        $this->doesFlyBack()->shouldReturn(true);
     }
 
     public function it_throws_exception_on_cancelling_journey_which_is_null(): void
     {
+        $this->shouldThrow()->during('cancelJourney', []);
     }
 
-    public function it_cancels_journey(): void
-    {
+    public function it_throws_exception_on_cancelling_journey_when_it_already_reached_target_point(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+        $journey->didReachTargetPoint()->willReturn(true);
+
+        $this->shouldThrow()->during('cancelJourney', []);
     }
 
-    public function it_returns_load_capacity(): void
-    {
+    public function it_cancels_journey(
+        Journey $journey,
+    ): void {
+        $this->startJourney($journey);
+        $journey->didReachTargetPoint()->willReturn(false);
+        $journey->cancel()->shouldBeCalledOnce();
+
+        $this->cancelJourney();
+    }
+
+    public function it_returns_load_capacity(
+        ShipsGroupInterface $lightFighterShipsGroup,
+        ShipsGroupInterface $warshipShipsGroup,
+    ): void {
+        $this->initialize([
+            $lightFighterShipsGroup->getWrappedObject(),
+            $warshipShipsGroup->getWrappedObject(),
+        ]);
+
+        $lightFighterShipsGroup->getLoadCapacity()->willReturn(500);
+        $warshipShipsGroup->getLoadCapacity()->willReturn(7500);
+
+        $this->getLoadCapacity()->shouldReturn(8000);
     }
 
     public function it_returns_zero_load_capacity_when_has_no_ships(): void
     {
+        $this->getLoadCapacity()->shouldReturn(0);
     }
 
     public function it_returns_resource_load_as_scalar_array(): void
     {
+        $this->getResourcesLoad()->shouldReturn([
+            "7dbe6a5c-e12c-4325-a38a-f2165873c263" => 500,
+            "e2a1295c-9390-47b9-99c6-dd5f0798954d" => 350,
+        ]);
     }
 
-    public function it_throws_exception_when_loading_resources_and_fuel_but_there_is_no_enough_capacity(): void
-    {
+    public function it_throws_exception_when_loading_resources_but_there_is_no_enough_capacity(
+        ResourcesInterface $newLoad,
+        ShipsGroupInterface $lightFighterShipsGroup,
+    ): void {
+        $this->initialize([
+            $lightFighterShipsGroup->getWrappedObject(),
+        ]);
+        $newLoad->sum()->willReturn(500);
+
+        $lightFighterShipsGroup->getLoadCapacity()->willReturn(300);
+
+        $this->shouldThrow(NotEnoughFleetLoadCapacityException::class)
+            ->during('load', [
+                $newLoad,
+            ]);
     }
 
-    public function it_throws_exception_when_loading_resources_on_already_loaded_fleet(): void
-    {
+    public function it_throws_exception_when_loading_resources_on_already_loaded_fleet(
+        ResourcesInterface $newLoad,
+        ShipsGroupInterface $lightFighterShipsGroup,
+    ): void {
+        $this->initialize([
+            $lightFighterShipsGroup->getWrappedObject(),
+        ]);
+        $newLoad->sum()->willReturn(500);
+
+        $lightFighterShipsGroup->getLoadCapacity()->willReturn(1000);
+
+        $this->shouldThrow(FleetAlreadyLoadedException::class)
+            ->during('load', [
+                $newLoad,
+            ]);
     }
 
-    public function it_loads_resources_and_fuel(): void
-    {
+    public function it_loads_resources(
+        ResourcesInterface $resourcesLoad,
+        ShipsGroupInterface $lightFighterShipsGroup,
+    ): void {
+        $this->initialize([
+            $lightFighterShipsGroup->getWrappedObject(),
+        ]);
+        $this->unload();
+
+        $lightFighterShipsGroup->getLoadCapacity()->willReturn(500);
+        $resourcesLoad->sum()->willReturn(500);
+
+        $this->load($resourcesLoad);
     }
 
-    public function it_unloads_resources(): void
-    {
+    public function it_returns_unloaded_resources(): void {
+        $load = $this->unload();
+
+        $load->getAmount(
+            new ResourceId("7dbe6a5c-e12c-4325-a38a-f2165873c263")
+        )->shouldReturn(500);
+        $load->getAmount(
+            new ResourceId("e2a1295c-9390-47b9-99c6-dd5f0798954d")
+        )->shouldReturn(350);
+    }
+
+    public function it_clears_on_unload(): void {
+        $this->unload();
+
+        $this->getResourcesLoad()->shouldReturn([]);
     }
 }

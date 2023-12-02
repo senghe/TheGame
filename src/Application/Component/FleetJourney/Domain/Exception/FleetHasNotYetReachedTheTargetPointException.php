@@ -9,13 +9,17 @@ use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 
 final class FleetHasNotYetReachedTheTargetPointException extends DomainException
 {
-    public function __construct(FleetIdInterface $fleetId, int $timeLeft)
+    public function __construct(FleetIdInterface $fleetId, ?int $timeLeft = null)
     {
         $message = sprintf(
-            'Fleet %s has not yet reached the target (%d seconds left)',
+            'Fleet %s has not yet reached the target point',
             $fleetId->getUuid(),
             $timeLeft,
         );
+
+        if ($timeLeft !== null) {
+            $message .= sprintf(' (%d seconds left)', $timeLeft);
+        }
 
         parent::__construct($message);
     }
