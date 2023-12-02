@@ -12,7 +12,7 @@ final class FleetNotInJourneyYetException extends DomainException
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Fleet % is not in journey yet',
+            'Fleet %s is not in journey yet',
             $fleetId->getUuid(),
         );
 

@@ -20,12 +20,11 @@ class Fleet
     private ?Journey $currentJourney = null;
 
     /** @var array<ShipsGroupInterface> $ships */
-    private array $ships = [];
-
     public function __construct(
         private readonly FleetIdInterface $fleetId,
         private GalaxyPointInterface $stationingPoint,
         private ResourcesInterface $resourcesLoad,
+        private array $ships = [],
     ) {
     }
 
@@ -89,6 +88,10 @@ class Fleet
     public function hasEnoughShips(
         array $shipsToCompare,
     ): bool {
+        if (count($shipsToCompare) === 0) {
+            return false;
+        }
+
         foreach ($shipsToCompare as $shipType => $quantity) {
             $shipTypeFound = false;
             foreach ($this->ships as $shipGroup) {
@@ -146,14 +149,13 @@ class Fleet
         }
 
         $splitShips = [];
-
         foreach ($shipsToSplit as $shipType => $quantity) {
+            if ($quantity <= 0) {
+                continue;
+            }
+
             foreach ($this->ships as $shipGroup) {
                 if ($shipGroup->hasType($shipType) === false) {
-                    continue;
-                }
-
-                if ($quantity <= 0) {
                     continue;
                 }
 

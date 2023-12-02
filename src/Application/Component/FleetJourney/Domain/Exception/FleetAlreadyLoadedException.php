@@ -12,7 +12,7 @@ final class FleetAlreadyLoadedException extends DomainException
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Fleet % is already loaded',
+            'Fleet %s is already loaded',
             $fleetId->getUuid(),
         );
 

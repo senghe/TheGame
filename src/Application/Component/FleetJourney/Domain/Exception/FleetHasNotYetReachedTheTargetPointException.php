@@ -12,7 +12,7 @@ final class FleetHasNotYetReachedTheTargetPointException extends DomainException
     public function __construct(FleetIdInterface $fleetId, int $timeLeft)
     {
         $message = sprintf(
-            'Fleet % has not yet reached the target (%s seconds left)',
+            'Fleet %s has not yet reached the target (%d seconds left)',
             $fleetId->getUuid(),
             $timeLeft,
         );

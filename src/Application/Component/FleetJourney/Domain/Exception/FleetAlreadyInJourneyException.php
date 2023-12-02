@@ -12,7 +12,7 @@ final class FleetAlreadyInJourneyException extends DomainException
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Fleet % is already in journey',
+            'Fleet %s is already in journey',
             $fleetId->getUuid(),
         );
 
