@@ -9,7 +9,10 @@ use TheGame\Application\SharedKernel\EventInterface;
 
 final class FleetHasStartedJourneyEvent implements EventInterface
 {
-    /** @var array<string, int> $fuelRequirements */
+    /**
+     * @param array<string, int> $fuelRequirements
+     * @param array<string, int> $resourcesLoad
+     */
     public function __construct(
         private readonly string $planetId,
         private readonly string $fleetId,
@@ -51,11 +54,13 @@ final class FleetHasStartedJourneyEvent implements EventInterface
         return $this->targetGalaxyPoint;
     }
 
+    /** @return array<string, int> */
     public function getFuelRequirements(): array
     {
         return $this->fuelRequirements;
     }
 
+    /** @return array<string, int> */
     public function getResourcesLoad(): array
     {
         return $this->resourcesLoad;

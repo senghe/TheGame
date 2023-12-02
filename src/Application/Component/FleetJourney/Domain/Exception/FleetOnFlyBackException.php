@@ -12,7 +12,7 @@ final class FleetOnFlyBackException extends DomainException
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Fleet is on flyback',
+            'Fleet %s is on flyback',
             $fleetId->getUuid(),
         );
 

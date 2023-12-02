@@ -128,7 +128,7 @@ final class FleetResolverSpec extends ObjectBehavior
         $journeyContext->calculateFuelRequirements(
             $startGalaxyPoint,
             $targetGalaxyPoint,
-            $fleetSplitResult,
+            $shipsTakingJourney,
         )->willReturn($fuelRequirements);
 
         $resourcesLoad->add($fuelRequirements)->shouldBeCalledOnce();

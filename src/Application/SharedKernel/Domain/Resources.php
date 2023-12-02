@@ -56,6 +56,7 @@ final class Resources implements ResourcesInterface
         );
     }
 
+    /** @param array<string, int> $scalarArray */
     public static function fromScalarArray(array $scalarArray): self
     {
         $resources = new self();

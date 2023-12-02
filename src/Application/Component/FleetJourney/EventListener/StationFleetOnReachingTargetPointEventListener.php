@@ -35,6 +35,10 @@ final class StationFleetOnReachingTargetPointEventListener
 
         $stationingPoint = GalaxyPoint::fromString($event->getTargetGalaxyPoint());
         $planetId = $this->navigator->getPlanetId($stationingPoint);
+        if ($planetId === null) {
+            throw new InconsistentModelException(sprintf('Planet %s doesn\'t exist', $event->getTargetGalaxyPoint()));
+        }
+
         $fleetCurrentlyStationingOnPlanet = $this->fleetRepository->findStationingOnPlanet($planetId);
         if ($fleetCurrentlyStationingOnPlanet === null) {
             $fleetJoiningPlanet->landOnPlanet($stationingPoint);

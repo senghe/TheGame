@@ -14,7 +14,6 @@ final class FleetHasNotYetReachedTheTargetPointException extends DomainException
         $message = sprintf(
             'Fleet %s has not yet reached the target point',
             $fleetId->getUuid(),
-            $timeLeft,
         );
 
         if ($timeLeft !== null) {

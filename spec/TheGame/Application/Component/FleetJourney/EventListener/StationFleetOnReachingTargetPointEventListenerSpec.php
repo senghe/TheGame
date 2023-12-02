@@ -34,7 +34,7 @@ final class StationFleetOnReachingTargetPointEventListenerSpec extends ObjectBeh
         $this->__invoke($event);
     }
 
-    public function it_throws_exception_when_planet_has_not_been_found(
+    public function it_throws_exception_when_fleet_joining_the_planet_has_not_been_found(
         FleetRepositoryInterface $fleetRepository,
     ): void {
         $mission = "stationing";
@@ -43,6 +43,25 @@ final class StationFleetOnReachingTargetPointEventListenerSpec extends ObjectBeh
         $resourcesLoad = [];
 
         $fleetRepository->find(new FleetId($fleetId))->willReturn(null);
+
+        $event = new FleetHasReachedJourneyTargetPointEvent($mission, $fleetId, $targetGalaxyPoint, $resourcesLoad);
+        $this->shouldThrow(InconsistentModelException::class)->during('__invoke', [$event]);
+    }
+
+    public function it_throws_exception_when_landing_target_planet_doesnt_exist(
+        FleetRepositoryInterface $fleetRepository,
+        NavigatorInterface $navigator,
+        Fleet $joiningFleet,
+    ): void {
+        $mission = "stationing";
+        $fleetId = "22610343-1ee7-4ef5-84b5-4e285a68dba5";
+        $targetGalaxyPoint = "[1:2:3]";
+        $resourcesLoad = [];
+
+        $resolvedTargetGalaxyPoint = new GalaxyPoint(1, 2, 3);
+        $fleetRepository->find(new FleetId($fleetId))->willReturn($joiningFleet);
+        $navigator->getPlanetId($resolvedTargetGalaxyPoint)
+            ->willReturn(null);
 
         $event = new FleetHasReachedJourneyTargetPointEvent($mission, $fleetId, $targetGalaxyPoint, $resourcesLoad);
         $this->shouldThrow(InconsistentModelException::class)->during('__invoke', [$event]);

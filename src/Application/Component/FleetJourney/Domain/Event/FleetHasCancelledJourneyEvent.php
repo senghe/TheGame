@@ -9,7 +9,7 @@ use TheGame\Application\SharedKernel\EventInterface;
 
 final class FleetHasCancelledJourneyEvent implements EventInterface
 {
-    /** @var array<string, int> $resourcesLoad */
+    /** @param array<string, int> $resourcesLoad */
     public function __construct(
         private readonly string $fleetId,
         private readonly string $targetGalaxyPoint,
@@ -32,6 +32,7 @@ final class FleetHasCancelledJourneyEvent implements EventInterface
         return $this->targetGalaxyPoint;
     }
 
+    /** @return array<string, int> */
     public function getResourcesLoad(): array
     {
         return $this->resourcesLoad;

@@ -12,7 +12,7 @@ final class CannotCancelFleetJourneyOnReachingReturnPointException extends Domai
     public function __construct(FleetIdInterface $fleetId)
     {
         $message = sprintf(
-            'Cannot cancel fleet % journey (it\'s reaching return point)',
+            'Cannot cancel fleet %s journey (it\'s reaching return point)',
             $fleetId->getUuid(),
         );
 

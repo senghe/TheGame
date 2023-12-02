@@ -12,6 +12,9 @@ interface ResourcesInterface
 
     public function getAmount(ResourceIdInterface $resourceId): int;
 
+    /** @param array<string, int> $scalarArray */
+    public static function fromScalarArray(array $scalarArray): self;
+
     /** @return array<string, int> */
     public function toScalarArray(): array;
 

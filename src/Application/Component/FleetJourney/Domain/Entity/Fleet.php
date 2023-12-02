@@ -20,7 +20,7 @@ class Fleet
 {
     private ?Journey $currentJourney = null;
 
-    /** @var array<ShipsGroupInterface> $ships */
+    /** @param array<ShipsGroupInterface> $ships */
     public function __construct(
         private readonly FleetIdInterface $fleetId,
         private GalaxyPointInterface $stationingPoint,
@@ -49,7 +49,7 @@ class Fleet
         $this->addShips($fleet->ships);
     }
 
-    /** @var array<ShipsGroupInterface> $ships */
+    /** @param array<ShipsGroupInterface> $ships */
     public function addShips(array $ships): void
     {
         if ($this->currentJourney !== null) {
@@ -85,7 +85,7 @@ class Fleet
         return $lowestSpeed;
     }
 
-    /** @var array<string, int> $shipsToCompare */
+    /** @param array<string, int> $shipsToCompare */
     public function hasEnoughShips(
         array $shipsToCompare,
     ): bool {
@@ -114,7 +114,7 @@ class Fleet
         return true;
     }
 
-    /** @var array<string, int> $shipsToCompare */
+    /** @param array<string, int> $shipsToCompare */
     public function hasMoreShipsThan(
         array $shipsToCompare,
     ): bool {
@@ -141,7 +141,10 @@ class Fleet
         return false;
     }
 
-    /** @var array<string, int> $shipsToSplit */
+    /**
+     * @param array<string, int> $shipsToSplit
+     * @return array<ShipsGroupInterface>
+     */
     public function split(
         array $shipsToSplit,
     ): array {
@@ -167,13 +170,22 @@ class Fleet
         return $splitShips;
     }
 
+    private function getCurrentJourney(): Journey
+    {
+        if ($this->currentJourney === null) {
+            throw new FleetNotInJourneyYetException($this->fleetId);
+        }
+
+        return $this->currentJourney;
+    }
+
     public function isDuringJourney(): bool
     {
         if ($this->currentJourney === null) {
             return false;
         }
 
-        if ($this->currentJourney->didReachTargetPoint() === false && $this->currentJourney->didReachReturnPoint() === false) {
+        if ($this->getCurrentJourney()->didReachTargetPoint() === false && $this->getCurrentJourney()->didReachReturnPoint() === false) {
             return true;
         }
 
@@ -195,7 +207,7 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        return $this->currentJourney->getMissionType();
+        return $this->getCurrentJourney()->getMissionType();
     }
 
     public function getJourneyStartPoint(): GalaxyPointInterface
@@ -204,7 +216,7 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        return $this->currentJourney->getStartPoint();
+        return $this->getCurrentJourney()->getStartPoint();
     }
 
     public function getJourneyTargetPoint(): GalaxyPointInterface
@@ -213,7 +225,7 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        return $this->currentJourney->getTargetPoint();
+        return $this->getCurrentJourney()->getTargetPoint();
     }
 
     public function getJourneyReturnPoint(): GalaxyPointInterface
@@ -222,13 +234,13 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        return $this->currentJourney->getReturnPoint();
+        return $this->getCurrentJourney()->getReturnPoint();
     }
 
     public function didReachJourneyTargetPoint(): bool
     {
         return $this->currentJourney !== null
-            && $this->currentJourney->didReachTargetPoint();
+            && $this->getCurrentJourney()->didReachTargetPoint();
     }
 
     public function tryToReachJourneyTargetPoint(): void
@@ -238,25 +250,25 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        $hasFinishedJourney = $this->currentJourney->didReachReturnPoint() === true;
+        $hasFinishedJourney = $this->getCurrentJourney()->didReachReturnPoint() === true;
         if ($hasFinishedJourney) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        if ($this->currentJourney->didReachTargetPoint() === false) {
+        if ($this->getCurrentJourney()->didReachTargetPoint() === false) {
             return;
         }
 
-        if ($this->currentJourney->doesPlanToStationOnTarget()) {
-            $this->stationingPoint = $this->currentJourney->getTargetPoint();
-            $this->currentJourney->reachTargetPoint();
+        if ($this->getCurrentJourney()->doesPlanToStationOnTarget()) {
+            $this->stationingPoint = $this->getCurrentJourney()->getTargetPoint();
+            $this->getCurrentJourney()->reachTargetPoint();
 
             return;
-        } elseif ($this->currentJourney->doesFlyBack()) {
+        } elseif ($this->getCurrentJourney()->doesFlyBack()) {
             return;
         }
 
-        $this->currentJourney->reachTargetPoint();
+        $this->getCurrentJourney()->reachTargetPoint();
     }
 
     public function tryToReachJourneyReturnPoint(): void
@@ -267,21 +279,21 @@ class Fleet
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        if ($this->currentJourney->didReachTargetPoint() === false) {
+        if ($this->getCurrentJourney()->didReachTargetPoint() === false) {
             throw new FleetHasNotYetReachedTheTargetPointException($this->fleetId);
         }
 
-        if ($this->currentJourney->didReachReturnPoint() === false) {
+        if ($this->getCurrentJourney()->didReachReturnPoint() === false) {
             return;
         }
 
-        $this->currentJourney->reachReturnPoint();
+        $this->getCurrentJourney()->reachReturnPoint();
     }
 
     public function didReturnFromJourney(): bool
     {
         return $this->currentJourney !== null
-            && $this->currentJourney->didReachReturnPoint();
+            && $this->getCurrentJourney()->didReachReturnPoint();
     }
 
     public function doesFlyBack(): bool
@@ -290,16 +302,16 @@ class Fleet
             return false;
         }
 
-        return $this->currentJourney->doesFlyBack();
+        return $this->getCurrentJourney()->doesFlyBack();
     }
 
     public function cancelJourney(): void
     {
-        if ($this->currentJourney !== null && $this->currentJourney->didReachTargetPoint()) {
+        if ($this->currentJourney !== null && $this->getCurrentJourney()->didReachTargetPoint()) {
             throw new FleetNotInJourneyYetException($this->fleetId);
         }
 
-        $this->currentJourney->cancel();
+        $this->getCurrentJourney()->cancel();
     }
 
     public function getLoadCapacity(): int
@@ -312,6 +324,7 @@ class Fleet
         return $capacity;
     }
 
+    /** @return array<string, int> */
     public function getResourcesLoad(): array
     {
         return $this->resourcesLoad->toScalarArray();

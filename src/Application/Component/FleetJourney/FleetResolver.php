@@ -46,9 +46,9 @@ final class FleetResolver implements FleetResolverInterface
 
         $resolvedFleet = $stationingFleet;
         if ($stationingFleet->hasMoreShipsThan($shipsTakingJourney)) {
-            $shipsTakingJourney = $stationingFleet->split($shipsTakingJourney);
+            $shipGroupsTakingJourney = $stationingFleet->split($shipsTakingJourney);
             $resolvedFleet = $this->fleetFactory->create(
-                $shipsTakingJourney,
+                $shipGroupsTakingJourney,
                 $stationingFleet->getStationingGalaxyPoint(),
                 $resourcesLoad,
             );

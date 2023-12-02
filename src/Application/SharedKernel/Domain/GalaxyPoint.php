@@ -23,11 +23,12 @@ final class GalaxyPoint implements GalaxyPointInterface
             throw new InvalidArgumentException(sprintf('Cannot parse galaxy point %s', $value));
         }
 
-        foreach ($exploded as $key => $value) {
-            $exploded[$key] = (int) $value;
+        $coordinates = [];
+        foreach ($exploded as $value) {
+            $coordinates[] = (int) $value;
         }
 
-        return new self(...$exploded);
+        return new self(...$coordinates);
     }
 
     public function getGalaxy(): int
