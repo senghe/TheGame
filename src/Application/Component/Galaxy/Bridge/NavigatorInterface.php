@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Galaxy\Bridge;
 
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 
 interface NavigatorInterface
 {
     public function getPlanetId(GalaxyPointInterface $galaxyPoint): ?PlanetIdInterface;
 
-    public function getPlanetPoint(PlanetIdInterface $planetId): GalaxyPointInterface;
+    public function getPlanetPosition(PlanetIdInterface $planetId): int;
 
     public function isWithinBoundaries(GalaxyPointInterface $galaxyPoint): bool;
 
-    public function isColonized(GalaxyPointInterface $galaxyPoint): bool;
-
     public function isMissionEligible(
-        string $missionType,
+        FleetMissionType     $missionType,
         GalaxyPointInterface $planetFrom,
         GalaxyPointInterface $planetTo,
     ): bool;
