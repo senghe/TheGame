@@ -10,8 +10,8 @@ use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourn
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class StationFleetOnReachingTargetPointEventListenerSpec extends ObjectBehavior

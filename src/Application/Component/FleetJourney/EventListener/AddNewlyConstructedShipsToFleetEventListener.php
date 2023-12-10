@@ -10,7 +10,7 @@ use TheGame\Application\Component\FleetJourney\Domain\ShipsGroup;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\Resources;
 
 final class AddNewlyConstructedShipsToFleetEventListener
@@ -30,18 +30,18 @@ final class AddNewlyConstructedShipsToFleetEventListener
         if ($fleetCurrentlyStationingOnPlanet === null) {
             $fleetCurrentlyStationingOnPlanet = $this->fleetFactory->create(
                 [],
-                $this->navigator->getPlanetPoint($planetId),
+                $this->navigator->getPlanetPosition($planetId),
                 new Resources(),
             );
         }
 
-        $shipType = $event->getType();
+        $shipName = $event->getName();
         $fleetCurrentlyStationingOnPlanet->addShips([
             new ShipsGroup(
-                $shipType,
+                $shipName,
                 $event->getQuantity(),
-                $this->fleetJourneyContext->getShipBaseSpeed($shipType),
-                $this->fleetJourneyContext->getShipLoadCapacity($shipType),
+                $this->fleetJourneyContext->getShipBaseSpeed($shipName),
+                $this->fleetJourneyContext->getShipLoadCapacity($shipName),
             ),
         ]);
     }

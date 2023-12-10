@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\SharedKernel\Domain;
 
 use PhpSpec\ObjectBehavior;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class ResourcesSpec extends ObjectBehavior
 {

@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace TheGame\Application\SharedKernel\Domain;
 
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
+
 final class Resources implements ResourcesInterface
 {
     /** @var array<string, ResourceAmountInterface> */

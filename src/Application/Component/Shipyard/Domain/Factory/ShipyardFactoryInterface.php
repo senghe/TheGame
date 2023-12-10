@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\Shipyard\Domain\Factory;
 
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Shipyard;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 interface ShipyardFactoryInterface
 {

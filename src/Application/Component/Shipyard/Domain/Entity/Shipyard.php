@@ -13,7 +13,7 @@ use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummary;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryInterface;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class Shipyard

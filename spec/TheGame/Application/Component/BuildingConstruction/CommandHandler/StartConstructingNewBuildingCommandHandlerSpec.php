@@ -18,8 +18,8 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Exception\Insuffic
 use TheGame\Application\Component\BuildingConstruction\Domain\Factory\BuildingFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 

@@ -10,10 +10,10 @@ use TheGame\Application\Component\FleetJourney\Command\TargetJourneysCommand;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlayerId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
-use TheGame\Application\SharedKernel\Domain\UserId;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
@@ -31,9 +31,9 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         Fleet $fleet1,
         Fleet $fleet2,
     ): void {
-        $userId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
+        $playerId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
 
-        $fleetRepository->findInJourneyForUser(new UserId($userId))
+        $fleetRepository->findInJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([
                 $fleet1->getWrappedObject(),
                 $fleet2->getWrappedObject(),
@@ -42,7 +42,7 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet1->tryToReachJourneyTargetPoint()->shouldBeCalledOnce();
         $fleet1->didReachJourneyTargetPoint()->willReturn(true);
         $fleet1->getId()->willReturn(new FleetId("dfdd04c6-9243-4775-834c-ad702003ef6b"));
-        $fleet1->getJourneyMissionType()->willReturn(MissionType::Transport);
+        $fleet1->getJourneyMissionType()->willReturn(FleetMissionType::Transport);
         $fleet1->getJourneyTargetPoint()->willReturn(new GalaxyPoint(1, 2, 3));
         $fleet1->getResourcesLoad()->willReturn([
             "8de65203-ad4c-4ce7-bced-cfeda9107b5d" => 300,
@@ -52,14 +52,14 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet2->tryToReachJourneyTargetPoint()->shouldBeCalledOnce();
         $fleet2->didReachJourneyTargetPoint()->willReturn(true);
         $fleet2->getId()->willReturn(new FleetId("6da596f9-f66a-4912-9603-06f538621695"));
-        $fleet2->getJourneyMissionType()->willReturn(MissionType::Stationing);
+        $fleet2->getJourneyMissionType()->willReturn(FleetMissionType::Stationing);
         $fleet2->getJourneyTargetPoint()->willReturn(new GalaxyPoint(2, 3, 4));
         $fleet2->getResourcesLoad()->willReturn([]);
 
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyTargetPointEvent::class))
             ->shouldBeCalledTimes(2);
 
-        $command = new TargetJourneysCommand($userId);
+        $command = new TargetJourneysCommand($playerId);
         $this->__invoke($command);
     }
 
@@ -69,9 +69,9 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         Fleet $fleet1,
         Fleet $fleet2,
     ): void {
-        $userId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
+        $playerId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
 
-        $fleetRepository->findInJourneyForUser(new UserId($userId))
+        $fleetRepository->findInJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([
                 $fleet1->getWrappedObject(),
                 $fleet2->getWrappedObject(),
@@ -80,7 +80,7 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         $fleet1->tryToReachJourneyTargetPoint()->shouldBeCalledOnce();
         $fleet1->didReachJourneyTargetPoint()->willReturn(true);
         $fleet1->getId()->willReturn(new FleetId("dfdd04c6-9243-4775-834c-ad702003ef6b"));
-        $fleet1->getJourneyMissionType()->willReturn(MissionType::Transport);
+        $fleet1->getJourneyMissionType()->willReturn(FleetMissionType::Transport);
         $fleet1->getJourneyTargetPoint()->willReturn(new GalaxyPoint(1, 2, 3));
         $fleet1->getResourcesLoad()->willReturn([
             "8de65203-ad4c-4ce7-bced-cfeda9107b5d" => 300,
@@ -93,7 +93,7 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyTargetPointEvent::class))
             ->shouldBeCalledOnce();
 
-        $command = new TargetJourneysCommand($userId);
+        $command = new TargetJourneysCommand($playerId);
         $this->__invoke($command);
     }
 
@@ -101,15 +101,15 @@ final class TargetJourneysCommandHandlerSpec extends ObjectBehavior
         FleetRepositoryInterface $fleetRepository,
         EventBusInterface $eventBus,
     ): void {
-        $userId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
+        $playerId = "f313d56d-1a27-46fb-a1a5-1fb4b8a1e88b";
 
-        $fleetRepository->findInJourneyForUser(new UserId($userId))
+        $fleetRepository->findInJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([]);
 
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyTargetPointEvent::class))
             ->shouldNotBeCalled();
 
-        $command = new TargetJourneysCommand($userId);
+        $command = new TargetJourneysCommand($playerId);
         $this->__invoke($command);
     }
 }

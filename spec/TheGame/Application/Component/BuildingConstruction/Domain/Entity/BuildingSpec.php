@@ -11,10 +11,10 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Exception\Building
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingIsNotUpgradingYetException;
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\BuildingTimeHasNotPassedException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 
 final class BuildingSpec extends ObjectBehavior
 {

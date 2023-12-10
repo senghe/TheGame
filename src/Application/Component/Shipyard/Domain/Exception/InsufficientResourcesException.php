@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\Shipyard\Domain\Exception;
 
 use DomainException;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 final class InsufficientResourcesException extends DomainException
 {

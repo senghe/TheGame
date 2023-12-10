@@ -8,9 +8,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use TheGame\Application\Component\ResourceMines\Domain\Exception\CannotUpgradeMiningSpeedForUnsupportedResourceException;
 use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
 
 class MinesCollection
 {

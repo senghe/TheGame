@@ -12,8 +12,8 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughResourc
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\FleetFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class FleetResolver implements FleetResolverInterface

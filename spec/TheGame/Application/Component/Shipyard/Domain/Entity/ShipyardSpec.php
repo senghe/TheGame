@@ -14,7 +14,7 @@ use TheGame\Application\Component\Shipyard\Domain\Exception\ProductionLimitHasBe
 use TheGame\Application\Component\Shipyard\Domain\Exception\ShipyardJobNotFoundException;
 use TheGame\Application\Component\Shipyard\Domain\JobIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class ShipyardSpec extends ObjectBehavior

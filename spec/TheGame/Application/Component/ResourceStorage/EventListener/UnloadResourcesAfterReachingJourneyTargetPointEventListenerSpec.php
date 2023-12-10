@@ -7,12 +7,12 @@ namespace spec\TheGame\Application\Component\ResourceStorage\EventListener;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec extends ObjectBehavior
@@ -48,7 +48,7 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec exte
             ->shouldBeCalledTimes(2);
 
         $event = new FleetHasReachedJourneyTargetPointEvent(
-            MissionType::Transport->value,
+            FleetMissionType::Transport->value,
             $fleetId,
             $targetCoordinates,
             $resourcesLoad
@@ -77,7 +77,7 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec exte
             ->shouldBeCalledTimes(2);
 
         $event = new FleetHasReachedJourneyTargetPointEvent(
-            MissionType::Stationing->value,
+            FleetMissionType::Stationing->value,
             $fleetId,
             $targetCoordinates,
             $resourcesLoad
@@ -95,7 +95,7 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec exte
         ];
 
         $event = new FleetHasReachedJourneyTargetPointEvent(
-            MissionType::Attack->value,
+            FleetMissionType::Attack->value,
             $fleetId,
             $targetCoordinates,
             $resourcesLoad
@@ -116,7 +116,7 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListenerSpec exte
             ->willReturn(null);
 
         $event = new FleetHasReachedJourneyTargetPointEvent(
-            MissionType::Transport->value,
+            FleetMissionType::Transport->value,
             $fleetId,
             $targetCoordinates,
             $resourcesLoad

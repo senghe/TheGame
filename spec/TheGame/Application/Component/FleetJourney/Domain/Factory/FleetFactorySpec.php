@@ -8,9 +8,9 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroup;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 

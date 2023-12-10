@@ -11,9 +11,9 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourne
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 class Fleet
@@ -58,7 +58,7 @@ class Fleet
 
         foreach ($ships as $shipsToAdd) {
             foreach ($this->ships as $currentGroup) {
-                if ($currentGroup->hasType($shipsToAdd->getType())) {
+                if ($currentGroup->hasShip($shipsToAdd->getShipName())) {
                     $currentGroup->merge($shipsToAdd);
 
                     continue 2;
@@ -93,20 +93,20 @@ class Fleet
             return false;
         }
 
-        foreach ($shipsToCompare as $shipType => $quantity) {
-            $shipTypeFound = false;
+        foreach ($shipsToCompare as $shipName => $quantity) {
+            $shipNameFound = false;
             foreach ($this->ships as $shipGroup) {
-                if ($shipGroup->hasType($shipType) === false) {
+                if ($shipGroup->hasShip($shipName) === false) {
                     continue;
                 }
 
-                $shipTypeFound = true;
+                $shipNameFound = true;
                 if ($shipGroup->hasEnoughShips($quantity) === false) {
                     return false;
                 }
             }
 
-            if ($shipTypeFound === false) {
+            if ($shipNameFound === false) {
                 return false;
             }
         }
@@ -126,9 +126,9 @@ class Fleet
             return false;
         }
 
-        foreach ($shipsToCompare as $shipType => $quantity) {
+        foreach ($shipsToCompare as $shipName => $quantity) {
             foreach ($this->ships as $shipGroup) {
-                if ($shipGroup->hasType($shipType) === false) {
+                if ($shipGroup->hasShip($shipName) === false) {
                     continue;
                 }
 
@@ -153,13 +153,13 @@ class Fleet
         }
 
         $splitShips = [];
-        foreach ($shipsToSplit as $shipType => $quantity) {
+        foreach ($shipsToSplit as $shipName => $quantity) {
             if ($quantity <= 0) {
                 continue;
             }
 
             foreach ($this->ships as $shipGroup) {
-                if ($shipGroup->hasType($shipType) === false) {
+                if ($shipGroup->hasShip($shipName) === false) {
                     continue;
                 }
 
@@ -201,7 +201,7 @@ class Fleet
         $this->currentJourney = $journey;
     }
 
-    public function getJourneyMissionType(): MissionType
+    public function getJourneyMissionType(): FleetMissionType
     {
         if ($this->isDuringJourney() === false) {
             throw new FleetNotInJourneyYetException($this->fleetId);

@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\FleetJourney\Domain;
 
-use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentTypeException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentShips;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 
 final class ShipsGroup implements ShipsGroupInterface
 {
     public function __construct(
-        private readonly string $type,
-        private int $quantity,
-        private readonly int $speed,
-        private readonly int $unitLoadCapacity,
+        private readonly string $shipName,
+        private int             $quantity,
+        private readonly int    $speed,
+        private readonly int    $unitLoadCapacity,
     ) {
     }
 
-    public function getType(): string
+    public function getShipName(): string
     {
-        return $this->type;
+        return $this->shipName;
     }
 
     public function getQuantity(): int
@@ -27,9 +27,9 @@ final class ShipsGroup implements ShipsGroupInterface
         return $this->quantity;
     }
 
-    public function hasType(string $type): bool
+    public function hasShip(string $name): bool
     {
-        return $this->type === $type;
+        return $this->shipName === $name;
     }
 
     public function hasMoreShipsThan(int $quantity): bool
@@ -44,8 +44,8 @@ final class ShipsGroup implements ShipsGroupInterface
 
     public function merge(ShipsGroupInterface $shipGroup): void
     {
-        if ($this->type !== $shipGroup->getType()) {
-            throw new CannotMergeShipGroupsOfDifferentTypeException($this->type, $shipGroup->getType());
+        if ($this->shipName !== $shipGroup->getShipName()) {
+            throw new CannotMergeShipGroupsOfDifferentShips($this->shipName, $shipGroup->getShipName());
         }
 
         $this->quantity += $shipGroup->getQuantity();
@@ -55,13 +55,13 @@ final class ShipsGroup implements ShipsGroupInterface
     public function split(int $quantity): ShipsGroupInterface
     {
         if ($this->hasEnoughShips($quantity) === false) {
-            throw new NotEnoughShipsException($this->type);
+            throw new NotEnoughShipsException($this->shipName);
         }
 
         $this->quantity -= $quantity;
 
         return new ShipsGroup(
-            $this->type,
+            $this->shipName,
             $quantity,
             $this->speed,
             $this->unitLoadCapacity,

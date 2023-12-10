@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TheGame\Application\SharedKernel\Domain;
+namespace TheGame\Application\SharedKernel\Domain\EntityId;
 
-final class ResourceId implements ResourceIdInterface
+final class PlanetId implements PlanetIdInterface
 {
     public function __construct(
         private readonly string $id

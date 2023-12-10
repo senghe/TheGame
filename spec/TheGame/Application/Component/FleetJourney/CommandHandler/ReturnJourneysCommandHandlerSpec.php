@@ -11,8 +11,8 @@ use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyReturnPointEvent;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlayerId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
-use TheGame\Application\SharedKernel\Domain\UserId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
@@ -30,9 +30,9 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         Fleet $fleet1,
         Fleet $fleet2,
     ): void {
-        $userId = "8e807726-4a48-489e-9706-16061705bb6a";
+        $playerId = "8e807726-4a48-489e-9706-16061705bb6a";
 
-        $fleetRepository->findFlyingBackFromJourneyForUser(new UserId($userId))
+        $fleetRepository->findFlyingBackFromJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([
                 $fleet1->getWrappedObject(),
                 $fleet2->getWrappedObject(),
@@ -60,7 +60,7 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyReturnPointEvent::class))
             ->shouldBeCalledTimes(2);
 
-        $this->__invoke(new ReturnJourneysCommand($userId));
+        $this->__invoke(new ReturnJourneysCommand($playerId));
     }
 
     public function it_skips_fleet_when_it_has_not_returned_from_journey(
@@ -69,9 +69,9 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         Fleet $fleet1,
         Fleet $fleet2,
     ): void {
-        $userId = "8e807726-4a48-489e-9706-16061705bb6a";
+        $playerId = "8e807726-4a48-489e-9706-16061705bb6a";
 
-        $fleetRepository->findFlyingBackFromJourneyForUser(new UserId($userId))
+        $fleetRepository->findFlyingBackFromJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([
                 $fleet1->getWrappedObject(),
                 $fleet2->getWrappedObject(),
@@ -91,21 +91,21 @@ final class ReturnJourneysCommandHandlerSpec extends ObjectBehavior
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyReturnPointEvent::class))
             ->shouldBeCalledTimes(1);
 
-        $this->__invoke(new ReturnJourneysCommand($userId));
+        $this->__invoke(new ReturnJourneysCommand($playerId));
     }
 
     public function it_does_nothing_when_no_returning_fleet_found(
         FleetRepositoryInterface $fleetRepository,
         EventBusInterface $eventBus,
     ): void {
-        $userId = "8e807726-4a48-489e-9706-16061705bb6a";
+        $playerId = "8e807726-4a48-489e-9706-16061705bb6a";
 
-        $fleetRepository->findFlyingBackFromJourneyForUser(new UserId($userId))
+        $fleetRepository->findFlyingBackFromJourneyForPlayer(new PlayerId($playerId))
             ->willReturn([]);
 
         $eventBus->dispatch(Argument::type(FleetHasReachedJourneyReturnPointEvent::class))
             ->shouldNotBeCalled();
 
-        $this->__invoke(new ReturnJourneysCommand($userId));
+        $this->__invoke(new ReturnJourneysCommand($playerId));
     }
 }

@@ -7,7 +7,7 @@ namespace spec\TheGame\Application\Component\Shipyard\Domain\Factory;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\Shipyard\Domain\ShipyardId;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class ShipyardFactorySpec extends ObjectBehavior

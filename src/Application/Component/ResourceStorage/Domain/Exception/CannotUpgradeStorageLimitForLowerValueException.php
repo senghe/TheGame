@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\ResourceStorage\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 
 final class CannotUpgradeStorageLimitForLowerValueException extends DomainException
 {

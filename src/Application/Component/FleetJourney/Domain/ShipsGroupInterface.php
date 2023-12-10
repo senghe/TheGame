@@ -6,11 +6,11 @@ namespace TheGame\Application\Component\FleetJourney\Domain;
 
 interface ShipsGroupInterface
 {
-    public function getType(): string;
+    public function getShipName(): string;
 
     public function getQuantity(): int;
 
-    public function hasType(string $type): bool;
+    public function hasShip(string $name): bool;
 
     public function merge(ShipsGroupInterface $shipGroup): void;
 

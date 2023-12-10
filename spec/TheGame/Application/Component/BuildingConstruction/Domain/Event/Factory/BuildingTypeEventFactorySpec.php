@@ -13,8 +13,8 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMine
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ShipyardConstructionHasBeenFinishedEvent;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 
 final class BuildingTypeEventFactorySpec extends ObjectBehavior
 {

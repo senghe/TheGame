@@ -16,7 +16,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingCons
 use TheGame\Application\Component\BuildingConstruction\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Bridge\ResourceAvailabilityCheckerInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;

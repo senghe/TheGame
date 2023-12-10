@@ -14,12 +14,12 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourne
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
@@ -89,16 +89,16 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $destroyerType = 'destroyer';
-        $destroyerShipsGroup->getType()
+        $destroyerShipsGroup->getShipName()
             ->willReturn($destroyerType);
 
-        $destroyerShipsGroup->hasType($destroyerType)
+        $destroyerShipsGroup->hasShip($destroyerType)
             ->willReturn(true);
 
-        $lightFighterShipsGroup->hasType($destroyerType)
+        $lightFighterShipsGroup->hasShip($destroyerType)
             ->willReturn(false);
 
-        $warshipShipsGroup->hasType($destroyerType)
+        $warshipShipsGroup->hasShip($destroyerType)
             ->willReturn(false);
 
         $destroyerShipsGroup->hasEnoughShips(10)
@@ -125,19 +125,19 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $lightFightersToAdd->getType()
+        $lightFightersToAdd->getShipName()
             ->willReturn($lightFighterType);
 
-        $lightFightersToAdd->hasType($lightFighterType)
+        $lightFightersToAdd->hasShip($lightFighterType)
             ->willReturn(true);
 
-        $lightFighterShipsGroup->hasType($lightFighterType)
+        $lightFighterShipsGroup->hasShip($lightFighterType)
             ->willReturn(true);
 
         $lightFighterShipsGroup->merge($lightFightersToAdd)
             ->shouldBeCalledOnce();
 
-        $warshipShipsGroup->hasType($lightFighterType)
+        $warshipShipsGroup->hasShip($lightFighterType)
             ->willReturn(false);
 
         $this->addShips([
@@ -187,8 +187,8 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
 
         $lightFighterShipsGroup->hasEnoughShips(15)
             ->willReturn(true);
@@ -208,9 +208,9 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
 
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
         $lightFighterShipsGroup->hasEnoughShips(15)
             ->willReturn(false);
 
@@ -227,7 +227,7 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
 
         $this->hasEnoughShips([
             $lightFighterType => 15,
@@ -268,9 +268,9 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
 
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(true);
         $lightFighterShipsGroup->hasMoreShipsThan(15)->willReturn(false);
 
@@ -290,14 +290,14 @@ final class FleetSpec extends ObjectBehavior
 
         $lightFighterType = 'light-fighter';
         $warshipType = 'warship';
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
-        $warshipShipsGroup->hasType($warshipType)->willReturn(true);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($warshipType)->willReturn(true);
 
         $warshipShipsGroup->hasEnoughShips(300)->willReturn(true);
         $warshipShipsGroup->hasMoreShipsThan(300)->willReturn(false);
 
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
-        $lightFighterShipsGroup->hasType($warshipType)->willReturn(false);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($warshipType)->willReturn(false);
 
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(true);
         $lightFighterShipsGroup->hasMoreShipsThan(15)->willReturn(true);
@@ -319,14 +319,14 @@ final class FleetSpec extends ObjectBehavior
 
         $lightFighterType = 'light-fighter';
         $warshipType = 'warship';
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
-        $warshipShipsGroup->hasType($warshipType)->willReturn(true);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($warshipType)->willReturn(true);
 
         $warshipShipsGroup->hasEnoughShips(300)->willReturn(true);
         $warshipShipsGroup->hasMoreShipsThan(300)->willReturn(false);
 
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
-        $lightFighterShipsGroup->hasType($warshipType)->willReturn(false);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($warshipType)->willReturn(false);
 
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(true);
         $lightFighterShipsGroup->hasMoreShipsThan(15)->willReturn(false);
@@ -341,7 +341,7 @@ final class FleetSpec extends ObjectBehavior
         ShipsGroupInterface $lightFighterShipsGroup,
     ): void {
         $lightFighterType = 'light-fighter';
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(false);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
@@ -360,11 +360,11 @@ final class FleetSpec extends ObjectBehavior
         ]);
 
         $lightFighterType = 'light-fighter';
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(true);
         $lightFighterShipsGroup->split(15)->willReturn($splitLightFighterShipsGroup);
 
-        $splitLightFighterShipsGroup->getType()->willReturn($lightFighterType);
+        $splitLightFighterShipsGroup->getShipName()->willReturn($lightFighterType);
         $splitLightFighterShipsGroup->getQuantity()->willReturn(15);
 
         $splitResult = $this->split([
@@ -373,7 +373,7 @@ final class FleetSpec extends ObjectBehavior
         $splitResult->shouldBeArray();
         $splitResult->shouldHaveCount(1);
         $splitResult[0]->shouldImplement(ShipsGroupInterface::class);
-        $splitResult[0]->getType()->shouldReturn($lightFighterType);
+        $splitResult[0]->getShipName()->shouldReturn($lightFighterType);
         $splitResult[0]->getQuantity()->shouldReturn(15);
     }
 
@@ -381,7 +381,7 @@ final class FleetSpec extends ObjectBehavior
         ShipsGroupInterface $lightFighterShipsGroup,
     ): void {
         $lightFighterType = 'light-fighter';
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
             [
@@ -394,7 +394,7 @@ final class FleetSpec extends ObjectBehavior
         ShipsGroupInterface $lightFighterShipsGroup,
     ): void {
         $lightFighterType = 'light-fighter';
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
 
         $this->shouldThrow(NotEnoughShipsException::class)->during('split', [
             [
@@ -416,16 +416,16 @@ final class FleetSpec extends ObjectBehavior
         $lightFighterType = 'light-fighter';
         $warshipType = 'warship';
 
-        $warshipShipsGroup->hasType($lightFighterType)->willReturn(false);
-        $warshipShipsGroup->hasType($warshipType)->willReturn(true);
+        $warshipShipsGroup->hasShip($lightFighterType)->willReturn(false);
+        $warshipShipsGroup->hasShip($warshipType)->willReturn(true);
         $warshipShipsGroup->hasEnoughShips(0)->willReturn(true);
 
-        $lightFighterShipsGroup->hasType($warshipType)->willReturn(false);
-        $lightFighterShipsGroup->hasType($lightFighterType)->willReturn(true);
+        $lightFighterShipsGroup->hasShip($warshipType)->willReturn(false);
+        $lightFighterShipsGroup->hasShip($lightFighterType)->willReturn(true);
         $lightFighterShipsGroup->hasEnoughShips(15)->willReturn(true);
         $lightFighterShipsGroup->split(15)->willReturn($splitLightFighterShipsGroup);
 
-        $splitLightFighterShipsGroup->getType()->willReturn($lightFighterType);
+        $splitLightFighterShipsGroup->getShipName()->willReturn($lightFighterType);
         $splitLightFighterShipsGroup->getQuantity()->willReturn(15);
 
         $splitResult = $this->split([
@@ -435,7 +435,7 @@ final class FleetSpec extends ObjectBehavior
         $splitResult->shouldBeArray();
         $splitResult->shouldHaveCount(1);
         $splitResult[0]->shouldImplement(ShipsGroupInterface::class);
-        $splitResult[0]->getType()->shouldReturn($lightFighterType);
+        $splitResult[0]->getShipName()->shouldReturn($lightFighterType);
         $splitResult[0]->getQuantity()->shouldReturn(15);
     }
 
@@ -507,9 +507,9 @@ final class FleetSpec extends ObjectBehavior
 
         $journey->didReachTargetPoint()->willReturn(false);
         $journey->didReachReturnPoint()->willReturn(false);
-        $journey->getMissionType()->willReturn(MissionType::Transport);
+        $journey->getMissionType()->willReturn(FleetMissionType::Transport);
 
-        $this->getJourneyMissionType()->shouldReturn(MissionType::Transport);
+        $this->getJourneyMissionType()->shouldReturn(FleetMissionType::Transport);
     }
 
     public function it_throws_exception_on_returning_journey_start_point_not_being_in_journey(): void

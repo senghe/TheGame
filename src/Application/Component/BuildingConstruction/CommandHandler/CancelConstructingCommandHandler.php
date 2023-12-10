@@ -9,7 +9,7 @@ use TheGame\Application\Component\BuildingConstruction\BuildingRepositoryInterfa
 use TheGame\Application\Component\BuildingConstruction\Command\CancelConstructingCommand;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingId;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\BuildingConstructionHasBeenCancelledEvent;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

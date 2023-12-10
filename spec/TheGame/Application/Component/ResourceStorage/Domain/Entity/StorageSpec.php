@@ -9,8 +9,8 @@ use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUpgrade
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsupportedResourceException;
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class StorageSpec extends ObjectBehavior
 {

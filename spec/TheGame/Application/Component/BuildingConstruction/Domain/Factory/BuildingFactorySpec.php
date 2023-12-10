@@ -7,8 +7,8 @@ namespace spec\TheGame\Application\Component\BuildingConstruction\Domain\Factory
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class BuildingFactorySpec extends ObjectBehavior

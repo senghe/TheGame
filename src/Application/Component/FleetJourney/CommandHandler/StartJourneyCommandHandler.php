@@ -10,11 +10,11 @@ use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasStartedJourn
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotTakeJourneyToOutOfBoundGalaxyPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\JourneyMissionIsNotEligibleException;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\JourneyFactoryInterface;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\FleetResolverInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
@@ -44,9 +44,9 @@ final class StartJourneyCommandHandler
         );
 
         $startGalaxyPoint = $fleetTakingJourney->getStationingGalaxyPoint();
-        $missionType = MissionType::from($command->getMissionType());
+        $missionType = FleetMissionType::from($command->getMissionType());
         $isMissionEligible = $this->galaxyNavigator->isMissionEligible(
-            $missionType->value,
+            $missionType,
             $startGalaxyPoint,
             $targetGalaxyPoint,
         );

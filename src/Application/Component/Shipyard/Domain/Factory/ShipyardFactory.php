@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\Shipyard\Domain\Factory;
 use DateTimeImmutable;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
 use TheGame\Application\Component\Shipyard\Domain\Entity\Shipyard;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class ShipyardFactory implements ShipyardFactoryInterface

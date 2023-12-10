@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceStorage\EventListener;
 
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UnloadResourcesAfterReachingJourneyTargetPointEventListener
@@ -22,8 +22,8 @@ final class UnloadResourcesAfterReachingJourneyTargetPointEventListener
 
     public function __invoke(FleetHasReachedJourneyTargetPointEvent $event): void
     {
-        $mission = MissionType::from($event->getMission());
-        if ($mission !== MissionType::Stationing && $mission != MissionType::Transport) {
+        $mission = FleetMissionType::from($event->getMission());
+        if ($mission !== FleetMissionType::Attack) {
             return;
         }
 

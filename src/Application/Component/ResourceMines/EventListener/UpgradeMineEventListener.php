@@ -8,8 +8,8 @@ use TheGame\Application\Component\Balance\Bridge\ResourceMinesContextInterface;
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceMineConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\ResourceMines\Domain\Factory\MineFactoryInterface;
 use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UpgradeMineEventListener

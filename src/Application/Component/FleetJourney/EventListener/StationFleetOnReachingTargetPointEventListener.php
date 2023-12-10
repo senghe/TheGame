@@ -6,10 +6,10 @@ namespace TheGame\Application\Component\FleetJourney\EventListener;
 
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class StationFleetOnReachingTargetPointEventListener
@@ -22,8 +22,8 @@ final class StationFleetOnReachingTargetPointEventListener
 
     public function __invoke(FleetHasReachedJourneyTargetPointEvent $event): void
     {
-        $mission = MissionType::from($event->getMission());
-        if ($mission !== MissionType::Stationing) {
+        $mission = FleetMissionType::from($event->getMission());
+        if ($mission !== FleetMissionType::Stationing) {
             return;
         }
 

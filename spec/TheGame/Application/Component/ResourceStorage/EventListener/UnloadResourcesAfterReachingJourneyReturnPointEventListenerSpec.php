@@ -10,8 +10,8 @@ use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourn
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\ResourceStorage\Command\DispatchResourcesCommand;
 use TheGame\Application\SharedKernel\CommandBusInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UnloadResourcesAfterReachingJourneyReturnPointEventListenerSpec extends ObjectBehavior

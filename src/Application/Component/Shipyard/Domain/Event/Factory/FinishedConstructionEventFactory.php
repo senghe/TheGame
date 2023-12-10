@@ -9,7 +9,7 @@ use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstr
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewUnitsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\EventInterface;
 
 final class FinishedConstructionEventFactory implements FinishedConstructionEventFactoryInterface

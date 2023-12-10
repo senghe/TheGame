@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\Component\FleetJourney\Domain;
 
 use PhpSpec\ObjectBehavior;
-use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentTypeException;
+use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotMergeShipGroupsOfDifferentShips;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
 
@@ -23,7 +23,7 @@ final class ShipsGroupSpec extends ObjectBehavior
 
     public function it_has_type(): void
     {
-        $this->getType()->shouldReturn("light-fighter");
+        $this->getShipName()->shouldReturn("light-fighter");
     }
 
     public function it_has_quantity(): void
@@ -33,12 +33,12 @@ final class ShipsGroupSpec extends ObjectBehavior
 
     public function it_checks_the_correct_type(): void
     {
-        $this->hasType("light-fighter")->shouldReturn(true);
+        $this->hasShip("light-fighter")->shouldReturn(true);
     }
 
     public function it_checks_the_incorrect_type(): void
     {
-        $this->hasType("warship")->shouldReturn(false);
+        $this->hasShip("warship")->shouldReturn(false);
     }
 
     public function it_checks_whether_has_more_ships_than_quantity(): void
@@ -64,7 +64,7 @@ final class ShipsGroupSpec extends ObjectBehavior
     public function it_merges_ships(
         ShipsGroupInterface $shipsGroup,
     ): void {
-        $shipsGroup->getType()->willReturn('light-fighter');
+        $shipsGroup->getShipName()->willReturn('light-fighter');
         $shipsGroup->getQuantity()->willReturn(15);
         $shipsGroup->setEmpty()->shouldBeCalledOnce();
 
@@ -75,15 +75,15 @@ final class ShipsGroupSpec extends ObjectBehavior
     public function it_throws_exception_on_merging_ships_of_unsupported_type(
         ShipsGroupInterface $shipsGroup,
     ): void {
-        $shipsGroup->getType()->willReturn('warship');
+        $shipsGroup->getShipName()->willReturn('warship');
 
-        $this->shouldThrow(CannotMergeShipGroupsOfDifferentTypeException::class)->during('merge', [$shipsGroup]);
+        $this->shouldThrow(CannotMergeShipGroupsOfDifferentShips::class)->during('merge', [$shipsGroup]);
     }
 
     public function it_splits_into_second_group(): void
     {
         $secondGroup = $this->split(5);
-        $secondGroup->getType()->shouldReturn('light-fighter');
+        $secondGroup->getShipName()->shouldReturn('light-fighter');
         $secondGroup->getQuantity()->shouldReturn(5);
         $secondGroup->getSpeed()->shouldReturn(35);
         $secondGroup->getUnitLoadCapacity()->shouldReturn(20);

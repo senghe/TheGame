@@ -8,7 +8,7 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\Balance\Bridge\ResourceMinesContextInterface;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
 use TheGame\Application\Component\ResourceMines\Domain\MineIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class MineFactorySpec extends ObjectBehavior

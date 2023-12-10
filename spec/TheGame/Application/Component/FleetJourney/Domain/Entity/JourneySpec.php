@@ -15,17 +15,17 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotOnFlyBac
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\Domain\JourneyId;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 
 final class JourneySpec extends ObjectBehavior
 {
     public function let(): void
     {
-        $this->initialize(MissionType::Transport, 50);
+        $this->initialize(FleetMissionType::Transport, 50);
     }
 
-    private function initialize(MissionType $missionType, int $duration): void
+    private function initialize(FleetMissionType $missionType, int $duration): void
     {
         $journeyId = "35f6e0a6-e9bb-4344-b1f1-299cbaeb1f25";
         $fleetId = "282294b8-ba92-46d1-b86a-4768e2a664b9";
@@ -49,7 +49,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_has_mission_type(): void
     {
-        $this->getMissionType()->shouldReturn(MissionType::Transport);
+        $this->getMissionType()->shouldReturn(FleetMissionType::Transport);
     }
 
     public function it_has_start_point(): void
@@ -99,7 +99,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_does_plan_to_station_on_the_target_point(): void
     {
-        $this->initialize(MissionType::Stationing, 50);
+        $this->initialize(FleetMissionType::Stationing, 50);
 
         $this->doesPlanToStationOnTarget()->shouldReturn(true);
     }
@@ -111,7 +111,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_does_attack(): void
     {
-        $this->initialize(MissionType::Attack, 50);
+        $this->initialize(FleetMissionType::Attack, 50);
 
         $this->doesAttack()->shouldReturn(true);
     }
@@ -128,7 +128,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_doesnt_transport_resources(): void
     {
-        $this->initialize(MissionType::Attack, 50);
+        $this->initialize(FleetMissionType::Attack, 50);
 
         $this->doesTransportResources()->shouldReturn(false);
     }
@@ -140,7 +140,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_does_flyback_after_reaching_target_point(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
 
         $this->reachTargetPoint();
         $this->doesFlyBack()->shouldReturn(true);
@@ -148,7 +148,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_does_not_flyback_after_reaching_return_point(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
 
         $this->reachTargetPoint();
         $this->reachReturnPoint();
@@ -163,7 +163,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_did_reach_target_point(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
 
         $this->didReachTargetPoint()->shouldReturn(true);
     }
@@ -175,7 +175,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_throws_exception_when_cant_reach_target_point_on_flyback(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
         $this->reachTargetPoint();
 
         $this->shouldThrow(FleetOnFlyBackException::class)
@@ -190,7 +190,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_reaches_target_point_and_station_on_planet(): void
     {
-        $this->initialize(MissionType::Stationing, 0);
+        $this->initialize(FleetMissionType::Stationing, 0);
         $this->reachTargetPoint();
 
         $now = new DateTimeImmutable();
@@ -200,7 +200,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_reaches_target_point_and_turns_around(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
         $this->reachTargetPoint();
 
         $this->doesFlyBack()->shouldReturn(true);
@@ -208,7 +208,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_did_reach_return_point(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
 
         $this->didReachReturnPoint()->shouldReturn(true);
     }
@@ -248,7 +248,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_throws_exception_when_cancelling_fleet_on_flyback(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
         $this->reachTargetPoint();
 
         $this->shouldThrow(CannotCancelFleetJourneyOnFlyBackException::class)
@@ -257,7 +257,7 @@ final class JourneySpec extends ObjectBehavior
 
     public function it_throws_exception_when_cancelling_fleet_which_did_reach_target_point(): void
     {
-        $this->initialize(MissionType::Transport, 0);
+        $this->initialize(FleetMissionType::Transport, 0);
 
         $this->shouldThrow(CannotCancelFleetJourneyOnReachingTargetPointException::class)
             ->during('cancel', []);

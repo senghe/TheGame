@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\FleetJourney\CommandHandler;
 use TheGame\Application\Component\FleetJourney\Command\TargetJourneysCommand;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\UserId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlayerId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class TargetJourneysCommandHandler
@@ -20,8 +20,8 @@ final class TargetJourneysCommandHandler
 
     public function __invoke(TargetJourneysCommand $command): void
     {
-        $userId = new UserId($command->getUserId());
-        $fleets = $this->fleetRepository->findInJourneyForUser($userId);
+        $playerId = new PlayerId($command->getPlayerId());
+        $fleets = $this->fleetRepository->findInJourneyForPlayer($playerId);
         foreach ($fleets as $fleet) {
             $fleet->tryToReachJourneyTargetPoint();
             if ($fleet->didReachJourneyTargetPoint() === false) {

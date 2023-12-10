@@ -8,9 +8,9 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
 use TheGame\Application\Component\ResourceMines\Domain\Exception\CannotUpgradeMiningSpeedForUnsupportedResourceException;
 use TheGame\Application\Component\ResourceMines\Domain\MinesCollectionId;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class MinesCollectionSpec extends ObjectBehavior
 {

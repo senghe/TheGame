@@ -12,8 +12,8 @@ use TheGame\Application\Component\FleetJourney\Domain\ShipsGroup;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
 use TheGame\Application\SharedKernel\Domain\Resources;
 
 final class AddNewlyConstructedShipsToFleetEventListenerSpec extends ObjectBehavior
@@ -71,7 +71,7 @@ final class AddNewlyConstructedShipsToFleetEventListenerSpec extends ObjectBehav
         $fleetRepository->findStationingOnPlanet(new PlanetId($planetId))
             ->willReturn(null);
 
-        $navigator->getPlanetPoint(new PlanetId($planetId))
+        $navigator->getPlanetPosition(new PlanetId($planetId))
             ->willReturn($planetGalaxyPoint);
 
         $fleetFactory->create(

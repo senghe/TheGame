@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\Component\BuildingConstruction\Domain\BuildingIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 final class InsufficientResourcesException extends DomainException
 {

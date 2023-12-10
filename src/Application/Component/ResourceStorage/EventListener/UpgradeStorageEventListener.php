@@ -8,8 +8,8 @@ use TheGame\Application\Component\Balance\Bridge\ResourceStoragesContextInterfac
 use TheGame\Application\Component\BuildingConstruction\Domain\Event\ResourceStorageConstructionHasBeenFinishedEvent;
 use TheGame\Application\Component\ResourceStorage\Domain\Factory\StorageFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UpgradeStorageEventListener
