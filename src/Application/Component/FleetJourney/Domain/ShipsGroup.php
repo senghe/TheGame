@@ -11,15 +11,21 @@ final class ShipsGroup implements ShipsGroupInterface
 {
     public function __construct(
         private readonly string $shipName,
-        private int             $quantity,
-        private readonly int    $speed,
-        private readonly int    $unitLoadCapacity,
+        private readonly ShipClass $shipClass,
+        private int $quantity,
+        private readonly int $speed,
+        private readonly int $unitLoadCapacity,
     ) {
     }
 
     public function getShipName(): string
     {
         return $this->shipName;
+    }
+
+    public function getShipClass(): ShipClass
+    {
+        return $this->shipClass;
     }
 
     public function getQuantity(): int
@@ -62,6 +68,7 @@ final class ShipsGroup implements ShipsGroupInterface
 
         return new ShipsGroup(
             $this->shipName,
+            $this->shipClass,
             $quantity,
             $this->speed,
             $this->unitLoadCapacity,

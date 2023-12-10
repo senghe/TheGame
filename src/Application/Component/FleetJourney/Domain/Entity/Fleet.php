@@ -11,6 +11,7 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotInJourne
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughFleetLoadCapacityException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\NotEnoughShipsException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
+use TheGame\Application\Component\FleetJourney\Domain\ShipClass;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroupInterface;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\FleetMissionType;
@@ -47,6 +48,17 @@ class Fleet
     public function merge(Fleet $fleet): void
     {
         $this->addShips($fleet->ships);
+    }
+
+    public function containsShipsOfClass(ShipClass $class): bool
+    {
+        foreach ($this->ships as $shipsGroup) {
+            if ($shipsGroup->getShipClass() === $class) {
+                return $shipsGroup->getQuantity() > 0;
+            }
+        }
+
+        return false;
     }
 
     /** @param array<ShipsGroupInterface> $ships */

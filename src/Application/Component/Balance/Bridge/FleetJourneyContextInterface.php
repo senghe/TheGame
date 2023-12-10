@@ -9,6 +9,8 @@ use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 interface FleetJourneyContextInterface
 {
+    public function getShipClass(string $shipName): string;
+
     public function getShipBaseSpeed(string $shipName): int;
 
     public function getShipLoadCapacity(string $shipName): int;

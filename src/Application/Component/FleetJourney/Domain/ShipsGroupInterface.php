@@ -8,6 +8,8 @@ interface ShipsGroupInterface
 {
     public function getShipName(): string;
 
+    public function getShipClass(): ShipClass;
+
     public function getQuantity(): int;
 
     public function hasShip(string $name): bool;

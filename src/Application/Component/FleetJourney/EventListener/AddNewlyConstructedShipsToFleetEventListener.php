@@ -6,6 +6,7 @@ namespace TheGame\Application\Component\FleetJourney\EventListener;
 
 use TheGame\Application\Component\Balance\Bridge\FleetJourneyContextInterface;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\FleetFactoryInterface;
+use TheGame\Application\Component\FleetJourney\Domain\ShipClass;
 use TheGame\Application\Component\FleetJourney\Domain\ShipsGroup;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
@@ -36,9 +37,11 @@ final class AddNewlyConstructedShipsToFleetEventListener
         }
 
         $shipName = $event->getName();
+        $shipClass = $this->fleetJourneyContext->getShipClass($shipName);
         $fleetCurrentlyStationingOnPlanet->addShips([
             new ShipsGroup(
                 $shipName,
+                ShipClass::from($shipClass),
                 $event->getQuantity(),
                 $this->fleetJourneyContext->getShipBaseSpeed($shipName),
                 $this->fleetJourneyContext->getShipLoadCapacity($shipName),
