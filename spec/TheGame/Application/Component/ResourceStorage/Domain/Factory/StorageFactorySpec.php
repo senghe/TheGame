@@ -7,7 +7,7 @@ namespace spec\TheGame\Application\Component\ResourceStorage\Domain\Factory;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class StorageFactorySpec extends ObjectBehavior

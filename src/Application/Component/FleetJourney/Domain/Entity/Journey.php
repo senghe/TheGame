@@ -15,8 +15,8 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetNotOnFlyBac
 use TheGame\Application\Component\FleetJourney\Domain\Exception\FleetOnFlyBackException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
 use TheGame\Application\Component\FleetJourney\Domain\JourneyIdInterface;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 
 class Journey
 {
@@ -39,7 +39,7 @@ class Journey
     public function __construct(
         private readonly JourneyIdInterface $journeyId,
         private readonly FleetIdInterface $fleetId,
-        private readonly MissionType $missionType,
+        private readonly FleetMissionType $missionType,
         private readonly GalaxyPointInterface $startPoint,
         private readonly GalaxyPointInterface $targetPoint,
         private readonly int $duration,
@@ -62,7 +62,7 @@ class Journey
         return $this->journeyId;
     }
 
-    public function getMissionType(): MissionType
+    public function getMissionType(): FleetMissionType
     {
         return $this->missionType;
     }
@@ -109,17 +109,17 @@ class Journey
 
     public function doesPlanToStationOnTarget(): bool
     {
-        return $this->missionType === MissionType::Stationing;
+        return $this->missionType === FleetMissionType::Stationing;
     }
 
     public function doesAttack(): bool
     {
-        return $this->missionType === MissionType::Attack;
+        return $this->missionType === FleetMissionType::Attack;
     }
 
     public function doesTransportResources(): bool
     {
-        return $this->missionType === MissionType::Transport;
+        return $this->missionType === FleetMissionType::Transport;
     }
 
     public function doesFlyBack(): bool

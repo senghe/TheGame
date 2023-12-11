@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceStorage\Bridge;
 
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

@@ -9,8 +9,8 @@ use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Journey;
 use TheGame\Application\Component\FleetJourney\Domain\FleetId;
 use TheGame\Application\Component\FleetJourney\Domain\JourneyId;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class JourneyFactorySpec extends ObjectBehavior
@@ -34,7 +34,7 @@ final class JourneyFactorySpec extends ObjectBehavior
 
         $createdJourney = $this->createJourney(
             $fleetId,
-            MissionType::Transport,
+            FleetMissionType::Transport,
             $startGalaxyPoint,
             $targetGalaxyPoint,
             $journeyDuration,

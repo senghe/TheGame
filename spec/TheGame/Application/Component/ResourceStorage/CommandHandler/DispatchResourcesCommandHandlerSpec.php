@@ -13,9 +13,9 @@ use TheGame\Application\Component\ResourceStorage\Domain\Event\ResourcesHaveBeen
 use TheGame\Application\Component\ResourceStorage\Domain\Event\StorageAmountHasChangedEvent;
 use TheGame\Application\Component\ResourceStorage\Domain\Factory\StorageFactoryInterface;
 use TheGame\Application\Component\ResourceStorage\ResourceStoragesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

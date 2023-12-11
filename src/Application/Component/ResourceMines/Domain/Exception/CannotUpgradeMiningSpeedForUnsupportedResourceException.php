@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceMines\Domain\Exception;
 
 use DomainException;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 
 final class CannotUpgradeMiningSpeedForUnsupportedResourceException extends DomainException
 {

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace spec\TheGame\Application\SharedKernel\Domain;
 
 use PhpSpec\ObjectBehavior;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\Exception\InvalidResourceAmountException;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class ResourceAmountSpec extends ObjectBehavior
 {

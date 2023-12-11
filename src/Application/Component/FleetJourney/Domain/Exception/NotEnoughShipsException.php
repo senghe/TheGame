@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\FleetJourney\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 final class NotEnoughShipsException extends DomainException
 {
@@ -25,7 +25,7 @@ final class NotEnoughShipsException extends DomainException
             );
         } else {
             $message = sprintf(
-                'Not enough ships of type %s in fleet',
+                'Not enough %s ships in fleet',
                 $argument,
             );
         }

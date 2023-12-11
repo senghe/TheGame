@@ -15,11 +15,11 @@ use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotTakeJourne
 use TheGame\Application\Component\FleetJourney\Domain\Exception\JourneyMissionIsNotEligibleException;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\JourneyFactoryInterface;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
 use TheGame\Application\Component\FleetJourney\FleetResolverInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
@@ -91,7 +91,7 @@ final class StartJourneyCommandHandlerSpec extends ObjectBehavior
 
         $journeyFactory->createJourney(
             $fleetId,
-            MissionType::Transport,
+            FleetMissionType::Transport,
             $startGalaxyPoint,
             $targetGalaxyPointStub,
             $journeyDuration,

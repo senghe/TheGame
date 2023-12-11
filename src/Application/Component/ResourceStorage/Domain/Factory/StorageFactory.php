@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\ResourceStorage\Domain\Factory;
 
 use TheGame\Application\Component\ResourceStorage\Domain\Entity\Storage;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class StorageFactory implements StorageFactoryInterface

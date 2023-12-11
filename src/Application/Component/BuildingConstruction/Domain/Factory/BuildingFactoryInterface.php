@@ -6,8 +6,8 @@ namespace TheGame\Application\Component\BuildingConstruction\Domain\Factory;
 
 use TheGame\Application\Component\BuildingConstruction\Domain\Entity\Building;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 
 interface BuildingFactoryInterface
 {

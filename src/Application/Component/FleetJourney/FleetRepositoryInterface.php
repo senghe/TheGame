@@ -6,8 +6,8 @@ namespace TheGame\Application\Component\FleetJourney;
 
 use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\FleetIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
-use TheGame\Application\SharedKernel\Domain\UserIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlayerIdInterface;
 
 interface FleetRepositoryInterface
 {
@@ -16,8 +16,8 @@ interface FleetRepositoryInterface
     public function findStationingOnPlanet(PlanetIdInterface $planetId): ?Fleet;
 
     /** @return array<Fleet> */
-    public function findFlyingBackFromJourneyForUser(UserIdInterface $userId): array;
+    public function findFlyingBackFromJourneyForPlayer(PlayerIdInterface $playerId): array;
 
     /** @return array<Fleet> */
-    public function findInJourneyForUser(UserIdInterface $userId): array;
+    public function findInJourneyForPlayer(PlayerIdInterface $playerId): array;
 }

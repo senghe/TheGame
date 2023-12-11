@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\ResourceMines\Domain\Factory;
 use DateTimeImmutable;
 use TheGame\Application\Component\Balance\Bridge\ResourceMinesContextInterface;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
-use TheGame\Application\SharedKernel\Domain\ResourceIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\UuidGeneratorInterface;
 
 final class MineFactory implements MineFactoryInterface

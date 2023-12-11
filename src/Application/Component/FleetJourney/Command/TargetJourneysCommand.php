@@ -9,12 +9,12 @@ use TheGame\Application\SharedKernel\CommandInterface;
 final class TargetJourneysCommand implements CommandInterface
 {
     public function __construct(
-        private readonly string $userId,
+        private readonly string $playerId,
     ) {
     }
 
-    public function getUserId(): string
+    public function getPlayerId(): string
     {
-        return $this->userId;
+        return $this->playerId;
     }
 }

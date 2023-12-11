@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\BuildingConstruction\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\SharedKernel\Domain\BuildingType;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 final class BuildingIsAlreadyUpgradingException extends DomainException
 {

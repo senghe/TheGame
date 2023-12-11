@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\SharedKernel\Domain;
 
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceIdInterface;
 use TheGame\Application\SharedKernel\Domain\Exception\InvalidResourceAmountException;
 
 final class ResourceAmount implements ResourceAmountInterface

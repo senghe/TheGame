@@ -8,8 +8,8 @@ use DateTimeImmutable;
 use PhpSpec\ObjectBehavior;
 use TheGame\Application\Component\ResourceMines\Domain\MineId;
 use TheGame\Application\Component\ResourceMines\Domain\MineIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmount;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 
 final class MineSpec extends ObjectBehavior
 {

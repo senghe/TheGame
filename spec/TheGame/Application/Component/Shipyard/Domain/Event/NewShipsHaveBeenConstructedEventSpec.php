@@ -24,7 +24,7 @@ final class NewShipsHaveBeenConstructedEventSpec extends ObjectBehavior
 
     public function it_has_ship_type(): void
     {
-        $this->getType()
+        $this->getName()
             ->shouldReturn('light-fighter');
     }
 

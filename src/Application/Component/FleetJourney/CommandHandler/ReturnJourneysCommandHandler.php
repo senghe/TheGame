@@ -7,7 +7,7 @@ namespace TheGame\Application\Component\FleetJourney\CommandHandler;
 use TheGame\Application\Component\FleetJourney\Command\ReturnJourneysCommand;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyReturnPointEvent;
 use TheGame\Application\Component\FleetJourney\FleetRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\UserId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlayerId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
 final class ReturnJourneysCommandHandler
@@ -20,8 +20,8 @@ final class ReturnJourneysCommandHandler
 
     public function __invoke(ReturnJourneysCommand $command): void
     {
-        $userId = new UserId($command->getUserId());
-        $fleets = $this->fleetRepository->findFlyingBackFromJourneyForUser($userId);
+        $playerId = new PlayerId($command->getPlayerId());
+        $fleets = $this->fleetRepository->findFlyingBackFromJourneyForPlayer($playerId);
         foreach ($fleets as $fleet) {
             $fleet->tryToReachJourneyReturnPoint();
             if ($fleet->didReturnFromJourney() === false) {

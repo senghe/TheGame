@@ -12,9 +12,9 @@ use TheGame\Application\Component\ResourceStorage\Domain\Exception\CannotUseUnsu
 use TheGame\Application\Component\ResourceStorage\Domain\Exception\InsufficientResourcesException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageCollectionId;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageId;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourcesInterface;
 
 final class StoragesCollectionSpec extends ObjectBehavior

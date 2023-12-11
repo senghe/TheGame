@@ -6,15 +6,18 @@ namespace TheGame\Application\Component\FleetJourney\CommandHandler;
 
 use TheGame\Application\Component\Balance\Bridge\FleetJourneyContextInterface;
 use TheGame\Application\Component\FleetJourney\Command\StartJourneyCommand;
+use TheGame\Application\Component\FleetJourney\Domain\Entity\Fleet;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasStartedJourneyEvent;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\CannotTakeJourneyToOutOfBoundGalaxyPointException;
 use TheGame\Application\Component\FleetJourney\Domain\Exception\JourneyMissionIsNotEligibleException;
 use TheGame\Application\Component\FleetJourney\Domain\Factory\JourneyFactoryInterface;
-use TheGame\Application\Component\FleetJourney\Domain\MissionType;
+use TheGame\Application\Component\FleetJourney\Domain\MissionEligibilityCheckerInterface;
 use TheGame\Application\Component\FleetJourney\FleetResolverInterface;
 use TheGame\Application\Component\Galaxy\Bridge\NavigatorInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 use TheGame\Application\SharedKernel\Domain\GalaxyPoint;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\FleetMissionType;
+use TheGame\Application\SharedKernel\Domain\GalaxyPointInterface;
 use TheGame\Application\SharedKernel\Domain\Resources;
 use TheGame\Application\SharedKernel\EventBusInterface;
 
@@ -22,6 +25,7 @@ final class StartJourneyCommandHandler
 {
     public function __construct(
         private readonly NavigatorInterface $galaxyNavigator,
+        private readonly MissionEligibilityCheckerInterface $missionEligibilityChecker,
         private readonly FleetResolverInterface $fleetResolver,
         private readonly JourneyFactoryInterface $journeyFactory,
         private readonly FleetJourneyContextInterface $journeyContext,
@@ -44,11 +48,9 @@ final class StartJourneyCommandHandler
         );
 
         $startGalaxyPoint = $fleetTakingJourney->getStationingGalaxyPoint();
-        $missionType = MissionType::from($command->getMissionType());
-        $isMissionEligible = $this->galaxyNavigator->isMissionEligible(
-            $missionType->value,
-            $startGalaxyPoint,
-            $targetGalaxyPoint,
+        $missionType = FleetMissionType::from($command->getMissionType());
+        $isMissionEligible = $this->isMissionEligible(
+            $missionType, $startGalaxyPoint, $targetGalaxyPoint, $fleetTakingJourney,
         );
         if ($isMissionEligible === false) {
             throw new JourneyMissionIsNotEligibleException($missionType, $targetGalaxyPoint);
@@ -83,5 +85,23 @@ final class StartJourneyCommandHandler
                 $command->getResourcesLoad(),
             )
         );
+    }
+
+    private function isMissionEligible(
+        FleetMissionType $missionType,
+        GalaxyPointInterface $startGalaxyPoint,
+        GalaxyPointInterface $targetGalaxyPoint,
+        Fleet $fleet,
+    ): bool {
+        $galaxyMissionEligible = $this->$this->galaxyNavigator->isMissionEligible(
+            $missionType,
+            $startGalaxyPoint,
+            $targetGalaxyPoint,
+        );
+        $fleetMissionEligible = $this->missionEligibilityChecker->isEligible(
+            $missionType, $fleet,
+        );
+
+        return $galaxyMissionEligible && $fleetMissionEligible;
     }
 }

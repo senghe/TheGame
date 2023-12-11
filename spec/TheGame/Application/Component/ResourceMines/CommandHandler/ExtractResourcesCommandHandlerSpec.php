@@ -10,9 +10,9 @@ use TheGame\Application\Component\ResourceMines\Command\ExtractResourcesCommand;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\MinesCollection;
 use TheGame\Application\Component\ResourceMines\Domain\Event\ResourceHasBeenExtractedEvent;
 use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
 use TheGame\Application\SharedKernel\EventBusInterface;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 

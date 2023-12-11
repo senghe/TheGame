@@ -11,8 +11,8 @@ use TheGame\Application\Component\ResourceMines\Domain\Entity\Mine;
 use TheGame\Application\Component\ResourceMines\Domain\Entity\MinesCollection;
 use TheGame\Application\Component\ResourceMines\Domain\Factory\MineFactoryInterface;
 use TheGame\Application\Component\ResourceMines\ResourceMinesRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
-use TheGame\Application\SharedKernel\Domain\ResourceId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\ResourceId;
 use TheGame\Application\SharedKernel\Exception\InconsistentModelException;
 
 final class UpgradeMineEventListenerSpec extends ObjectBehavior

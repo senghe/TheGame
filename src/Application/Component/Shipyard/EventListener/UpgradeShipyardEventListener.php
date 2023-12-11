@@ -10,7 +10,7 @@ use TheGame\Application\Component\BuildingConstruction\Domain\Event\ShipyardCons
 use TheGame\Application\Component\Shipyard\Domain\Factory\ShipyardFactoryInterface;
 use TheGame\Application\Component\Shipyard\Exception\ShipyardHasNotBeenFoundException;
 use TheGame\Application\Component\Shipyard\ShipyardRepositoryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 
 final class UpgradeShipyardEventListener
 {

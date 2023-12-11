@@ -6,7 +6,7 @@ namespace TheGame\Application\Component\ResourceStorage\Domain\Exception;
 
 use DomainException;
 use TheGame\Application\Component\ResourceStorage\Domain\StorageIdInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\ResourceAmountInterface;
 
 final class CannotUseUnsupportedResourceException extends DomainException

@@ -10,7 +10,7 @@ use TheGame\Application\Component\Shipyard\Domain\ConstructibleUnit;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewCannonsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\Event\NewShipsHaveBeenConstructedEvent;
 use TheGame\Application\Component\Shipyard\Domain\FinishedJobsSummaryEntryInterface;
-use TheGame\Application\SharedKernel\Domain\PlanetId;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetId;
 
 final class FinishedConstructionEventFactorySpec extends ObjectBehavior
 {

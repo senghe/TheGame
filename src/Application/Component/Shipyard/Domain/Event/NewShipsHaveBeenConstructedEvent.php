@@ -10,8 +10,8 @@ final class NewShipsHaveBeenConstructedEvent implements EventInterface
 {
     public function __construct(
         private readonly string $planetId,
-        private readonly string $type,
-        private readonly int $quantity,
+        private readonly string $name,
+        private readonly int    $quantity,
     ) {
     }
 
@@ -20,9 +20,9 @@ final class NewShipsHaveBeenConstructedEvent implements EventInterface
         return $this->planetId;
     }
 
-    public function getType(): string
+    public function getName(): string
     {
-        return $this->type;
+        return $this->name;
     }
 
     public function getQuantity(): int

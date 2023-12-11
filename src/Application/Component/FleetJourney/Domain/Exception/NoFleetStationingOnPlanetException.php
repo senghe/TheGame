@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace TheGame\Application\Component\FleetJourney\Domain\Exception;
 
 use DomainException;
-use TheGame\Application\SharedKernel\Domain\PlanetIdInterface;
+use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 
 final class NoFleetStationingOnPlanetException extends DomainException
 {
