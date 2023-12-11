@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Galaxy\EventListener;
 
+use TheGame\Application\Component\Balance\Bridge\GalaxyContextInterface;
 use TheGame\Application\Component\FleetJourney\Domain\Event\FleetHasReachedJourneyTargetPointEvent;
 use TheGame\Application\Component\Galaxy\Domain\Event\PlanetHasBeenColonizedEvent;
 use TheGame\Application\Component\Galaxy\Domain\Exception\PlanetAlreadyColonizedException;
@@ -21,6 +22,7 @@ final class ColonizePlanetListener
         private readonly SolarSystemRepositoryInterface $solarSystemRepository,
         private readonly SolarSystemFactoryInterface $solarSystemFactory,
         private readonly PlanetFactoryInterface $planetFactory,
+        private readonly GalaxyContextInterface $galaxyContext,
         private readonly PlayerContextInterface $playerContext,
         private readonly EventBusInterface $eventBus,
     ) {
@@ -48,7 +50,8 @@ final class ColonizePlanetListener
             throw new PlanetAlreadyColonizedException($targetPoint, $playerId);
         }
 
-        $planet = $this->planetFactory->create($playerId, $targetPoint);
+        $maxPlanetPosition = $this->galaxyContext->getMaxPlanetPosition();
+        $planet = $this->planetFactory->create($playerId, $targetPoint, $maxPlanetPosition);
         $solarSystem->colonize($planet);
 
         $this->eventBus->dispatch(

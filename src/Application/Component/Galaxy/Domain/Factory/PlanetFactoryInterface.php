@@ -13,5 +13,6 @@ interface PlanetFactoryInterface
     public function create(
         PlayerIdInterface $playerId,
         GalaxyPointInterface $galaxyPoint,
+        int $maxPlanetPosition,
     ): Planet;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheGame\Application\Component\Galaxy\Domain\Entity;
 
+use TheGame\Application\Component\Galaxy\Domain\PlanetStats;
 use TheGame\Application\SharedKernel\Domain\EntityId\PlanetIdInterface;
 use TheGame\Application\SharedKernel\Domain\EntityId\PlayerIdInterface;
 
@@ -12,6 +13,7 @@ class Planet
     public function __construct(
         protected readonly PlanetIdInterface $planetId,
         protected readonly PlayerIdInterface $playerId,
+        protected readonly PlanetStats $planetStats,
         protected readonly int $position,
     ) {
 
@@ -35,5 +37,10 @@ class Planet
     public function getPosition(): int
     {
         return $this->position;
+    }
+
+    public function getStats(): PlanetStats
+    {
+        return $this->planetStats;
     }
 }
